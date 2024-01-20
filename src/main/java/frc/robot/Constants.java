@@ -8,4 +8,9 @@ public class Constants {
         DEVELOPMENT,
         SIMULATION
     }
+
+    public static class ShooterConstants {
+        public static final double PIVOT_GEAR_REDUCTION = 138;
+        public static final double MAX_SHOOTER_SPEED = 0.0;
+    }
 }
