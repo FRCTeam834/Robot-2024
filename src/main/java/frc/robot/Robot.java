@@ -4,17 +4,25 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.TimedRobot;
+import org.littletonrobotics.junction.LoggedRobot;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-public class Robot extends TimedRobot {
+public class Robot extends LoggedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
 
   @Override
   public void robotInit() {
+    /** Set up logger */
+    if (isReal()) {
+      Logger.addDataReceiver(new NT4Publisher()); // publish data to network tables
+    }
+
     m_robotContainer = new RobotContainer();
   }
 

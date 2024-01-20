@@ -4,11 +4,16 @@
 
 package frc.robot;
 
+import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 public class RobotContainer {
+  private final LoggedDashboardChooser<Command> autonChooser = new LoggedDashboardChooser<>("Pick Auton");
   public RobotContainer() {
+    autonChooser.addDefaultOption("Do Nothing", new InstantCommand());
     configureBindings();
   }
 
