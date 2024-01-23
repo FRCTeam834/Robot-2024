@@ -1,4 +1,4 @@
-package frc.robot.subsystem;
+package frc.robot.subsystems;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -16,7 +16,7 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Vision extends SubsystemBase {
+public class VisionOLD extends SubsystemBase {
 
   private final SwerveDrivePoseEstimator swervePoseEstimator;
 
@@ -45,15 +45,15 @@ public class Vision extends SubsystemBase {
     }
   }
 
-  public Vision() {
+  public VisionOLD() {
     camFront = new PhotonCamera("cameraFront");
     camRight = new PhotonCamera("cameraRight");
     camLeft = new PhotonCamera("cameraLeft");
     //camColored = new PhotonCamera("cameraColored");
 
-    posFront = new PhotonPoseEstimator(Vision.loadFieldLayout(), PoseStrategy.CLOSEST_TO_REFERENCE_POSE, camFront, new Transform3d(new Translation3d(0, 0, 0), new Rotation3d(0, 0, 0)));
-    posRight = new PhotonPoseEstimator(Vision.loadFieldLayout(), PoseStrategy.CLOSEST_TO_REFERENCE_POSE, camRight, new Transform3d(new Translation3d(0, 0, 0), new Rotation3d(0, 0, 0)));
-    posLeft = new PhotonPoseEstimator(Vision.loadFieldLayout(), PoseStrategy.CLOSEST_TO_REFERENCE_POSE, camLeft, new Transform3d(new Translation3d(0, 0, 0), new Rotation3d(0, 0, 0)));
+    posFront = new PhotonPoseEstimator(VisionOLD.loadFieldLayout(), PoseStrategy.CLOSEST_TO_REFERENCE_POSE, camFront, new Transform3d(new Translation3d(0, 0, 0), new Rotation3d(0, 0, 0)));
+    posRight = new PhotonPoseEstimator(VisionOLD.loadFieldLayout(), PoseStrategy.CLOSEST_TO_REFERENCE_POSE, camRight, new Transform3d(new Translation3d(0, 0, 0), new Rotation3d(0, 0, 0)));
+    posLeft = new PhotonPoseEstimator(VisionOLD.loadFieldLayout(), PoseStrategy.CLOSEST_TO_REFERENCE_POSE, camLeft, new Transform3d(new Translation3d(0, 0, 0), new Rotation3d(0, 0, 0)));
 
   }
 
