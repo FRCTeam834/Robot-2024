@@ -7,7 +7,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.Constants.ShooterConstants;
-import frc.robot.subsystems.drivetrain.ShooterIOInputsAutoLogged;
+import frc.robot.subsystems.shooter.ShooterIOSparkMAX;
 import frc.robot.utility.LoggedTunableNumber;
 
 public class Shooter {
