@@ -11,13 +11,14 @@ public class Vision extends SubsystemBase {
 
   /** Creates a new vision. */
   public Vision(VisionIO io) {
-    this.io = io;
-    
+    this.io = io; 
   }
+
 
   @Override
   public void periodic() {
-    
+    io.updateEstimatedGlobalPose(io.getEstimatedGlobalPose2d());
+
     // This method will be called once per scheduler run
   }
 }

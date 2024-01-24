@@ -61,10 +61,6 @@ public class VisionOLD extends SubsystemBase {
   //   photonPoseEstimator.setReferencePose(pose);
   // }
 
-  public Optional<EstimatedRobotPose>[] getEstimatedPose (){
-    Optional<EstimatedRobotPose>[] poseEstimators = {estimatedPoseFront, estimatedPoseRight, estimatedPoseLeft}
-    return poseEstimators;
-  }
 
 
   @Override
