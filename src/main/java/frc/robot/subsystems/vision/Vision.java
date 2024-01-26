@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems.vision;
 
+import org.photonvision.PhotonPoseEstimator;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Vision extends SubsystemBase {
@@ -16,9 +18,10 @@ public class Vision extends SubsystemBase {
 
 
   @Override
+  // This method will be called once per scheduler run
   public void periodic() {
-    io.updateEstimatedGlobalPose(io.getEstimatedGlobalPose2d());
-
-    // This method will be called once per scheduler run
+    for (PhotonPoseEstimator poseEstimator : io.getPhotonPoseEstimators()){
+      io.getEstimatedGlobalPose(poseEstimator);
+    }
   }
 }

@@ -8,11 +8,7 @@ import java.util.Optional;
 
 import org.littletonrobotics.junction.AutoLog;
 import org.photonvision.EstimatedRobotPose;
-
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Rotation3d;
+import org.photonvision.PhotonPoseEstimator;
 
 
 public interface VisionIO {
@@ -25,9 +21,11 @@ public interface VisionIO {
         // public Pose2d previousPose = new Pose2d(0, 0, new Rotation2d());
     }
 
-    public Pose2d getEstimatedGlobalPose2d();
+    // public Pose2d getEstimatedGlobalPose2d();
 
-    public Optional<EstimatedRobotPose> updateEstimatedGlobalPose(Pose2d prevEstimatedRobotPose);
+    public PhotonPoseEstimator[] getPhotonPoseEstimators();
+
+    public Optional<EstimatedRobotPose> getEstimatedGlobalPose(PhotonPoseEstimator poseEstimator);
 
     /** Update inputs with new sensor readings */
     // public default void updateInputs (VisionIOInputs inputs) {}
