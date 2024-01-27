@@ -21,7 +21,7 @@ public class Intake extends SubsystemBase {
     return inputs.rpm;
   }
 
-  public void stop () {
+  public void stopIntake () {
     io.setVoltage(0.0);
   }
 

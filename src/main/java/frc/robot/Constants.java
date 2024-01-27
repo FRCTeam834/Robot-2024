@@ -8,4 +8,9 @@ public class Constants {
         DEVELOPMENT,
         SIMULATION
     }
+
+    public static class IndexerConstants {
+        public static final double VOLTAGE_LIMIT = 0.0;
+
+    }
 }
