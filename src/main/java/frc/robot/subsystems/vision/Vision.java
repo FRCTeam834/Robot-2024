@@ -4,98 +4,71 @@
 
 package frc.robot.subsystems.vision;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.ArrayList;
 
-import org.photonvision.PhotonCamera;
-import org.photonvision.PhotonPoseEstimator;
-import org.photonvision.PhotonPoseEstimator.PoseStrategy;
-import org.photonvision.targeting.PhotonPipelineResult;
-import org.photonvision.targeting.PhotonTrackedTarget;
-
-import java.io.IOException;
-
-import org.littletonrobotics.junction.AutoLogOutput;
-import org.littletonrobotics.junction.Logger;
-import org.photonvision.EstimatedRobotPose;
-import org.photonvision.PhotonPoseEstimator;
-
-import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.robot.subsystems.vision.NoteDetectionIO.NoteDetectionIOInputs; 
+
 
 public class Vision extends SubsystemBase {
+  private final NoteDetectionIO polychromeCamera;
+  private final AprilTagIO[] cameras;
+  
+  private final AprilTagIOInputsAutoLogged[] aprilInputs;
+  private final NoteDetectionIOInputsAutoLogged noteInputs;
 
-  private static AprilTagFieldLayout loadFieldLayout() {
-    try {
-      return AprilTagFieldLayout.loadFromResource(AprilTagFields.k2024Crescendo.m_resourceFile);
-    } catch (IOException e) {
-      e.printStackTrace();
-      return null;
+  private final List<Vision.PoseAndTimestamp> results = new ArrayList<>();
+
+  /** Creates a new Vision. */
+  public Vision(AprilTagIO[] cameras, NoteDetectionIO polychromeCamera) {
+    this.polychromeCamera = polychromeCamera;
+    this.cameras = cameras;
+    aprilInputs = new AprilTagIOInputsAutoLogged[cameras.length];
+    noteInputs = new NoteDetectionIOInputsAutoLogged();
+
+    for (int i = 0; i < cameras.length; i++) {
+      aprilInputs[i] = new AprilTagIOInputsAutoLogged();
     }
-  }
-
-  private PhotonCamera[] cams = { new PhotonCamera("cameraFront"), new PhotonCamera("cameraRight"),
-      new PhotonCamera("cameraLeft") };
-
-  private PhotonCamera camColored = new PhotonCamera("cameraColored");
-
-  private PhotonPoseEstimator[] camPoseEstimators = {
-      new PhotonPoseEstimator(Vision.loadFieldLayout(),
-          PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, cams[0], Constants.VisionConstants.ROBOT_TO_FRONT_CAMERAS),
-      new PhotonPoseEstimator(Vision.loadFieldLayout(),
-          PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, cams[1], Constants.VisionConstants.ROBOT_TO_RIGHT_CAMERAS),
-      new PhotonPoseEstimator(Vision.loadFieldLayout(),
-          PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, cams[2], Constants.VisionConstants.ROBOT_TO_LEFT_CAMERAS) };
-
-  private static Optional<EstimatedRobotPose> estimatedPoseFront;
-  private static Optional<EstimatedRobotPose> estimatedPoseRight;
-  private static Optional<EstimatedRobotPose> estimatedPoseLeft;
-
-  // private final VisionIO io;
-
-  /** Creates a new vision. */
-  public Vision() {
-    for (PhotonPoseEstimator cams : camPoseEstimators) {
-      cams.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
-    }
-
-
-  }
-
-  public PhotonPoseEstimator[] getPhotonPoseEstimators(){
-    return camPoseEstimators;
-  }
-
-  public Optional<EstimatedRobotPose> getEstimatedGlobalPose(PhotonPoseEstimator poseEstimator) {
-    return poseEstimator.update();
-  }
-
-  public Double getYawFromNote(){
-    var result = camColored.getLatestResult();
-    if (result.hasTargets() == true){
-      PhotonTrackedTarget target = result.getBestTarget();
-      return target.getYaw();
-    }
-    return null;
   }
 
   @Override
-  // This method will be called once per scheduler run
   public void periodic() {
-    estimatedPoseFront = camPoseEstimators[0].update();
-    estimatedPoseRight = camPoseEstimators[1].update();
-    estimatedPoseLeft = camPoseEstimators[2].update();
+    // This method will be called once per scheduler run
+    polychromeCamera.updateInputs(noteInputs);
+    for (int i = 0; i < cameras.length; i++) {
+      cameras[i].updateInputs(aprilInputs[i]);
+      results.add(new PoseAndTimestamp(aprilInputs[i].poseEstimate3d.toPose2d(), aprilInputs[i].timestamp));
+    }
 
-    Logger.recordOutput("EstimatedPoses", new Pose2d[] {estimatedPoseFront.get().estimatedPose.toPose2d(), estimatedPoseRight.get().estimatedPose.toPose2d(), estimatedPoseLeft.get().estimatedPose.toPose2d()});
-
-    // for (PhotonPoseEstimator poseEstimator : io.getPhotonPoseEstimators()){
-    // io.getEstimatedGlobalPose(poseEstimator);
-    // }
   }
+
+    /**
+     * Returns the last recorded pose
+     */
+    public List<Vision.PoseAndTimestamp> getVisionOdometry() {
+      return results;
+  }
+
+    /**
+     * Inner class to record a pose and its timestamp
+     */
+    public static class PoseAndTimestamp {
+        Pose2d pose;
+        double timestamp;
+
+        public PoseAndTimestamp(Pose2d pose, double timestamp) {
+            this.pose = pose;
+            this.timestamp = timestamp;
+        }
+
+        public Pose2d getPose() {
+            return pose;
+        }
+
+        public double getTimestamp() {
+            return timestamp;
+        }
+    }
 }
