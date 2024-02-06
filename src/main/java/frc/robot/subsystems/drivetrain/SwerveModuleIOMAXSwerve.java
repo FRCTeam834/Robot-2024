@@ -31,7 +31,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 driveSparkMax = new CANSparkMax(0, MotorType.kBrushless);
                 steerSparkMax = new CANSparkMax(1, MotorType.kBrushless);
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
-                steerEncoder.setZeroOffset(0);
+                steerEncoder.setZeroOffset(0 + 0);
                 break;
             }
             /** Front Right */
@@ -39,7 +39,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 driveSparkMax = new CANSparkMax(0, MotorType.kBrushless);
                 steerSparkMax = new CANSparkMax(1, MotorType.kBrushless);
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
-                steerEncoder.setZeroOffset(0);
+                steerEncoder.setZeroOffset(0 + -270);
                 break;
             }
             /** Back Left */
@@ -47,7 +47,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 driveSparkMax = new CANSparkMax(0, MotorType.kBrushless);
                 steerSparkMax = new CANSparkMax(1, MotorType.kBrushless);
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
-                steerEncoder.setZeroOffset(0);
+                steerEncoder.setZeroOffset(0 + -90);
                 break;
             }
             /** Back Right */
@@ -55,7 +55,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 driveSparkMax = new CANSparkMax(0, MotorType.kBrushless);
                 steerSparkMax = new CANSparkMax(1, MotorType.kBrushless);
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
-                steerEncoder.setZeroOffset(0);
+                steerEncoder.setZeroOffset(0 + -180);
                 break;
             }
             default: throw new RuntimeException("Invalid SwerveModuleIOMAXSwerve index!");
@@ -72,7 +72,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
         steerSparkMax.setIdleMode(IdleMode.kBrake);
         driveSparkMax.enableVoltageCompensation(12.0);
         steerSparkMax.enableVoltageCompensation(12.0);
-        driveSparkMax.setSmartCurrentLimit(40);
+        driveSparkMax.setSmartCurrentLimit(50);
         steerSparkMax.setSmartCurrentLimit(20);
 
         // rpm -> m/s

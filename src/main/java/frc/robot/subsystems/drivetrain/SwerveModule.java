@@ -21,7 +21,6 @@ public class SwerveModule {
     private final PIDController driveController = new PIDController(0.0, 0.0, 0.0,0.02);
     private final PIDController steerController = new PIDController(0.0, 0.0, 0.0,0.02);
 
-
     static {
         drivekP.initDefault(0.4);
         steerkP.initDefault(0.6);
@@ -54,6 +53,10 @@ public class SwerveModule {
         if (Math.abs(optimizedState.speedMetersPerSecond) < 1e-3) {
             optimizedState.speedMetersPerSecond = 0;
         }
+
+        // Scale by cosine of angle error, to reduce movement in perpendicular
+        // direction of desired while steering catches up
+        optimizedState.speedMetersPerSecond *= Math.cos(steerController.getPositionError());
 
         io.setDriveVoltage(
             driveFeedforward.calculate(optimizedState.speedMetersPerSecond) +
