@@ -31,12 +31,14 @@ public class Swerve extends SubsystemBase {
     new Translation2d(0, 0),
     new Translation2d(0, 0)
   );
-  
+
   private ChassisSpeeds setpoint = new ChassisSpeeds();
   private ChassisSpeeds lastChassisSpeeds = new ChassisSpeeds();
 
   static {
+    maxModuleSpeed.initDefault(Units.feetToMeters(1));
     maxTranslationSpeed.initDefault(Units.feetToMeters(1));
+    maxSteerSpeed.initDefault(Units.degreesToRadians(90));
   }
 
   /** Creates a new DriveTrain. */
