@@ -7,7 +7,6 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
 import frc.robot.Constants.RobotMode;
-import frc.robot.Constants.ShooterConstants;
 import frc.robot.Constants;
 
 public class ShooterIOSparkMAX implements ShooterIO {
@@ -18,11 +17,12 @@ public class ShooterIOSparkMAX implements ShooterIO {
     private final RelativeEncoder rollerEncoder0;
     private final RelativeEncoder rollerEncoder1;
     private final RelativeEncoder pivotEncoder;
+    public static final double PIVOT_GEAR_REDUCTION = 1;
 
     public ShooterIOSparkMAX() {
-        rollerMotor0 = new CANSparkMax(210, MotorType.kBrushless);
-        rollerMotor1 = new CANSparkMax(2130, MotorType.kBrushless);
-        pivotMotor = new CANSparkMax(2389, MotorType.kBrushless);
+        rollerMotor0 = new CANSparkMax(4, MotorType.kBrushless);
+        rollerMotor1 = new CANSparkMax(5, MotorType.kBrushless);
+        pivotMotor = new CANSparkMax(8, MotorType.kBrushless);
 
         rollerEncoder0 = rollerMotor0.getEncoder();
         rollerEncoder1 = rollerMotor1.getEncoder();
@@ -38,12 +38,12 @@ public class ShooterIOSparkMAX implements ShooterIO {
 
         rollerMotor0.setInverted(true);
         rollerMotor1.setInverted(false);
-        rollerMotor0.setSmartCurrentLimit(20);
-        rollerMotor1.setSmartCurrentLimit(20);
+        rollerMotor0.setSmartCurrentLimit(50);
+        rollerMotor1.setSmartCurrentLimit(50);
         pivotMotor.setSmartCurrentLimit(20);
 
-        pivotEncoder.setPositionConversionFactor(2 * Math.PI / ShooterConstants.PIVOT_GEAR_REDUCTION);
-        pivotEncoder.setVelocityConversionFactor(2 * Math.PI / (ShooterConstants.PIVOT_GEAR_REDUCTION * 60));
+        pivotEncoder.setPositionConversionFactor(2 * Math.PI / PIVOT_GEAR_REDUCTION);
+        pivotEncoder.setVelocityConversionFactor(2 * Math.PI / (PIVOT_GEAR_REDUCTION * 60));
 
         //TODO: what do?
         pivotMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 10);
@@ -66,8 +66,12 @@ public class ShooterIOSparkMAX implements ShooterIO {
     }
 
     @Override
-    public void setShooterVoltage(double volts) {
+    public void setTopRollerVoltage(double volts) {
         rollerMotor0.setVoltage(volts);
+    }
+
+    @Override
+    public void setBottomRollerVoltage(double volts) {
         rollerMotor1.setVoltage(volts);
     }
 
