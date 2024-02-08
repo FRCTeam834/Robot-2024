@@ -21,15 +21,16 @@ public class NoteDetectionIOPhotonVision implements NoteDetectionIO{
     }
 
     @Override
-    public void updateInputs(NoteDetectionIOInputs inputs){
+    public void updateInputs(){
+        var inputs = new NoteDetectionIOInputs();
         inputs.rotationToNote = getRotationToNote();
     }
 
     @Override
-    public Double getRotationToNote(){
+    public double getRotationToNote(){
         var result = camera.getLatestResult();
         if (result.hasTargets()){
-            return null;
+            return 0.0;
         }
         
         PhotonTrackedTarget target = result.getBestTarget();

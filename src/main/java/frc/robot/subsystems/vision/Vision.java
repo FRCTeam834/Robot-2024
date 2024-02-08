@@ -5,19 +5,23 @@
 package frc.robot.subsystems.vision;
 
 import java.util.List;
+
+import org.littletonrobotics.junction.Logger;
+
 import java.util.ArrayList;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.vision.NoteDetectionIO.NoteDetectionIOInputs; 
+import frc.robot.subsystems.vision.AprilTagIO.AprilTagIOInputs;
 
 
 public class Vision extends SubsystemBase {
   private final NoteDetectionIO polychromeCamera;
   private final AprilTagIO[] cameras;
   
-  private final AprilTagIOInputsAutoLogged[] aprilInputs;
-  private final NoteDetectionIOInputsAutoLogged noteInputs;
+  // private final AprilTagIOInputsAutoLogged[] aprilInputs;
+  private final AprilTagIOInputs[] aprilInputs;
+  // private final NoteDetectionIOInputsAutoLogged noteInputs;
 
   private final List<Vision.PoseAndTimestamp> results = new ArrayList<>();
 
@@ -25,8 +29,8 @@ public class Vision extends SubsystemBase {
   public Vision(AprilTagIO[] cameras, NoteDetectionIO polychromeCamera) {
     this.polychromeCamera = polychromeCamera;
     this.cameras = cameras;
-    aprilInputs = new AprilTagIOInputsAutoLogged[cameras.length];
-    noteInputs = new NoteDetectionIOInputsAutoLogged();
+    aprilInputs = new AprilTagIOInputs[cameras.length];
+    // noteInputs = new NoteDetectionIOInputsAutoLogged();
 
     for (int i = 0; i < cameras.length; i++) {
       aprilInputs[i] = new AprilTagIOInputsAutoLogged();
@@ -35,8 +39,9 @@ public class Vision extends SubsystemBase {
 
   @Override
   public void periodic() {
+    Logger.recordOutput("VisionOdometry", results.get(0).getPose());
     // This method will be called once per scheduler run
-    polychromeCamera.updateInputs(noteInputs);
+    polychromeCamera.updateInputs();
     for (int i = 0; i < cameras.length; i++) {
       cameras[i].updateInputs(aprilInputs[i]);
       results.add(new PoseAndTimestamp(aprilInputs[i].poseEstimate3d.toPose2d(), aprilInputs[i].timestamp));

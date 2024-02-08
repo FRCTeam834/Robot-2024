@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.subsystems.vision;
+
 import org.littletonrobotics.junction.AutoLog;
 
 /** Add your docs here. */
@@ -10,16 +11,15 @@ public interface NoteDetectionIO {
 
     @AutoLog
     public class NoteDetectionIOInputs {
-        Double rotationToNote = null;
-
+        double rotationToNote = 0.0;
     }
-    default void updateInputs(NoteDetectionIOInputs inputs) {}
+    default void updateInputs() {}
 
     default String getName(){
         return "";
     }
 
-    default Double getRotationToNote(){
+    default double getRotationToNote(){
         return 0.0;
     }
     
