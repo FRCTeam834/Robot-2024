@@ -39,14 +39,13 @@ public class Vision extends SubsystemBase {
 
   @Override
   public void periodic() {
-    Logger.recordOutput("VisionOdometry", results.get(0).getPose());
     // This method will be called once per scheduler run
     polychromeCamera.updateInputs();
     for (int i = 0; i < cameras.length; i++) {
       cameras[i].updateInputs(aprilInputs[i]);
       results.add(new PoseAndTimestamp(aprilInputs[i].poseEstimate3d.toPose2d(), aprilInputs[i].timestamp));
     }
-
+    Logger.recordOutput("VisionOdometry", results.get(0).getPose());
   }
 
     /**

@@ -29,7 +29,7 @@ public class NoteDetectionIOPhotonVision implements NoteDetectionIO{
     @Override
     public double getRotationToNote(){
         var result = camera.getLatestResult();
-        if (result.hasTargets()){
+        if (!result.hasTargets()){
             return 0.0;
         }
         
