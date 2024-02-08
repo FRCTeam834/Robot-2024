@@ -36,8 +36,8 @@ public class ShooterIOSparkMAX implements ShooterIO {
             motor.enableVoltageCompensation(12.0);
         }
 
-        rollerMotor0.setInverted(true);
-        rollerMotor1.setInverted(false);
+        rollerMotor0.setInverted(false);
+        rollerMotor1.setInverted(true);
         rollerMotor0.setSmartCurrentLimit(50);
         rollerMotor1.setSmartCurrentLimit(50);
         pivotMotor.setSmartCurrentLimit(20);
