@@ -30,10 +30,9 @@ public class Vision extends SubsystemBase {
     this.polychromeCamera = polychromeCamera;
     this.cameras = cameras;
     aprilInputs = new AprilTagIOInputs[cameras.length];
-    // noteInputs = new NoteDetectionIOInputsAutoLogged();
 
     for (int i = 0; i < cameras.length; i++) {
-      aprilInputs[i] = new AprilTagIOInputsAutoLogged();
+      aprilInputs[i] = new AprilTagIOInputs();
     }
   }
 
