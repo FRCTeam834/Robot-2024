@@ -9,11 +9,10 @@ public interface IndexerIO {
     public static class IndexerIOInputs {
         public double  roller2Velocity;
         public double  roller3Velocity;
-        public boolean noteIsDetected;
+        public boolean noteIsDetectedFront; //Checking if the first sensor sees a note
+        public boolean noteIsDetectedBack; //Checking if the second sensor sees a note
     }
 
     public default void updateInputs(IndexerIOInputs inputs) {}
     public default void setRollerVoltage(double voltage) {}
-    public default void notifyIndexer(IndexerIOInputs objectDetected) {} //modify "holdingNote" in Indexer.java
-
 }

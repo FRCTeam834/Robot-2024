@@ -15,7 +15,8 @@ public class IndexerIOSparkMax implements IndexerIO {
     private final CANSparkMax roller3Motor;
     private final RelativeEncoder encoder2;
     private final RelativeEncoder encoder3;
-    private final DigitalInput beamBreaker;
+    private final DigitalInput beamBreakerFront;
+    private final DigitalInput beamBreakerBack;
 
     public IndexerIOSparkMax() {
         roller2Motor = new CANSparkMax(2389, MotorType.kBrushless);
@@ -24,7 +25,8 @@ public class IndexerIOSparkMax implements IndexerIO {
         encoder3 = roller3Motor.getEncoder();
 
         // channel # on DIO
-        beamBreaker = new DigitalInput(0);
+        beamBreakerFront = new DigitalInput(0);
+        beamBreakerBack = new DigitalInput(1);
 
 
         roller2Motor.restoreFactoryDefaults();
@@ -48,7 +50,8 @@ public class IndexerIOSparkMax implements IndexerIO {
 
     @Override
     public void updateInputs(IndexerIOInputs inputs) {
-        inputs.noteIsDetected = !beamBreaker.get();
+        inputs.noteIsDetectedFront = !beamBreakerFront.get();
+        inputs.noteIsDetectedBack = !beamBreakerBack.get();
         inputs.roller2Velocity = encoder2.getVelocity();
         inputs.roller3Velocity = encoder3.getVelocity();
     }
@@ -58,7 +61,4 @@ public class IndexerIOSparkMax implements IndexerIO {
         roller2Motor.setVoltage(volts);
         roller3Motor.setVoltage(volts);
     }
-
-    @Override
-    public void notifyIndexer(IndexerIOInputs objectDetected) {}
 }

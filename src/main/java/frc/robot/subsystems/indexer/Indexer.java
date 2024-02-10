@@ -9,30 +9,28 @@ import frc.robot.subsystems.intake.Intake;
 import frc.robot.utility.LoggedTunableNumber;
 
 public class Indexer {
-    private final int index;
-    public boolean holdingNote = false;
+    private boolean holdingNote;
+    private boolean movingNote;
     private final IndexerIO io;
     private final IndexerIOInputsAutoLogged inputs = new IndexerIOInputsAutoLogged();
     private final Intake intake;
     
-    public Indexer (IndexerIO io, int index, Intake intake) {
+    public Indexer (IndexerIO io, Intake intake) {
         this.io = io;
-        this.index = index;
         this.intake = intake;
     }
 
-    public void periodic () {
-        if(holdingNote){
-            //tell the intake to get a life
-            intake.stopIntake();
-        } else {
-            //tell the intake to get back to work
-            intake.startIntake();
-        }
+    public void periodic () { 
+        //does nothing
     }
 
-    public void moveNote() {
+    public void startIndexer() {
         io.setRollerVoltage(IndexerConstants.VOLTAGE_LIMIT);//update this with the right voltage (zap)
+        movingNote=true;
+    }
+    
+    public void slowIndexer(){
+        io.setRollerVoltage(IndexerConstants.VOLTAGE_LIMIT/2);//I assume this isn't too slow
     }
     
     public void stopIndexer(){
