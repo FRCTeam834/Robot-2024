@@ -7,6 +7,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.subsystems.shooter.ShooterIOSparkMAX;
 import frc.robot.utility.LoggedTunableNumber;
@@ -14,6 +15,8 @@ import frc.robot.utility.LoggedTunableNumber;
 public class Shooter extends SubsystemBase {
     private final ShooterIO io;
     private final ShooterIOInputsAutoLogged inputs = new ShooterIOInputsAutoLogged();
+
+    private static InterpolatingDoubleTreeMap shooterMap = new InterpolatingDoubleTreeMap();
 
     // Obligatory DIO comment
     private static final LoggedTunableNumber pivotkP = new LoggedTunableNumber("shooter/Shooter/pivotkP");
@@ -93,5 +96,9 @@ public class Shooter extends SubsystemBase {
 
     public void setDesiredRollerSpeeds (double speeds) {
         desiredRollerSpeeds = speeds;
+    }
+
+    public double getShooterAngle(double dist) {
+        return shooterMap.get(dist);
     }
 }
