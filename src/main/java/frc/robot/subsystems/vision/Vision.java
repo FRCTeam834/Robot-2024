@@ -44,7 +44,7 @@ public class Vision extends SubsystemBase {
       cameras[i].updateInputs(aprilInputs[i]);
       results.add(new PoseAndTimestamp(aprilInputs[i].poseEstimate3d.toPose2d(), aprilInputs[i].timestamp));
     }
-    Logger.recordOutput("VisionOdometry", results.get(0).getPose());
+    // Logger.recordOutput("VisionOdometry", results.get(0).getPose());
   }
 
     /**
