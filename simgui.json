@@ -1,0 +1,60 @@
+{
+  "HALProvider": {
+    "Other Devices": {
+      "Pigeon 2 (v6)[12]": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/PoseEstimate": "Field2d"
+    }
+  },
+  "NetworkTables": {
+    "Persistent Values": {
+      "open": false
+    },
+    "transitory": {
+      "SmartDashboard": {
+        "PoseEstimate": {
+          "double[]##v_/SmartDashboard/PoseEstimate/Robot": {
+            "open": true
+          },
+          "open": true
+        },
+        "Tunable": {
+          "drive": {
+            "SwerveModule": {
+              "open": true
+            }
+          },
+          "shooter": {
+            "open": true
+          }
+        },
+        "open": true
+      },
+      "photonvision": {
+        "Poly": {
+          "open": true
+        },
+        "front": {
+          "open": true
+        }
+      }
+    }
+  },
+  "NetworkTables Info": {
+    "Server": {
+      "Publishers": {
+        "open": true
+      },
+      "open": true
+    },
+    "visible": true
+  }
+}
