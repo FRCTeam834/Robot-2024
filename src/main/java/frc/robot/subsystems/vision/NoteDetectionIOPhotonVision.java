@@ -28,7 +28,7 @@ public class NoteDetectionIOPhotonVision implements NoteDetectionIO{
             return null;
         }
         
-        /** !Remember to set target sort mode to closest */
+        /** !Remember to set target sort mode (to max width for closest?) */
         PhotonTrackedTarget target = result.getBestTarget();
         return target.getYaw();
     }

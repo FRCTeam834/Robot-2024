@@ -19,22 +19,37 @@
       "open": false
     },
     "transitory": {
+      "Shuffleboard": {
+        ".recording": {
+          "open": true
+        },
+        "open": true
+      },
       "SmartDashboard": {
         "PoseEstimate": {
           "double[]##v_/SmartDashboard/PoseEstimate/Robot": {
             "open": true
-          },
+          }
+        },
+        "Shooter": {
           "open": true
+        },
+        "Swerve": {
+          "double[]##v_/SmartDashboard/Swerve/ModuleAngles": {
+            "open": true
+          }
         },
         "Tunable": {
           "drive": {
-            "SwerveModule": {
-              "open": true
-            }
+            "open": true
           },
+          "open": true,
           "shooter": {
             "open": true
           }
+        },
+        "Vision": {
+          "open": true
         },
         "open": true
       },

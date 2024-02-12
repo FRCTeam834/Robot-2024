@@ -11,10 +11,13 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.Constants.RobotMode;
 import frc.robot.subsystems.drive.GyroIO.GyroIOInputs;
-import frc.robot.subsystems.vision.Vision;
 import frc.robot.utility.TunableNumber;
 
 public class Swerve extends SubsystemBase {
@@ -62,10 +65,15 @@ public class Swerve extends SubsystemBase {
     modules[2] = new SwerveModule(blSwerveModuleIO, 2);
     modules[3] = new SwerveModule(brSwerveModuleIO, 3);
     this.gyro = gyro;
+    SmartDashboard.putData(this);
   }
 
   public Rotation2d getYaw () {
     return new Rotation2d(gyroInputs.yaw);
+  }
+
+  public double getYawRadians () {
+    return getYaw().getRadians();
   }
 
   public void drive (
@@ -130,8 +138,27 @@ public class Swerve extends SubsystemBase {
     };
   }
 
+  public double[] getModuleAngles () {
+    return new double[] {
+      modules[0].getAngle().getRadians(),
+      modules[1].getAngle().getRadians(),
+      modules[2].getAngle().getRadians(),
+      modules[3].getAngle().getRadians()
+    };
+  }
+
   /** Expose kinematics for pose estimator etc. */
   public SwerveDriveKinematics getKinematics () {
     return kinematics;
+  }
+
+  @Override
+  public void initSendable (SendableBuilder builder) {
+    if (Constants.robotMode != RobotMode.DEVELOPMENT) return;
+
+    builder.setSmartDashboardType("Swerve");
+
+    builder.addDoubleProperty("GyroYaw", this::getYawRadians, null);
+    builder.addDoubleArrayProperty("ModuleAngles", this::getModuleAngles,null);
   }
 }

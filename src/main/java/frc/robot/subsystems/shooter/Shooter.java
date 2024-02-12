@@ -8,8 +8,13 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.Constants.RobotMode;
 import frc.robot.subsystems.shooter.ShooterIO.ShooterIOInputs;
 import frc.robot.utility.TunableNumber;
 
@@ -74,6 +79,7 @@ public class Shooter extends SubsystemBase {
 
     // * Q:Is this still used for the pivot? A: Creo que sí
     pivotPID.enableContinuousInput(-Math.PI, Math.PI);
+    SmartDashboard.putData(this);
   }
 
   @Override
@@ -147,5 +153,28 @@ public class Shooter extends SubsystemBase {
   public void setDesiredRollerSpeeds (double speeds) {
     shooterStopped = false;
     desiredRollerSpeeds = speeds;
+  }
+
+  public double getCurrentPivotAngle () {
+    return inputs.pivotAngle;
+  }
+
+  public double getCurrentTopRollerSpeed () {
+    return inputs.topRollerVelocity;
+  }
+
+  public double getCurrentBottomRollerSpeed () {
+    return inputs.bottomRollerVelocity;
+  }
+
+  @Override
+  public void initSendable (SendableBuilder builder) {
+    if (Constants.robotMode != RobotMode.DEVELOPMENT) return;
+
+    builder.setSmartDashboardType("Shooter");
+
+    builder.addDoubleProperty("PivotAngle", this::getCurrentPivotAngle, null);
+    builder.addDoubleProperty("TopRollerSpeed", this::getCurrentTopRollerSpeed, null);
+    builder.addDoubleProperty("BottomRollerSpeed", this::getCurrentBottomRollerSpeed, null);
   }
 }

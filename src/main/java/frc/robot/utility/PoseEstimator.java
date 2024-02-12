@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.Constants.RobotMode;
 import frc.robot.subsystems.drive.Swerve;
 import frc.robot.subsystems.vision.AprilTagIO.AprilTagIOInputs;
 import frc.robot.subsystems.vision.Vision;
@@ -45,6 +47,8 @@ public class PoseEstimator extends SubsystemBase {
             );
         }
 
-        poseEstimateField.setRobotPose(getEstimatedPose());
+        if (Constants.robotMode == RobotMode.DEVELOPMENT) {
+            poseEstimateField.setRobotPose(getEstimatedPose());
+        }
     }
 }

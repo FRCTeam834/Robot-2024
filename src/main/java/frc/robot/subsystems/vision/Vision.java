@@ -4,8 +4,11 @@
 
 package frc.robot.subsystems.vision;
 
+import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.robot.Constants;
+import frc.robot.Constants.RobotMode;
 import frc.robot.subsystems.vision.AprilTagIO.AprilTagIOInputs;
 import frc.robot.subsystems.vision.NoteDetectionIO.NoteDetectionIOInputs;
 
@@ -25,6 +28,22 @@ public class Vision extends SubsystemBase {
     for (int i = 0; i < cameras.length; i++) {
       aprilInputs[i] = new AprilTagIOInputs();
     }
+
+    SmartDashboard.putData(this);
+  }
+
+  public AprilTagIOInputs[] getInputs () {
+    return aprilInputs;
+  }
+
+  public Double getRotationToNode () {
+    return polychromeCamera.getRotationToNote();
+  }
+
+  public double getRotationToNoteTelemetry () {
+    Double rotation = getRotationToNode();
+    if (rotation == null) return 0.0;
+    return rotation.doubleValue();
   }
 
   @Override
@@ -35,7 +54,11 @@ public class Vision extends SubsystemBase {
     }
   }
 
-  public AprilTagIOInputs[] getInputs () {
-    return aprilInputs;
+  @Override
+  public void initSendable (SendableBuilder builder) {
+    if (Constants.robotMode != RobotMode.DEVELOPMENT) return;
+
+    builder.setSmartDashboardType("Vision");
+    builder.addDoubleProperty("AngleToNote", this::getRotationToNoteTelemetry, null);
   }
 }
