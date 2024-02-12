@@ -27,6 +27,12 @@ public class ShooterIOSparkMAX implements ShooterIO {
 
         topRollerEncoder = topRollerMotor.getEncoder();
         bottomRollerEncoder = bottomRollerMotor.getEncoder();
+
+        topRollerEncoder.setAverageDepth(4);
+        topRollerEncoder.setMeasurementPeriod(8);
+        bottomRollerEncoder.setAverageDepth(4);
+        bottomRollerEncoder.setMeasurementPeriod(8);
+
         pivotEncoder = pivotMotor.getAbsoluteEncoder(Type.kDutyCycle);
         pivotEncoder.setZeroOffset(0.0);
 
@@ -47,7 +53,7 @@ public class ShooterIOSparkMAX implements ShooterIO {
         topRollerMotor.setSmartCurrentLimit(40);
         bottomRollerMotor.setSmartCurrentLimit(40);
         pivotMotor.setSmartCurrentLimit(40);
-        
+
         // absolute encoder is 1:1
         pivotEncoder.setPositionConversionFactor(2 * Math.PI);
         pivotEncoder.setVelocityConversionFactor(2 * Math.PI / 60);
