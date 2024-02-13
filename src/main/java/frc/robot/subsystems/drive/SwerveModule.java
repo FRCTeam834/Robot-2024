@@ -1,6 +1,5 @@
 package frc.robot.subsystems.drive;
 
-import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -42,7 +41,7 @@ public class SwerveModule extends SubsystemBase {
         this.io = io;
         this.index = index;
 
-        steerController.enableContinuousInput(-Math.PI, Math.PI);
+        steerController.enableContinuousInput(0, Math.PI * 2);
         SmartDashboard.putData("SwerveModule " + index, this);
     }
 
@@ -63,7 +62,6 @@ public class SwerveModule extends SubsystemBase {
 
     public void setDesiredState (SwerveModuleState state) {
         SwerveModuleState optimizedState = SwerveModuleState.optimize(state, getAngle());
-        // optimizedState.speedMetersPerSecond *= Math.cos(turnFeedback.getPositionError());
         // Don't drive if speed is too low to prevent jittering
         if (Math.abs(optimizedState.speedMetersPerSecond) < 1e-3) {
             optimizedState.speedMetersPerSecond = 0;
@@ -73,23 +71,21 @@ public class SwerveModule extends SubsystemBase {
         // direction of desired while steering catches up
         optimizedState.speedMetersPerSecond *= Math.cos(steerController.getPositionError());
 
-        setpoint = optimizedState;
-
-        //System.out.println(driveFeedforward.calculate(optimizedState.speedMetersPerSecond) +
-           // driveController.calculate(inputs.driveVelocity, optimizedState.speedMetersPerSecond));
         io.setDriveVoltage(
             driveFeedforward.calculate(optimizedState.speedMetersPerSecond) +
             driveController.calculate(inputs.driveVelocity, optimizedState.speedMetersPerSecond));
         io.setSteerVoltage(
-            driveController.calculate(inputs.steerAngle, optimizedState.angle.getRadians()));
+            steerController.calculate(inputs.steerAngle, optimizedState.angle.getRadians()));
+
+        setpoint = optimizedState;
     }
 
     public Rotation2d getAngle () {
-        return new Rotation2d(MathUtil.angleModulus(inputs.steerAngle));
+        return new Rotation2d(getAngleRadians());
     }
 
     public double getAngleRadians () {
-        return getAngle().getRadians();
+        return inputs.steerAngle;
     }
 
     public double getSpeed () {

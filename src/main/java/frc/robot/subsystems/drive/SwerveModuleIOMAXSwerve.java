@@ -8,6 +8,8 @@ import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import frc.robot.Constants;
 import frc.robot.Constants.RobotMode;
@@ -28,7 +30,6 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
         switch (index) {
             /** Front Left */
             case 0: {
-                System.out.println("egg");
                 driveSparkMax = new CANSparkMax(3, MotorType.kBrushless);
                 steerSparkMax = new CANSparkMax(2, MotorType.kBrushless);
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
@@ -37,7 +38,6 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
             }
             /** Front Right */
             case 1: {
-                System.out.println("lsg");
                 driveSparkMax = new CANSparkMax(5, MotorType.kBrushless);
                 steerSparkMax = new CANSparkMax(4, MotorType.kBrushless);
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
@@ -46,7 +46,6 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
             }
             /** Back Left */
             case 2: {
-                System.out.println("dbr");
                 driveSparkMax = new CANSparkMax(7, MotorType.kBrushless);
                 steerSparkMax = new CANSparkMax(6, MotorType.kBrushless);
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
@@ -55,7 +54,6 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
             }
             /** Back Right */
             case 3: {
-                System.out.println("org");
                 driveSparkMax = new CANSparkMax(9, MotorType.kBrushless);
                 steerSparkMax = new CANSparkMax(8, MotorType.kBrushless);
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
@@ -106,7 +104,8 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
     public void updateInputs (SwerveModuleIOInputs inputs) {
         inputs.drivePosition = driveEncoder.getPosition();
         inputs.driveVelocity = driveEncoder.getVelocity();
-        inputs.steerAngle = steerEncoder.getPosition();
+        // Normalize [0, 2pi]
+        inputs.steerAngle = MathUtil.angleModulus(steerEncoder.getPosition()) + Math.PI;
     }
 
     public void setDriveVoltage (double voltage) {

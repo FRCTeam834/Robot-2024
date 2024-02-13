@@ -22,7 +22,6 @@ public class TunableNumber {
     public void initDefault (double defaultValue) {
         this.defaultValue = defaultValue;
         hasDefaultValue = true;
-        // lastValue = this.defaultValue;
         if (Constants.robotMode == RobotMode.DEVELOPMENT) {
             SmartDashboard.putNumber(key, 
                 SmartDashboard.getNumber(key, defaultValue));
