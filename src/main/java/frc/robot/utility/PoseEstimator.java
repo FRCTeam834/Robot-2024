@@ -34,6 +34,15 @@ public class PoseEstimator extends SubsystemBase {
         return poseEstimator.getEstimatedPosition();
     }
 
+    /**
+     * 
+     * @param pose
+     * ! There is no way this is right
+      */
+    public void resetPose(Pose2d pose){
+        poseEstimator.resetPosition(pose.getRotation(), swerve.getModulePositions(), pose); 
+    }
+
     @Override
     public void periodic () {
         poseEstimator.updateWithTime(Timer.getFPGATimestamp(), swerve.getYaw(), swerve.getModulePositions());
