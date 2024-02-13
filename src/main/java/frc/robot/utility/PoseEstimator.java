@@ -36,10 +36,12 @@ public class PoseEstimator extends SubsystemBase {
 
     /**
      * 
+     * Reset odometry to a known pose
      * @param pose
-     * ! There is no way this is right
+     * 
       */
     public void resetPose(Pose2d pose){
+        swerve.resetYaw(pose.getRotation().getDegrees());
         poseEstimator.resetPosition(pose.getRotation(), swerve.getModulePositions(), pose); 
     }
 

@@ -31,7 +31,7 @@ import frc.robot.utility.PoseEstimator;
  */
 public class RobotContainer {
   /** Initialize subsystems */
-  // Vision vision = new Vision(Constants.aprilTagCameras, Constants.noteDetectionCamera);
+  Vision vision = new Vision(Constants.aprilTagCameras, Constants.noteDetectionCamera);
   Swerve swerve = new Swerve(
     new SwerveModuleIOMAXSwerve(0),
     new SwerveModuleIOMAXSwerve(1),
@@ -39,7 +39,7 @@ public class RobotContainer {
     new SwerveModuleIOMAXSwerve(3),
     new GyroIOPigeon2()
   );
-  // PoseEstimator poseEstimator = new PoseEstimator(swerve, vision);
+  PoseEstimator poseEstimator = new PoseEstimator(swerve, vision);
   //Shooter shooter = new Shooter(new ShooterIOSparkMAX());
   //Indexer indexer = new Indexer(new IndexerIOSparkMAX());
   //Intake intake = new Intake(new IntakeIOSparkMAX());
@@ -53,6 +53,8 @@ public class RobotContainer {
       OI::getRightJoystickY,
       OI::getLeftJoystickX
     ));
+
+    swerve.buildAutonBuilder(poseEstimator);
     
     /*
     shooter.setDefaultCommand(new DumbShooter(

@@ -23,7 +23,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.RobotMode;
 import frc.robot.subsystems.drive.GyroIO.GyroIOInputs;
-import frc.robot.subsystems.vision.Vision;
 import frc.robot.utility.PoseEstimator;
 import frc.robot.utility.TunableNumber;
 
@@ -31,6 +30,13 @@ public class Swerve extends SubsystemBase {
   public static final TunableNumber maxModuleSpeed = new TunableNumber("drive/MaxModuleSpeed");
   public static final TunableNumber maxTranslationSpeed = new TunableNumber("drive/MaxTranslationSpeed");
   public static final TunableNumber maxSteerSpeed = new TunableNumber("drive/MaxSteerSpeed");
+
+  public static final TunableNumber translationP = new TunableNumber("drive/TranslationP");
+  public static final TunableNumber translationD = new TunableNumber("drive/TranslationD");
+  public static final TunableNumber rotationP = new TunableNumber("drive/RotationP");
+  public static final TunableNumber rotationD = new TunableNumber("drive/RotationD");
+
+
   /**
    * FL ----- FR
    * |        |
@@ -53,9 +59,6 @@ public class Swerve extends SubsystemBase {
   private ChassisSpeeds setpoint = new ChassisSpeeds();
   private ChassisSpeeds lastChassisSpeeds = new ChassisSpeeds();
 
-  private Vision vision;
-  private PoseEstimator odometry;
-
   static {
     maxModuleSpeed.initDefault(Units.feetToMeters(5));
     maxTranslationSpeed.initDefault(Units.feetToMeters(5));
@@ -76,44 +79,14 @@ public class Swerve extends SubsystemBase {
     modules[3] = new SwerveModule(brSwerveModuleIO, 3);
     this.gyro = gyro;
     SmartDashboard.putData(this);
-    
-    vision = new Vision(Constants.aprilTagCameras, Constants.noteDetectionCamera);
-    odometry = new PoseEstimator(this, vision);
-
-    /** 
-     * !KELLER Write code for resetPose 
-     * !Also see if I put the right chassis speeds methods(Hint they are not right) 
-     * */ 
-    AutoBuilder.configureHolonomic(
-      odometry::getEstimatedPose, // Robot pose supplier
-      odometry::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
-      () -> {return lastChassisSpeeds;}, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-      this::setDesiredSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
-      new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-        //* ADD CORRECT PID CONSTENTS */
-        new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
-        new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
-        maxModuleSpeed.get(), // Max module speed, in m/s
-        Math.hypot(width/2, length/2), // Drive base radius in meters. Distance from robot center to furthest module.
-        new ReplanningConfig() // Default path replanning config. See the API for the options here
-      ),
-            () -> {
-              // Boolean supplier that controls when the path will be mirrored for the red alliance
-              // This will flip the path being followed to the red side of the field.
-              // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
-              var alliance = DriverStation.getAlliance();
-              if (alliance.isPresent()) {
-                return alliance.get() == DriverStation.Alliance.Red;
-              }
-              return false;
-            },
-            this // Reference to this subsystem to set requirements  
-    );
   }
 
   public Rotation2d getYaw () {
     return new Rotation2d(gyroInputs.yaw);
+  }
+
+  public void resetYaw(double angle){
+    gyro.resetYaw(angle);
   }
 
   public double getYawRadians () {
@@ -185,6 +158,34 @@ public class Swerve extends SubsystemBase {
   /** Expose kinematics for pose estimator etc. */
   public SwerveDriveKinematics getKinematics () {
     return kinematics;
+  }
+
+  public void buildAutonBuilder(PoseEstimator odometry){
+    AutoBuilder.configureHolonomic(
+      odometry::getEstimatedPose, // Robot pose supplier
+      odometry::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
+      () -> {return lastChassisSpeeds;}, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+      this::setDesiredSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+      new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
+        new PIDConstants(translationP.get(), 0.0, translationD.get()), // Translation PID constants
+        new PIDConstants(rotationP.get(), 0.0, rotationD.get()), // Rotation PID constants
+        maxModuleSpeed.get(), // Max module speed, in m/s
+        Math.hypot(width/2, length/2), // Drive base radius in meters. Distance from robot center to furthest module.
+        new ReplanningConfig() // Default path replanning config. See the API for the options here
+      ),
+            () -> {
+              // Boolean supplier that controls when the path will be mirrored for the red alliance
+              // This will flip the path being followed to the red side of the field.
+              // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+              var alliance = DriverStation.getAlliance();
+              if (alliance.isPresent()) {
+                return alliance.get() == DriverStation.Alliance.Red;
+              }
+              return false;
+            },
+            this // Reference to this subsystem to set requirements  
+    );
   }
 
   @Override
