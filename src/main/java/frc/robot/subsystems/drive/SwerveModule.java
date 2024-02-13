@@ -49,13 +49,13 @@ public class SwerveModule extends SubsystemBase {
         io.updateInputs(inputs);
 
         // Update if tunable numbers have changed
-        if (drivekP.hasChanged()) {
+        if (drivekP.hasChanged(hashCode())) {
             driveController.setPID(drivekP.get(), 0.0, 0.0);
         }
-        if (steerkP.hasChanged()) {
+        if (steerkP.hasChanged(hashCode())) {
             steerController.setPID(steerkP.get(), 0.0, 0.0);
         }
-        if (drivekS.hasChanged() || drivekV.hasChanged()) {
+        if (drivekS.hasChanged(hashCode()) || drivekV.hasChanged(hashCode())) {
             driveFeedforward = new SimpleMotorFeedforward(drivekS.get(), drivekV.get());
         }
     }

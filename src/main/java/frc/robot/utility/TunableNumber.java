@@ -1,5 +1,8 @@
 package frc.robot.utility;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 import frc.robot.Constants.RobotMode;
@@ -13,7 +16,7 @@ public class TunableNumber {
     private final String key;
     private double defaultValue = 0.0;
     private boolean hasDefaultValue = false;
-    private double lastValue = 0.0;
+    private Map<Integer, Double> lastValues = new HashMap<>();
 
     public TunableNumber (String name) {
         this.key = "Tunable/" + name;
@@ -39,10 +42,13 @@ public class TunableNumber {
         }
     }
 
-    public boolean hasChanged () {
+    public boolean hasChanged (int hash) {
         double current = get();
-        if (current == lastValue) return false;
-        lastValue = current;
-        return true;
+        Double last = lastValues.get(hash);
+        if (last == null || current != last) {
+            lastValues.put(hash, current);
+            return true;
+        }
+        return false;
     }
 }

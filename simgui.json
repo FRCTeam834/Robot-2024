@@ -39,17 +39,7 @@
             "open": true
           }
         },
-        "SwerveModule 0": {
-          "open": true
-        },
-        "SwerveModule 2": {
-          "open": true
-        },
         "Tunable": {
-          "drive": {
-            "open": true
-          },
-          "open": true,
           "shooter": {
             "open": true
           }

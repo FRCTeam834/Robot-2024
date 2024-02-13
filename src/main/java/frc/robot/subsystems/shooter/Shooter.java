@@ -86,17 +86,17 @@ public class Shooter extends SubsystemBase {
   public void periodic() {
     io.updateInputs(inputs);
 
-    if (pivotkP.hasChanged() || pivotkD.hasChanged()) {
+    if (pivotkP.hasChanged(hashCode()) || pivotkD.hasChanged(hashCode())) {
       pivotPID.setPID(pivotkP.get(), 0.0, pivotkD.get());
     }
-    if (pivotkS.hasChanged() || pivotkG.hasChanged() || pivotkV.hasChanged()) {
+    if (pivotkS.hasChanged(hashCode()) || pivotkG.hasChanged(hashCode()) || pivotkV.hasChanged(hashCode())) {
       pivotFeedforward = new ArmFeedforward(pivotkS.get(), pivotkG.get(), pivotkV.get());
     }
-    if (rollerkP.hasChanged() || rollerkD.hasChanged()) {
+    if (rollerkP.hasChanged(hashCode()) || rollerkD.hasChanged(hashCode())) {
       topRollerPID.setPID(rollerkP.get(), 0.0, rollerkD.get());
       bottomRollerPID.setPID(rollerkP.get(), 0.0, rollerkD.get());
     }
-    if (rollerkS.hasChanged() || rollerkV.hasChanged()) {
+    if (rollerkS.hasChanged(hashCode()) || rollerkV.hasChanged(hashCode())) {
       rollerFeedforward = new SimpleMotorFeedforward(rollerkS.get(), rollerkV.get());
     }
     
