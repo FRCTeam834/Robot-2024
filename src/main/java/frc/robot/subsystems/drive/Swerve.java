@@ -138,15 +138,6 @@ public class Swerve extends SubsystemBase {
     };
   }
 
-  public double[] getModuleAngles () {
-    return new double[] {
-      modules[0].getAngle().getRadians(),
-      modules[1].getAngle().getRadians(),
-      modules[2].getAngle().getRadians(),
-      modules[3].getAngle().getRadians()
-    };
-  }
-
   /** Expose kinematics for pose estimator etc. */
   public SwerveDriveKinematics getKinematics () {
     return kinematics;
@@ -159,6 +150,5 @@ public class Swerve extends SubsystemBase {
     builder.setSmartDashboardType("Swerve");
 
     builder.addDoubleProperty("GyroYaw", this::getYawRadians, null);
-    builder.addDoubleArrayProperty("ModuleAngles", this::getModuleAngles,null);
   }
 }

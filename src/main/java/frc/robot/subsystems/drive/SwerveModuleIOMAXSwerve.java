@@ -28,6 +28,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
         switch (index) {
             /** Front Left */
             case 0: {
+                System.out.println("egg");
                 driveSparkMax = new CANSparkMax(3, MotorType.kBrushless);
                 steerSparkMax = new CANSparkMax(2, MotorType.kBrushless);
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
@@ -36,6 +37,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
             }
             /** Front Right */
             case 1: {
+                System.out.println("lsg");
                 driveSparkMax = new CANSparkMax(5, MotorType.kBrushless);
                 steerSparkMax = new CANSparkMax(4, MotorType.kBrushless);
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
@@ -44,6 +46,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
             }
             /** Back Left */
             case 2: {
+                System.out.println("dbr");
                 driveSparkMax = new CANSparkMax(7, MotorType.kBrushless);
                 steerSparkMax = new CANSparkMax(6, MotorType.kBrushless);
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
@@ -52,6 +55,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
             }
             /** Back Right */
             case 3: {
+                System.out.println("org");
                 driveSparkMax = new CANSparkMax(9, MotorType.kBrushless);
                 steerSparkMax = new CANSparkMax(8, MotorType.kBrushless);
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
@@ -85,13 +89,13 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
 
         // https://docs.revrobotics.com/sparkmax/operating-modes/control-interfaces
         driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 10); // motor position frame
-        driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
-        driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
-        driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
-        driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
+        //driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
+        //driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
+        //driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
+        //driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
 
-        steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
-        steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
+        //steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
+        //steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
 
         if (Constants.robotMode == RobotMode.COMPETITION) {
             driveSparkMax.burnFlash();

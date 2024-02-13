@@ -6,10 +6,15 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.Constants.RobotMode;
 import frc.robot.subsystems.drive.SwerveModuleIO.SwerveModuleIOInputs;
 import frc.robot.utility.TunableNumber;
 
-public class SwerveModule {
+public class SwerveModule extends SubsystemBase {
     private final int index;
     private final SwerveModuleIO io;
     private final SwerveModuleIOInputs inputs = new SwerveModuleIOInputs();
@@ -24,6 +29,8 @@ public class SwerveModule {
     private final PIDController driveController = new PIDController(0, 0, 0);
     private final PIDController steerController = new PIDController(0, 0, 0);
 
+    private SwerveModuleState setpoint = new SwerveModuleState();
+
     static {
         drivekS.initDefault(0.31437);
         drivekV.initDefault(0.7);
@@ -36,6 +43,7 @@ public class SwerveModule {
         this.index = index;
 
         steerController.enableContinuousInput(-Math.PI, Math.PI);
+        SmartDashboard.putData("SwerveModule " + index, this);
     }
 
     public void periodic () {
@@ -65,6 +73,10 @@ public class SwerveModule {
         // direction of desired while steering catches up
         optimizedState.speedMetersPerSecond *= Math.cos(steerController.getPositionError());
 
+        setpoint = optimizedState;
+
+        //System.out.println(driveFeedforward.calculate(optimizedState.speedMetersPerSecond) +
+           // driveController.calculate(inputs.driveVelocity, optimizedState.speedMetersPerSecond));
         io.setDriveVoltage(
             driveFeedforward.calculate(optimizedState.speedMetersPerSecond) +
             driveController.calculate(inputs.driveVelocity, optimizedState.speedMetersPerSecond));
@@ -76,6 +88,14 @@ public class SwerveModule {
         return new Rotation2d(MathUtil.angleModulus(inputs.steerAngle));
     }
 
+    public double getAngleRadians () {
+        return getAngle().getRadians();
+    }
+
+    public double getSpeed () {
+        return inputs.driveVelocity;
+    }
+
     public SwerveModulePosition getPosition () {
         return new SwerveModulePosition(inputs.drivePosition, getAngle());
     }
@@ -84,4 +104,24 @@ public class SwerveModule {
         io.setDriveVoltage(0.0);
         io.setSteerVoltage(0.0);
     }
+
+    public double getSetpointSpeed () {
+        return setpoint.speedMetersPerSecond;
+    }
+
+    public double getSetpointAngle () {
+        return setpoint.angle.getRadians();
+    }
+
+    @Override
+  public void initSendable (SendableBuilder builder) {
+    if (Constants.robotMode != RobotMode.DEVELOPMENT) return;
+
+    builder.setSmartDashboardType("SwerveModule" + index);
+
+    builder.addDoubleProperty("Setpoint Speed", this::getSetpointSpeed, null);
+    builder.addDoubleProperty("Setpoint Angle", this::getSetpointAngle, null);
+    builder.addDoubleProperty("Speed", this::getSpeed, null);
+    builder.addDoubleProperty("Angle", this::getAngleRadians, null);
+  }
 }
