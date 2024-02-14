@@ -34,6 +34,17 @@ public class PoseEstimator extends SubsystemBase {
         return poseEstimator.getEstimatedPosition();
     }
 
+    /**
+     * 
+     * Reset odometry to a known pose
+     * @param pose
+     * 
+      */
+    public void resetPose(Pose2d pose){
+        swerve.resetYaw(pose.getRotation().getDegrees());
+        poseEstimator.resetPosition(pose.getRotation(), swerve.getModulePositions(), pose); 
+    }
+
     @Override
     public void periodic () {
         poseEstimator.updateWithTime(Timer.getFPGATimestamp(), swerve.getYaw(), swerve.getModulePositions());

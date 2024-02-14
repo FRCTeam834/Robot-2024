@@ -3,6 +3,12 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.PathPlannerLogging;
+
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -28,7 +34,7 @@ import frc.robot.utility.PoseEstimator;
  */
 public class RobotContainer {
   /** Initialize subsystems */
-  // Vision vision = new Vision(Constants.aprilTagCameras, Constants.noteDetectionCamera);
+  Vision vision = new Vision(Constants.aprilTagCameras, Constants.noteDetectionCamera);
   Swerve swerve = new Swerve(
     new SwerveModuleIOMAXSwerve(0),
     new SwerveModuleIOMAXSwerve(1),
@@ -36,10 +42,12 @@ public class RobotContainer {
     new SwerveModuleIOMAXSwerve(3),
     new GyroIOPigeon2()
   );
-  // PoseEstimator poseEstimator = new PoseEstimator(swerve, vision);
+  PoseEstimator poseEstimator = new PoseEstimator(swerve, vision);
   //Shooter shooter = new Shooter(new ShooterIOSparkMAX());
   //Indexer indexer = new Indexer(new IndexerIOSparkMAX());
   //Intake intake = new Intake(new IntakeIOSparkMAX());
+
+  private final Field2d pathPlannerField;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -50,6 +58,21 @@ public class RobotContainer {
       OI::getRightJoystickY,
       OI::getLeftJoystickX
     ));
+    swerve.buildAutonBuilder(poseEstimator);
+    pathPlannerField = new Field2d();
+    SmartDashboard.putData("PathTarget", pathPlannerField); 
+
+    // Logging callback for current robot pose
+    PathPlannerLogging.setLogCurrentPoseCallback((pose) -> {
+        // Do whatever you want with the pose here
+        pathPlannerField.setRobotPose(pose);
+    });
+
+    // Logging callback for target robot pose
+    PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
+        // Do whatever you want with the pose here
+        pathPlannerField.getObject("target pose").setPose(pose);
+    });
     
     /*
     shooter.setDefaultCommand(new DumbShooter(
@@ -81,7 +104,10 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return null;
+        // Load the path you want to follow using its name in the GUI
+        PathPlannerPath path = PathPlannerPath.fromPathFile("S-Curve");
+
+        // Create a path following command using AutoBuilder. This will also trigger event markers.
+        return AutoBuilder.followPath(path);
   }
 }
