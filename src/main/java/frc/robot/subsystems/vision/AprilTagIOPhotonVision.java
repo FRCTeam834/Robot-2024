@@ -32,6 +32,10 @@ public class AprilTagIOPhotonVision implements AprilTagIO {
         odometry.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
     }
 
+    public boolean isConnected () {
+        return camera.isConnected();
+    }
+
     @Override
     public void updateInputs(AprilTagIOInputs inputs) {
         var result = camera.getLatestResult();

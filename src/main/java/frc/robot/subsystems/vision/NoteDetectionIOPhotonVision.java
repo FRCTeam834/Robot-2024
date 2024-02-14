@@ -16,6 +16,10 @@ public class NoteDetectionIOPhotonVision implements NoteDetectionIO{
         camera = new PhotonCamera(name);
     }
 
+    public boolean isConnected () {
+        return camera.isConnected();
+    }
+
     @Override
     public void updateInputs(NoteDetectionIOInputs inputs){
         inputs.rotationToNote = getRotationToNote();

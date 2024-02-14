@@ -60,5 +60,11 @@ public class Vision extends SubsystemBase {
 
     builder.setSmartDashboardType("Vision");
     builder.addDoubleProperty("AngleToNote", this::getRotationToNoteTelemetry, null);
+
+    /** idk if this will work :skull: */
+    builder.addBooleanProperty("Camera " + polychromeCamera.getName(), polychromeCamera::isConnected, null);
+    for (int i = 0; i < cameras.length; i++) {
+      builder.addBooleanProperty("Camera" + cameras[i].getName(), cameras[i]::isConnected, null);
+    }
   }
 }

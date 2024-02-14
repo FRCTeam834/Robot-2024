@@ -11,6 +11,7 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/PathTarget": "Field2d",
       "/SmartDashboard/PoseEstimate": "Field2d"
     }
   },

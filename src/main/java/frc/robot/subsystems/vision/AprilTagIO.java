@@ -10,6 +10,8 @@ public interface AprilTagIO {
 
     default void updateInputs(AprilTagIOInputs inputs) {}
 
+    default boolean isConnected () { return false; }
+
     default String getName() {
         return "";
     }

@@ -96,6 +96,10 @@ public class SwerveModule extends SubsystemBase {
         return new SwerveModulePosition(inputs.drivePosition, getAngle());
     }
 
+    public SwerveModuleState getState () {
+        return new SwerveModuleState(inputs.driveVelocity, getAngle());
+    }
+
     public void stop () {
         io.setDriveVoltage(0.0);
         io.setSteerVoltage(0.0);

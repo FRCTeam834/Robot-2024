@@ -8,6 +8,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -47,6 +48,7 @@ public class RobotContainer {
   //Indexer indexer = new Indexer(new IndexerIOSparkMAX());
   //Intake intake = new Intake(new IntakeIOSparkMAX());
 
+  private final SendableChooser<Command> autoChooser;
   private final Field2d pathPlannerField;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -58,7 +60,21 @@ public class RobotContainer {
       OI::getRightJoystickY,
       OI::getLeftJoystickX
     ));
-    swerve.buildAutonBuilder(poseEstimator);
+
+    /*
+    shooter.setDefaultCommand(new DumbShooter(
+      shooter,
+      OI::getXboxRightJoystickY,
+      OI::getXboxLeftJoystickY
+    ));
+    //*/
+
+    /**
+     * Pathplanner stuff
+     */
+    swerve.configureAutoBuilder(poseEstimator);
+    autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData(autoChooser);
     pathPlannerField = new Field2d();
     SmartDashboard.putData("PathTarget", pathPlannerField); 
 
@@ -73,14 +89,6 @@ public class RobotContainer {
         // Do whatever you want with the pose here
         pathPlannerField.getObject("target pose").setPose(pose);
     });
-    
-    /*
-    shooter.setDefaultCommand(new DumbShooter(
-      shooter,
-      OI::getXboxRightJoystickY,
-      OI::getXboxLeftJoystickY
-    ));
-    //*/
     
     configureBindings();
   }
@@ -104,10 +112,6 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-        // Load the path you want to follow using its name in the GUI
-        PathPlannerPath path = PathPlannerPath.fromPathFile("S-Curve");
-
-        // Create a path following command using AutoBuilder. This will also trigger event markers.
-        return AutoBuilder.followPath(path);
+      return autoChooser.getSelected();
   }
 }

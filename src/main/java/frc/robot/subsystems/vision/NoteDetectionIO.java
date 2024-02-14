@@ -8,6 +8,8 @@ public interface NoteDetectionIO {
     }
     default void updateInputs(NoteDetectionIOInputs inputs) {}
 
+    default boolean isConnected () { return false; }
+
     default String getName(){
         return "";
     }

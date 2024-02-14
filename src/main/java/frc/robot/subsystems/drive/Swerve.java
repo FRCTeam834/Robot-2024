@@ -63,9 +63,9 @@ public class Swerve extends SubsystemBase {
     maxModuleSpeed.initDefault(Units.feetToMeters(5));
     maxTranslationSpeed.initDefault(Units.feetToMeters(5));
     maxSteerSpeed.initDefault(Units.degreesToRadians(360));
-    translationP.initDefault(0);
+    translationP.initDefault(1.1);
     translationD.initDefault(0);
-    rotationP.initDefault(0);
+    rotationP.initDefault(1.2);
     rotationD.initDefault(0);
   }
 
@@ -159,16 +159,29 @@ public class Swerve extends SubsystemBase {
     };
   }
 
+  public SwerveModuleState[] getModuleStates () {
+    return new SwerveModuleState[] {
+      modules[0].getState(),
+      modules[1].getState(),
+      modules[2].getState(),
+      modules[3].getState()
+    };
+  }
+
+  public ChassisSpeeds getRobotRelativeSpeeds () {
+    return kinematics.toChassisSpeeds(getModuleStates());
+  }
+
   /** Expose kinematics for pose estimator etc. */
   public SwerveDriveKinematics getKinematics () {
     return kinematics;
   }
 
-  public void buildAutonBuilder(PoseEstimator odometry){
+  public void configureAutoBuilder(PoseEstimator poseEstimator){
     AutoBuilder.configureHolonomic(
-      odometry::getEstimatedPose, // Robot pose supplier
-      odometry::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
-      () -> {return lastChassisSpeeds;}, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+      poseEstimator::getEstimatedPose, // Robot pose supplier
+      poseEstimator::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
+      this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
       this::setDesiredSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
       new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
         new PIDConstants(translationP.get(), 0.0, translationD.get()), // Translation PID constants
