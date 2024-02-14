@@ -63,6 +63,10 @@ public class Swerve extends SubsystemBase {
     maxModuleSpeed.initDefault(Units.feetToMeters(5));
     maxTranslationSpeed.initDefault(Units.feetToMeters(5));
     maxSteerSpeed.initDefault(Units.degreesToRadians(360));
+    translationP.initDefault(0);
+    translationD.initDefault(0);
+    rotationP.initDefault(0);
+    rotationD.initDefault(0);
   }
 
   /** Creates a new DriveTrain. */
