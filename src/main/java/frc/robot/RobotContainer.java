@@ -5,7 +5,10 @@
 package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.util.PathPlannerLogging;
 
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -44,6 +47,8 @@ public class RobotContainer {
   //Indexer indexer = new Indexer(new IndexerIOSparkMAX());
   //Intake intake = new Intake(new IntakeIOSparkMAX());
 
+  private final Field2d pathPlannerField;
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -53,8 +58,21 @@ public class RobotContainer {
       OI::getRightJoystickY,
       OI::getLeftJoystickX
     ));
-
     swerve.buildAutonBuilder(poseEstimator);
+    pathPlannerField = new Field2d();
+    SmartDashboard.putData("PathTarget", pathPlannerField); 
+
+    // Logging callback for current robot pose
+    PathPlannerLogging.setLogCurrentPoseCallback((pose) -> {
+        // Do whatever you want with the pose here
+        pathPlannerField.setRobotPose(pose);
+    });
+
+    // Logging callback for target robot pose
+    PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
+        // Do whatever you want with the pose here
+        pathPlannerField.getObject("target pose").setPose(pose);
+    });
     
     /*
     shooter.setDefaultCommand(new DumbShooter(
