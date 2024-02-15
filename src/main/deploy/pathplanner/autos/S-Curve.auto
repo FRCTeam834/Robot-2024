@@ -10,12 +10,6 @@
           "data": {
             "pathName": "S-Curve"
           }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0
-          }
         }
       ]
     }
