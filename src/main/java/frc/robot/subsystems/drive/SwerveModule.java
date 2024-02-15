@@ -123,5 +123,6 @@ public class SwerveModule extends SubsystemBase {
     builder.addDoubleProperty("Setpoint Angle", this::getSetpointAngle, null);
     builder.addDoubleProperty("Speed", this::getSpeed, null);
     builder.addDoubleProperty("Angle", this::getAngleRadians, null);
+    builder.addDoubleProperty("PID Voltage", () -> driveController.calculate(inputs.driveVelocity, setpoint.speedMetersPerSecond), null);
   }
 }

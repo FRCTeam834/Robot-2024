@@ -76,7 +76,7 @@ public class RobotContainer {
     swerve.configureAutoBuilder(poseEstimator);
     autoChooser = new SendableChooser<>();
     autoChooser.setDefaultOption("Do Nothing", new InstantCommand());
-    autoChooser.addOption("S-Curve", new PathPlannerAuto("S-Curve"));
+    //autoChooser.addOption("S-Curve", new PathPlannerAuto("S-Curve"));
     
     SmartDashboard.putData(autoChooser);
     pathPlannerField = new Field2d();

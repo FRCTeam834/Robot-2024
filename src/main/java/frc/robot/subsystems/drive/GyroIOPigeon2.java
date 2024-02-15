@@ -2,6 +2,8 @@ package frc.robot.subsystems.drive;
 
 import com.ctre.phoenix6.hardware.Pigeon2;
 
+import edu.wpi.first.math.util.Units;
+
 public class GyroIOPigeon2 implements GyroIO {
     private final Pigeon2 pigeon;
 
@@ -11,7 +13,7 @@ public class GyroIOPigeon2 implements GyroIO {
     }
 
     public void updateInputs (GyroIOInputs inputs) {
-        inputs.yaw = pigeon.getYaw().getValue();
+        inputs.yaw = Units.degreesToRadians(pigeon.getYaw().getValue());
     }
 
     public void resetYaw(double angle){
