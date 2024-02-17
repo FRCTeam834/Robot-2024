@@ -6,6 +6,7 @@ package frc.robot.commands;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -21,12 +22,15 @@ public class AlignToNote extends Command {
   private final DoubleSupplier omegaSupplier;
   private final BooleanSupplier rightJoystickTrigger;
 
-  private static final TunableNumber steerkP = new TunableNumber("drive/SwerveModule/steerkP");
-  private final PIDController pidcontroller;
-  private final double speedOffset = 1;
+  private static final TunableNumber alignkP = new TunableNumber("Commands/AlignToNotekP");
+  private final PIDController PIDController;
   
   private Double rotationToNote;
   private double PIDOutput;
+
+  static {
+    alignkP.initDefault(0.6);
+  }
   
   public AlignToNote(Swerve driveTrain, Vision vision, DoubleSupplier vxSupplier, DoubleSupplier vySupplier, DoubleSupplier omegaSupplier, BooleanSupplier rightJoystickTrigger) {
     this.driveTrain = driveTrain;
@@ -36,7 +40,7 @@ public class AlignToNote extends Command {
     this.omegaSupplier = omegaSupplier;
     this.rightJoystickTrigger = rightJoystickTrigger;
 
-    pidcontroller = new PIDController(steerkP.get(), 0, 0);
+    PIDController = new PIDController(alignkP.get(), 0, 0);
     addRequirements(driveTrain);
   }
 
@@ -49,12 +53,12 @@ public class AlignToNote extends Command {
   public void execute() {
     rotationToNote = vision.getRotationToNoteTelemetry();
     if (rightJoystickTrigger.getAsBoolean() && rotationToNote != 0.0) {
-      PIDOutput = pidcontroller.calculate(driveTrain.getYawRadians(), new Rotation2d(rotationToNote).getRadians());
+      PIDOutput = PIDController.calculate(new Rotation2d(rotationToNote).getRadians());
 
       driveTrain.drive(
        vxSupplier.getAsDouble() * Swerve.maxTranslationSpeed.get(), 
        vySupplier.getAsDouble() * Swerve.maxTranslationSpeed.get(), 
-       PIDOutput * speedOffset);
+       MathUtil.clamp(PIDOutput, -Swerve.maxSteerSpeed.get(), Swerve.maxSteerSpeed.get()));
     } else {
       driveTrain.drive(
        vxSupplier.getAsDouble() * Swerve.maxTranslationSpeed.get(), 
