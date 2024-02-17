@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.AlignToNote;
 import frc.robot.commands.DriveWithSpeeds;
 import frc.robot.commands.test.DumbShooter;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -62,6 +63,16 @@ public class RobotContainer {
       OI::getLeftJoystickX
     ));
 
+    /* 
+    swerve.setDefaultCommand(new AlignToNote(swerve, 
+    vision, 
+    OI::getRightJoystickX, 
+    OI::getRightJoystickY, 
+    OI::getLeftJoystickX, 
+    OI::isRightJoystickTriggerPressed
+    ));
+    */
+
     /*
     shooter.setDefaultCommand(new DumbShooter(
       shooter,
@@ -106,9 +117,7 @@ public class RobotContainer {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-  private void configureBindings() {
-
-  }
+  private void configureBindings() {}
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
