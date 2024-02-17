@@ -23,9 +23,9 @@ public class AlignToNote extends Command {
   private final BooleanSupplier rightJoystickTrigger;
 
   private static final TunableNumber alignkP = new TunableNumber("Commands/AlignToNotekP");
-  private final PIDController PIDController;
+  private final PIDController PIDcontroller;
   
-  private Double rotationToNote;
+  private double rotationToNote;
   private double PIDOutput;
 
   static {
@@ -40,7 +40,7 @@ public class AlignToNote extends Command {
     this.omegaSupplier = omegaSupplier;
     this.rightJoystickTrigger = rightJoystickTrigger;
 
-    PIDController = new PIDController(alignkP.get(), 0, 0);
+    PIDcontroller = new PIDController(alignkP.get(), 0, 0);
     addRequirements(driveTrain);
   }
 
@@ -53,7 +53,7 @@ public class AlignToNote extends Command {
   public void execute() {
     rotationToNote = vision.getRotationToNoteTelemetry();
     if (rightJoystickTrigger.getAsBoolean() && rotationToNote != 0.0) {
-      PIDOutput = PIDController.calculate(new Rotation2d(rotationToNote).getRadians());
+      PIDOutput = PIDcontroller.calculate(new Rotation2d(rotationToNote).getRadians());
 
       driveTrain.drive(
        vxSupplier.getAsDouble() * Swerve.maxTranslationSpeed.get(), 
