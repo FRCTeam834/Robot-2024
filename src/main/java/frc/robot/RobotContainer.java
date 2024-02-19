@@ -125,11 +125,15 @@ public class RobotContainer {
    */
   private void configureBindings() {
     /** Amp lineup */
-    new JoystickButton(OI.rightJoystick, 1).onTrue(AutoBuilder.pathfindThenFollowPath(
+    new JoystickButton(OI.rightJoystick, 1).whileTrue(AutoBuilder.pathfindThenFollowPath(
       PathPlannerPath.fromPathFile("Amp Lineup"),
       Constants.AMP_LINEUP_CONSTRAINTS,
       0.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
     ));
+
+    new JoystickButton(OI.rightJoystick, 3).onTrue(new InstantCommand(() -> {
+      swerve.resetYaw(0);
+    }));
   }
 
   /**
