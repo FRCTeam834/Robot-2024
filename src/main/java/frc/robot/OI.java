@@ -12,6 +12,7 @@ public class OI {
 
     public static final double flightJoystickDeadzone = 0.15;
     public static final double xboxJoystickDeadzone = 0.1;
+
     /**
      * @return left joystick x input
      */
@@ -46,6 +47,13 @@ public class OI {
         double raw = rightJoystick.getY();
         if (Math.abs(raw) < flightJoystickDeadzone) raw = 0.0;
         return UnitQuad.calculate(raw);
+    }
+    
+    /**
+     * @return right joystick trigger state
+     */
+    public static final boolean isRightJoystickTriggerPressed() {
+        return rightJoystick.getTrigger();
     }
 
     public static final double getXboxLeftJoystickY () {
