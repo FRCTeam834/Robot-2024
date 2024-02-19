@@ -31,32 +31,52 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
             case 0: {
                 driveSparkMax = new CANSparkMax(3, MotorType.kBrushless);
                 steerSparkMax = new CANSparkMax(2, MotorType.kBrushless);
+                driveSparkMax.restoreFactoryDefaults();
+                steerSparkMax.restoreFactoryDefaults();
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
-                steerEncoder.setZeroOffset(5.3639789 + Units.degreesToRadians(0));
+                steerEncoder.setInverted(true); // MAXSwerve has steer gearing reversed
+                // revs -> radians
+                steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing);
+                steerEncoder.setZeroOffset(5.3642789 - Units.degreesToRadians(90));
                 break;
             }
             /** Front Right */
             case 1: {
                 driveSparkMax = new CANSparkMax(5, MotorType.kBrushless);
                 steerSparkMax = new CANSparkMax(4, MotorType.kBrushless);
+                driveSparkMax.restoreFactoryDefaults();
+                steerSparkMax.restoreFactoryDefaults();
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
-                steerEncoder.setZeroOffset(5.2846947 + Units.degreesToRadians(-270));
+                steerEncoder.setInverted(true); // MAXSwerve has steer gearing reversed
+                // revs -> radians
+                steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing);
+                steerEncoder.setZeroOffset(5.2844797 - Units.degreesToRadians(0));
                 break;
             }
             /** Back Left */
             case 2: {
                 driveSparkMax = new CANSparkMax(7, MotorType.kBrushless);
                 steerSparkMax = new CANSparkMax(6, MotorType.kBrushless);
+                driveSparkMax.restoreFactoryDefaults();
+                steerSparkMax.restoreFactoryDefaults();
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
-                steerEncoder.setZeroOffset(5.3150279 + Units.degreesToRadians(-90));
+                steerEncoder.setInverted(true); // MAXSwerve has steer gearing reversed
+                // revs -> radians
+                steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing);
+                steerEncoder.setZeroOffset(5.3027100 - Units.degreesToRadians(180));
                 break;
             }
             /** Back Right */
             case 3: {
                 driveSparkMax = new CANSparkMax(9, MotorType.kBrushless);
                 steerSparkMax = new CANSparkMax(8, MotorType.kBrushless);
+                driveSparkMax.restoreFactoryDefaults();
+                steerSparkMax.restoreFactoryDefaults();
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
-                steerEncoder.setZeroOffset(5.8668175 + Units.degreesToRadians(-180));
+                steerEncoder.setInverted(true); // MAXSwerve has steer gearing reversed
+                // revs -> radians
+                steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing);
+                steerEncoder.setZeroOffset(5.8548015 - Units.degreesToRadians(270));
                 break;
             }
             default: throw new RuntimeException("Invalid SwerveModuleIOMAXSwerve index!");
@@ -65,9 +85,8 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
         /** Everything else is common between every swerve module */
 
         driveEncoder = driveSparkMax.getEncoder();
-
-        driveSparkMax.restoreFactoryDefaults();
-        steerSparkMax.restoreFactoryDefaults();
+        //driveSparkMax.setInverted(false);
+        //steerSparkMax.setInverted(false);
 
         driveSparkMax.setIdleMode(IdleMode.kBrake);
         steerSparkMax.setIdleMode(IdleMode.kBrake);
@@ -75,14 +94,12 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
         steerSparkMax.enableVoltageCompensation(12.0);
         driveSparkMax.setSmartCurrentLimit(50);
         steerSparkMax.setSmartCurrentLimit(20);
+        driveSparkMax.setInverted(false);
 
         // rpm -> m/s
         driveEncoder.setVelocityConversionFactor(Math.PI * wheelDiameter / (60 * driveEncoderGearing));
         // revs -> meters
         driveEncoder.setPositionConversionFactor(Math.PI * wheelDiameter / driveEncoderGearing);
-        // revs -> radians
-        steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing);
-        steerEncoder.setInverted(true); // MAXSwerve has steer gearing reversed
 
         // https://docs.revrobotics.com/sparkmax/operating-modes/control-interfaces
         driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 10); // motor position frame
@@ -103,8 +120,8 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
     public void updateInputs (SwerveModuleIOInputs inputs) {
         inputs.drivePosition = driveEncoder.getPosition();
         inputs.driveVelocity = driveEncoder.getVelocity();
-        // Normalize [0, 2pi]
-        inputs.steerAngle = MathUtil.angleModulus(steerEncoder.getPosition()) + Math.PI;
+        // Normalize [-pi, pi]
+        inputs.steerAngle = MathUtil.angleModulus(steerEncoder.getPosition());
     }
 
     public void setDriveVoltage (double voltage) {

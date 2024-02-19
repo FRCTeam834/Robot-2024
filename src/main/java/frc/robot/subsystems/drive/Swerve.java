@@ -50,10 +50,10 @@ public class Swerve extends SubsystemBase {
   private final double width = Units.inchesToMeters(26.2);
   private final double length = Units.inchesToMeters(26.25);
   private final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
-    new Translation2d(-width / 2, length / 2),
     new Translation2d(width / 2, length / 2),
-    new Translation2d(-width / 2, -length / 2),
-    new Translation2d(width / 2, -length / 2)
+    new Translation2d(width / 2, -length / 2),
+    new Translation2d(-width / 2, length / 2),
+    new Translation2d(-width / 2, -length / 2)
   );
   private boolean stopped = true;
   private ChassisSpeeds setpoint = new ChassisSpeeds();
@@ -63,9 +63,9 @@ public class Swerve extends SubsystemBase {
     maxModuleSpeed.initDefault(Units.feetToMeters(5));
     maxTranslationSpeed.initDefault(Units.feetToMeters(5));
     maxSteerSpeed.initDefault(Units.degreesToRadians(360));
-    translationP.initDefault(1.1);
+    translationP.initDefault(0.5);
     translationD.initDefault(0);
-    rotationP.initDefault(1.2);
+    rotationP.initDefault(0.5);
     rotationD.initDefault(0);
   }
 
@@ -97,19 +97,28 @@ public class Swerve extends SubsystemBase {
     return getYaw().getRadians();
   }
 
+  public double getYawDegrees () {
+    return getYaw().getDegrees();
+  }
+
   public void drive (
-    double vx,
-    double vy,
+    double forward,
+    double strafe,
     double omega
   ) {
-    vx = -vx;
-    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(vx, vy, omega, getYaw());
+    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(forward, -strafe, omega, getYaw());
     setDesiredSpeeds(speeds);
   }
 
   public void setDesiredSpeeds (ChassisSpeeds speeds) {
     stopped = false;
     setpoint = speeds;
+  }
+
+  public void ppsetDesiredSpeeds (ChassisSpeeds speeds) {
+    ChassisSpeeds convertedSpeeds = new ChassisSpeeds(speeds.vyMetersPerSecond, speeds.vxMetersPerSecond, speeds.omegaRadiansPerSecond);
+    stopped = false;
+    setpoint = convertedSpeeds;
   }
 
   @Override
@@ -182,7 +191,7 @@ public class Swerve extends SubsystemBase {
       poseEstimator::getEstimatedPose, // Robot pose supplier
       poseEstimator::resetPose, // Method to reset odometry (will be called if your auto has a starting pose)
       this::getRobotRelativeSpeeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-      this::setDesiredSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+      this::ppsetDesiredSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
       new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
         new PIDConstants(translationP.get(), 0.0, translationD.get()), // Translation PID constants
         new PIDConstants(rotationP.get(), 0.0, rotationD.get()), // Rotation PID constants
@@ -211,6 +220,6 @@ public class Swerve extends SubsystemBase {
 
     builder.setSmartDashboardType("Swerve");
 
-    builder.addDoubleProperty("GyroYaw", this::getYawRadians, null);
+    builder.addDoubleProperty("GyroYaw", this::getYawDegrees, null);
   }
 }

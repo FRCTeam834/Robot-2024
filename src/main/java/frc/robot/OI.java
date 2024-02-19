@@ -26,7 +26,7 @@ public class OI {
      * @return left joystick y input
      */
     public static final double getLeftJoystickY () {
-        double raw = leftJoystick.getY();
+        double raw = -leftJoystick.getY();
         if (Math.abs(raw) < flightJoystickDeadzone) raw = 0.0;
         return UnitQuad.calculate(raw);
     }
@@ -44,7 +44,7 @@ public class OI {
      * @return right joystick y input
      */
     public static final double getRightJoystickY () {
-        double raw = rightJoystick.getY();
+        double raw = -rightJoystick.getY();
         if (Math.abs(raw) < flightJoystickDeadzone) raw = 0.0;
         return UnitQuad.calculate(raw);
     }

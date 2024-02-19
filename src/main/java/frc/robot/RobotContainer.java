@@ -63,8 +63,8 @@ public class RobotContainer {
     // Configure the trigger bindings
     swerve.setDefaultCommand(new DriveWithSpeeds(
       swerve,
-      OI::getRightJoystickX,
       OI::getRightJoystickY,
+      OI::getRightJoystickX,
       OI::getLeftJoystickX
     ));
 
