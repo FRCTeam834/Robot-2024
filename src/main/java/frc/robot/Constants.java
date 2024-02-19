@@ -38,6 +38,6 @@ public class Constants {
     public static NoteDetectionIOPhotonVision noteDetectionCamera = new NoteDetectionIOPhotonVision("Poly");
 
     public static PathConstraints AMP_LINEUP_CONSTRAINTS = new PathConstraints(
-        3.0, 4.0,
-        Units.degreesToRadians(540), Units.degreesToRadians(720));
+        0.5, 0.5, // set to low values for testing
+        Units.degreesToRadians(360), Units.degreesToRadians(360));
 }

@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.AlignToNote;
+import frc.robot.commands.DriveWithNoteAlign;
 import frc.robot.commands.DriveWithSpeeds;
 import frc.robot.commands.test.DumbShooter;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -124,11 +124,12 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+    /** Amp lineup */
     new JoystickButton(OI.rightJoystick, 1).onTrue(AutoBuilder.pathfindThenFollowPath(
       PathPlannerPath.fromPathFile("Amp Lineup"),
       Constants.AMP_LINEUP_CONSTRAINTS,
-      3.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
-  ));   
+      0.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
+    ));
   }
 
   /**
