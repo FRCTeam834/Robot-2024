@@ -123,7 +123,13 @@ public class RobotContainer {
    * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
    * joysticks}.
    */
-  private void configureBindings() {}
+  private void configureBindings() {
+    new JoystickButton(OI.rightJoystick, 1).onTrue(AutoBuilder.pathfindThenFollowPath(
+      PathPlannerPath.fromPathFile("Amp Lineup"),
+      Constants.AMP_LINEUP_CONSTRAINTS,
+      3.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
+  ));   
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
