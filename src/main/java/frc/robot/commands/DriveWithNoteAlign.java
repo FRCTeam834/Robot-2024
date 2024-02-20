@@ -9,6 +9,7 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.drive.Swerve;
 import frc.robot.subsystems.vision.Vision;
@@ -53,7 +54,7 @@ public class DriveWithNoteAlign extends Command {
   public void execute() {
     rotationToNote = vision.getRotationToNoteTelemetry();
     if (rightJoystickTrigger.getAsBoolean() && rotationToNote != 0.0) {
-      PIDOutput = alignController.calculate(new Rotation2d(rotationToNote).getRadians());
+      PIDOutput = alignController.calculate(rotationToNote);
 
       driveTrain.drive(
        vxSupplier.getAsDouble() * Swerve.maxTranslationSpeed.get(), 
