@@ -121,7 +121,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
         inputs.drivePosition = driveEncoder.getPosition();
         inputs.driveVelocity = driveEncoder.getVelocity();
         // Normalize [-pi, pi]
-        inputs.steerAngle = MathUtil.angleModulus(steerEncoder.getPosition());
+        inputs.steerAngle = steerEncoder.getPosition();//MathUtil.angleModulus(steerEncoder.getPosition());
     }
 
     public void setDriveVoltage (double voltage) {

@@ -9,6 +9,7 @@ import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -126,13 +127,17 @@ public class RobotContainer {
   private void configureBindings() {
     /** Amp lineup */
     new JoystickButton(OI.rightJoystick, 1).whileTrue(AutoBuilder.pathfindThenFollowPath(
-      PathPlannerPath.fromPathFile("Amp Lineup"),
+      PathPlannerPath.fromPathFile("Copy of Amp Lineup"),
       Constants.AMP_LINEUP_CONSTRAINTS,
       0.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
     ));
 
     new JoystickButton(OI.rightJoystick, 3).onTrue(new InstantCommand(() -> {
       swerve.resetYaw(0);
+    }));
+
+    new JoystickButton(OI.rightJoystick, 10).onTrue(new InstantCommand(() -> {
+      poseEstimator.resetPose(new Pose2d());
     }));
   }
 

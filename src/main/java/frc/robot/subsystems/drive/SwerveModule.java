@@ -1,5 +1,6 @@
 package frc.robot.subsystems.drive;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -41,7 +42,7 @@ public class SwerveModule extends SubsystemBase {
         this.io = io;
         this.index = index;
 
-        steerController.enableContinuousInput(0, Math.PI * 2);
+        steerController.enableContinuousInput(-Math.PI, Math.PI);
         SmartDashboard.putData("SwerveModule " + index, this);
     }
 
@@ -63,13 +64,16 @@ public class SwerveModule extends SubsystemBase {
     public void setDesiredState (SwerveModuleState state) {
         SwerveModuleState optimizedState = SwerveModuleState.optimize(state, getAngle());
         // Don't drive if speed is too low to prevent jittering
-        if (Math.abs(optimizedState.speedMetersPerSecond) < 1e-3) {
-            optimizedState.speedMetersPerSecond = 0;
+        if (Math.abs(optimizedState.speedMetersPerSecond) < 0.01) {
+            this.stop();
+            return;
         }
+
+        //optimizedState.angle = new Rotation2d(MathUtil.angleModulus(optimizedState.angle.getRadians()));
 
         // Scale by cosine of angle error, to reduce movement in perpendicular
         // direction of desired while steering catches up
-        optimizedState.speedMetersPerSecond *= Math.cos(steerController.getPositionError());
+        //optimizedState.speedMetersPerSecond *= MathUtil.clamp(Math.cos(Math.abs(steerController.getPositionError())), 0.5, 1);
 
         io.setDriveVoltage(
             driveFeedforward.calculate(optimizedState.speedMetersPerSecond) +

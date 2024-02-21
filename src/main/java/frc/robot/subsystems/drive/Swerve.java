@@ -5,10 +5,12 @@
 package frc.robot.subsystems.drive;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.ChassisSpeedsRateLimiter;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -58,6 +60,8 @@ public class Swerve extends SubsystemBase {
   private boolean stopped = true;
   private ChassisSpeeds setpoint = new ChassisSpeeds();
   private ChassisSpeeds lastChassisSpeeds = new ChassisSpeeds();
+  private ChassisSpeedsRateLimiter rateLimiter = new ChassisSpeedsRateLimiter(3, 3);
+  private SlewRateLimiter omegaLimiter = new SlewRateLimiter(Math.PI);
 
   static {
     maxModuleSpeed.initDefault(Units.feetToMeters(5));
@@ -106,7 +110,7 @@ public class Swerve extends SubsystemBase {
     double strafe,
     double omega
   ) {
-    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(forward, -strafe, omega, getYaw());
+    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(forward, -strafe, -omega, getYaw());
     setDesiredSpeeds(speeds);
   }
 
@@ -116,9 +120,9 @@ public class Swerve extends SubsystemBase {
   }
 
   public void ppsetDesiredSpeeds (ChassisSpeeds speeds) {
-    ChassisSpeeds convertedSpeeds = new ChassisSpeeds(speeds.vyMetersPerSecond, speeds.vxMetersPerSecond, speeds.omegaRadiansPerSecond);
+    //ChassisSpeeds convertedSpeeds = new ChassisSpeeds(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, -speeds.omegaRadiansPerSecond);
     stopped = false;
-    setpoint = convertedSpeeds;
+    setpoint = speeds;
   }
 
   @Override
@@ -129,12 +133,14 @@ public class Swerve extends SubsystemBase {
       stop();
       return;
     }
-
-    setpoint = ChassisSpeeds.discretize(setpoint, 0.02);
+    setpoint = rateLimiter.calculate(setpoint);
+    setpoint.omegaRadiansPerSecond = omegaLimiter.calculate(setpoint.omegaRadiansPerSecond);
+    //setpoint = ChassisSpeeds.discretize(setpoint, 0.02);
+    
     SwerveModuleState[] desiredStates = kinematics.toSwerveModuleStates(setpoint);
     SwerveDriveKinematics.desaturateWheelSpeeds(
       desiredStates,
-      lastChassisSpeeds,
+      setpoint,
       maxModuleSpeed.get(),
       maxTranslationSpeed.get(),
       maxSteerSpeed.get()
