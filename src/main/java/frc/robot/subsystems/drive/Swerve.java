@@ -60,8 +60,12 @@ public class Swerve extends SubsystemBase {
   private boolean stopped = true;
   private ChassisSpeeds setpoint = new ChassisSpeeds();
   private ChassisSpeeds lastChassisSpeeds = new ChassisSpeeds();
-  private ChassisSpeedsRateLimiter rateLimiter = new ChassisSpeedsRateLimiter(3, 3);
-  private SlewRateLimiter omegaLimiter = new SlewRateLimiter(Math.PI);
+  private ChassisSpeedsRateLimiter rateLimiter = new ChassisSpeedsRateLimiter(5, 5);
+  private SlewRateLimiter omegaLimiter = new SlewRateLimiter(Math.PI * 4);
+
+  private double commandedForward;
+  private double commandedStrafe;
+  private double commandedOmega;
 
   static {
     maxModuleSpeed.initDefault(Units.feetToMeters(5));
@@ -110,6 +114,9 @@ public class Swerve extends SubsystemBase {
     double strafe,
     double omega
   ) {
+    commandedForward = forward;
+    commandedStrafe = strafe;
+    commandedOmega = omega;
     ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(forward, -strafe, -omega, getYaw());
     setDesiredSpeeds(speeds);
   }
@@ -227,5 +234,8 @@ public class Swerve extends SubsystemBase {
     builder.setSmartDashboardType("Swerve");
 
     builder.addDoubleProperty("GyroYaw", this::getYawDegrees, null);
+    builder.addDoubleProperty("cf", () -> { return commandedForward; }, null);
+    builder.addDoubleProperty("cs", () -> { return commandedStrafe; }, null);
+    builder.addDoubleProperty("co", () -> { return commandedOmega; }, null);
   }
 }

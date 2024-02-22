@@ -6,6 +6,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -30,6 +31,7 @@ public class SwerveModule extends SubsystemBase {
     private final PIDController steerController = new PIDController(0, 0, 0);
 
     private SwerveModuleState setpoint = new SwerveModuleState();
+    private SwerveModuleState rawSetpoint = new SwerveModuleState();
 
     static {
         drivekS.initDefault(0.31437);
@@ -62,11 +64,11 @@ public class SwerveModule extends SubsystemBase {
     }
 
     public void setDesiredState (SwerveModuleState state) {
-        SwerveModuleState optimizedState = SwerveModuleState.optimize(state, getAngle());
+        rawSetpoint = state;
+        SwerveModuleState optimizedState = SwerveModule.optimize(state, getAngle(), Units.degreesToRadians(90));
         // Don't drive if speed is too low to prevent jittering
         if (Math.abs(optimizedState.speedMetersPerSecond) < 0.01) {
-            this.stop();
-            return;
+            optimizedState.speedMetersPerSecond = 0;
         }
 
         //optimizedState.angle = new Rotation2d(MathUtil.angleModulus(optimizedState.angle.getRadians()));
@@ -125,8 +127,22 @@ public class SwerveModule extends SubsystemBase {
 
     builder.addDoubleProperty("Setpoint Speed", this::getSetpointSpeed, null);
     builder.addDoubleProperty("Setpoint Angle", this::getSetpointAngle, null);
+    builder.addDoubleProperty("Raw Setpoint Angle", () -> { return rawSetpoint.angle.getRadians(); }, null);
     builder.addDoubleProperty("Speed", this::getSpeed, null);
     builder.addDoubleProperty("Angle", this::getAngleRadians, null);
     builder.addDoubleProperty("PID Voltage", () -> driveController.calculate(inputs.driveVelocity, setpoint.speedMetersPerSecond), null);
+  }
+
+  public static SwerveModuleState optimize (
+    SwerveModuleState desiredState, Rotation2d currentAngle, double threshold
+  ) {
+    Rotation2d delta = desiredState.angle.minus(currentAngle);
+    if (Math.abs(delta.getRadians()) > threshold) {
+      return new SwerveModuleState(
+        -desiredState.speedMetersPerSecond,
+        desiredState.angle.rotateBy(Rotation2d.fromDegrees(180.0))
+      );
+    }
+    return desiredState;
   }
 }
