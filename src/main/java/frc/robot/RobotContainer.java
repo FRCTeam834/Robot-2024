@@ -10,18 +10,24 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.TempShooter;
+import frc.robot.commands.tempDeflector;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIOSparkMAX;
+import frc.robot.subsystems.deflector.Deflector;
+import frc.robot.subsystems.deflector.DeflectorIOSparkMax;
 
 public class RobotContainer {
   private final LoggedDashboardChooser<Command> autonChooser = new LoggedDashboardChooser<>("Pick Auton");
   private final Shooter shooter;
+  private final Deflector deflector;
   
   public RobotContainer() {
     shooter = new Shooter(new ShooterIOSparkMAX());
+    deflector = new Deflector(new DeflectorIOSparkMax());
     autonChooser.addDefaultOption("Do Nothing", new InstantCommand());
     configureBindings();
     shooter.setDefaultCommand(new TempShooter(shooter));
+    deflector.setDefaultCommand(new tempDeflector(deflector));
   }
 
   private void configureBindings() {}

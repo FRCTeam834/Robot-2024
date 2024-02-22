@@ -6,6 +6,9 @@ package frc.robot.subsystems.deflector;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utility.LoggedTunableNumber;
+
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -18,18 +21,19 @@ public class Deflector extends SubsystemBase {
   private final DeflectorIOInputsAutoLogged inputs = new DeflectorIOInputsAutoLogged();
 
   private boolean isLifted = true;
+  //In degrees
   private double desiredAngle = 0.0;
-  private final double VOLTS_TO_HOLD_THE_DEFLECTOR = 0.0; //! Add the correct voltage here
+  private final double VOLTS_TO_HOLD_THE_DEFLECTOR = 0.1; //! Add the correct voltage here
 
   //Tunable feedforward constants
-  private static final LoggedTunableNumber deflectorkS = new LoggedTunableNumber("deflectorkS");
-  private static final LoggedTunableNumber deflectorkG = new LoggedTunableNumber("deflectorkG");
-  private static final LoggedTunableNumber deflectorkV = new LoggedTunableNumber("deflectorkV");
+  private static final LoggedTunableNumber deflectorkS = new LoggedTunableNumber("deflector/deflectorkS");
+  private static final LoggedTunableNumber deflectorkG = new LoggedTunableNumber("deflector/deflectorkG");
+  private static final LoggedTunableNumber deflectorkV = new LoggedTunableNumber("deflector/deflectorkV");
 
   private ArmFeedforward deflectorFeedforward = new ArmFeedforward(0.0,0.0,0.0);
   
   // Limit switch
-  private static final DigitalInput limitSwitch = new DigitalInput(0);
+  private static final DigitalInput limitSwitch = new DigitalInput(0); //! Put the correct channel here
   
   //! Need the right defaults here
   static {
@@ -46,23 +50,27 @@ public class Deflector extends SubsystemBase {
   }
 
   public void goToScoringPosition() {
-    desiredAngle = 0.0; //! Add correct angle here
-    if (limitSwitch.get()) {
-      // Set the voltage to a small number to keep the limit switch up
-      isLifted = true;
-      io.setDeflectorVoltage(VOLTS_TO_HOLD_THE_DEFLECTOR);
-    }
+    desiredAngle = -90; //! Add correct angle here
   }
 
-  public void goToNeutralPostion() {
+  public void goToNeutralPosition() {
     desiredAngle = 0.0; //! Add correct angle here
   }
 
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    if (!isLifted) {
-      io.setDeflectorVoltage(deflectorFeedforward.calculate(desiredAngle, 0.0));
+    Logger.processInputs("deflector", inputs);
+    if (limitSwitch.get()) {
+      // Set the voltage to a small number to keep the limit switch up
+      isLifted = true;
+    } else {
+      isLifted = false;
+    }
+    if (isLifted) {
+      io.setDeflectorVoltage(VOLTS_TO_HOLD_THE_DEFLECTOR);
+    } else {
+      io.setDeflectorVoltage(deflectorFeedforward.calculate(desiredAngle*3.14159/180, 0.0));
     }
     
     if (deflectorkS.hasChanged(hashCode()) || deflectorkG.hasChanged(hashCode()) || deflectorkV.hasChanged(hashCode())) {
