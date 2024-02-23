@@ -33,6 +33,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 steerSparkMax = new CANSparkMax(2, MotorType.kBrushless);
                 driveSparkMax.restoreFactoryDefaults();
                 steerSparkMax.restoreFactoryDefaults();
+                steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10);
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
                 steerEncoder.setInverted(true); // MAXSwerve has steer gearing reversed
                 // revs -> radians
@@ -46,6 +47,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 steerSparkMax = new CANSparkMax(4, MotorType.kBrushless);
                 driveSparkMax.restoreFactoryDefaults();
                 steerSparkMax.restoreFactoryDefaults();
+                steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10);
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
                 steerEncoder.setInverted(true); // MAXSwerve has steer gearing reversed
                 // revs -> radians
@@ -59,6 +61,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 steerSparkMax = new CANSparkMax(6, MotorType.kBrushless);
                 driveSparkMax.restoreFactoryDefaults();
                 steerSparkMax.restoreFactoryDefaults();
+                steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10);
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
                 steerEncoder.setInverted(true); // MAXSwerve has steer gearing reversed
                 // revs -> radians
@@ -72,6 +75,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 steerSparkMax = new CANSparkMax(8, MotorType.kBrushless);
                 driveSparkMax.restoreFactoryDefaults();
                 steerSparkMax.restoreFactoryDefaults();
+                steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10);
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
                 steerEncoder.setInverted(true); // MAXSwerve has steer gearing reversed
                 // revs -> radians

@@ -60,8 +60,8 @@ public class Swerve extends SubsystemBase {
   private boolean stopped = true;
   private ChassisSpeeds setpoint = new ChassisSpeeds();
   private ChassisSpeeds lastChassisSpeeds = new ChassisSpeeds();
-  private ChassisSpeedsRateLimiter rateLimiter = new ChassisSpeedsRateLimiter(5, 5);
-  private SlewRateLimiter omegaLimiter = new SlewRateLimiter(Math.PI * 4);
+  private ChassisSpeedsRateLimiter rateLimiter = new ChassisSpeedsRateLimiter(15, 15);
+  private SlewRateLimiter omegaLimiter = new SlewRateLimiter(Math.PI * 8);
 
   private double commandedForward;
   private double commandedStrafe;
@@ -70,7 +70,7 @@ public class Swerve extends SubsystemBase {
   static {
     maxModuleSpeed.initDefault(Units.feetToMeters(5));
     maxTranslationSpeed.initDefault(Units.feetToMeters(5));
-    maxSteerSpeed.initDefault(Units.degreesToRadians(360));
+    maxSteerSpeed.initDefault(Units.degreesToRadians(540));
     translationP.initDefault(0.5);
     translationD.initDefault(0);
     rotationP.initDefault(0.5);
@@ -142,7 +142,7 @@ public class Swerve extends SubsystemBase {
     }
     setpoint = rateLimiter.calculate(setpoint);
     setpoint.omegaRadiansPerSecond = omegaLimiter.calculate(setpoint.omegaRadiansPerSecond);
-    //setpoint = ChassisSpeeds.discretize(setpoint, 0.02);
+    setpoint = ChassisSpeeds.discretize(setpoint, 0.02);
     
     SwerveModuleState[] desiredStates = kinematics.toSwerveModuleStates(setpoint);
     SwerveDriveKinematics.desaturateWheelSpeeds(

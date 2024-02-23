@@ -23,19 +23,25 @@ public class DriveLockToSpeaker extends Command {
   private final PoseEstimator poseEstimator;
   private final DoubleSupplier vxSupplier;
   private final DoubleSupplier vySupplier;
+  private final DoubleSupplier omegaSupplier;
+  private final BooleanSupplier joystickSupplier;
 
   private final PIDController alignController;
-  
-  private double rotationToNote;
   private double PIDOutput;
+
+  private final Pose2d speakerLocation = new Pose2d(0, 0, new Rotation2d(0)); // random value change to actual
+
   
-  public DriveLockToSpeaker(Swerve driveTrain, PoseEstimator poseEstimator, DoubleSupplier vxSupplier, DoubleSupplier vySupplier) {
+  public DriveLockToSpeaker(Swerve driveTrain, PoseEstimator poseEstimator, DoubleSupplier vxSupplier, DoubleSupplier vySupplier, DoubleSupplier omegaSupplier, BooleanSupplier joystickSupplier) {
     this.driveTrain = driveTrain;
     this.poseEstimator = poseEstimator;
     this.vxSupplier = vxSupplier;
     this.vySupplier = vySupplier;
+    this.omegaSupplier = omegaSupplier;
+    this.joystickSupplier = joystickSupplier;
 
-    alignController = new PIDController(0.5, 0, 0);
+    alignController = new PIDController(8, 0, 0);
+    alignController.enableContinuousInput(-Math.PI, Math.PI);
     addRequirements(driveTrain);
   }
 
@@ -46,22 +52,23 @@ public class DriveLockToSpeaker extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    Pose2d speakerLocation = new Pose2d(0, 5, new Rotation2d(0)); // random value change to actual
-    var alliance = DriverStation.getAlliance();
-    if (alliance.isPresent()) {
-      speakerLocation = new Pose2d(51, 5, new Rotation2d(Math.PI));
-    }
-
-    Pose2d currentPose = poseEstimator.getEstimatedPose();
-    double desiredRotationRad = Math.atan2(speakerLocation.getY() - currentPose.getY(), speakerLocation.getX() - currentPose.getX());
-    double error = currentPose.getRotation().getRadians() - desiredRotationRad;
+    if(joystickSupplier.getAsBoolean()) {
+      Pose2d currentPose = poseEstimator.getEstimatedPose();
+      double desiredRotationRad = Math.atan2(speakerLocation.getY() - currentPose.getY(), speakerLocation.getX() - currentPose.getX());
+      double error = currentPose.getRotation().getRadians() - desiredRotationRad;
     
       PIDOutput = alignController.calculate(error);
 
       driveTrain.drive(
-       vxSupplier.getAsDouble() * Swerve.maxTranslationSpeed.get(), 
-       vySupplier.getAsDouble() * Swerve.maxTranslationSpeed.get(), 
-       MathUtil.clamp(PIDOutput, -Swerve.maxSteerSpeed.get(), Swerve.maxSteerSpeed.get()));
+      vxSupplier.getAsDouble() * Swerve.maxTranslationSpeed.get(), 
+      vySupplier.getAsDouble() * Swerve.maxTranslationSpeed.get(), 
+      -MathUtil.clamp(PIDOutput, -Swerve.maxSteerSpeed.get(), Swerve.maxSteerSpeed.get()));
+    } else {
+      driveTrain.drive(
+      vxSupplier.getAsDouble() * Swerve.maxTranslationSpeed.get(), 
+      vySupplier.getAsDouble() * Swerve.maxTranslationSpeed.get(), 
+      omegaSupplier.getAsDouble() * Swerve.maxSteerSpeed.get());
+    }
   }
 
   // Called once the command ends or is interrupted.
