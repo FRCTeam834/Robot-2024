@@ -13,5 +13,5 @@ public interface ClimberIO {
     }
 
     public default void updateInputs(ClimberIOInputs inputs) {}
-    public default void setSwerveVelocity(double voltage) {}
+    public default void setSwerveVelocity(double rightVoltage, double leftVoltage) {}
 }

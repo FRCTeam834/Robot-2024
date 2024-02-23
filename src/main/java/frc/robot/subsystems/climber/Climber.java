@@ -16,12 +16,15 @@ public class Climber extends SubsystemBase {
     this.io = io;
   }
 
-  //write a bunch of commands
-  //the climber should be run off of a controller - completely manual
-  //make sure to have a safety program put in place
+  public void setArmSpeeds (double rightArmSpeed, double leftArmSpeed){
+    inputs.rightSwerveVelocity = rightArmSpeed;
+    inputs.leftSwerveVelocity = leftArmSpeed;
+  }
 
   @Override
   public void periodic() {
     io.updateInputs(inputs);
+    io.setSwerveVelocity(inputs.leftSwerveVelocity * 12, //multiplies by 12 for a max of 12 volts
+                         inputs.rightSwerveVelocity * 12);
   }
 }

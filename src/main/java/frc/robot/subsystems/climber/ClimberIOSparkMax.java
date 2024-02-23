@@ -25,12 +25,10 @@ public class ClimberIOSparkMax implements ClimberIO {
         leftArmMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
         rightArmMotor.setInverted(false); //check before running
         leftArmMotor.setInverted(false); //check before running
-        rightArmMotor.enableVoltageCompensation(0); //replace with realistic value
-        leftArmMotor.enableVoltageCompensation(0); //replace with realistic value
-        rightArmMotor.setSmartCurrentLimit(0); //replace with realistic value
-        leftArmMotor.setSmartCurrentLimit(0); //replace with realistic value
-        encoderRight.setAverageDepth(2); //I have no idea what 2 means
-        encoderLeft.setAverageDepth(2); //I have no idea what 2 means
+        rightArmMotor.enableVoltageCompensation(12);
+        leftArmMotor.enableVoltageCompensation(12);
+        rightArmMotor.setSmartCurrentLimit(40);
+        leftArmMotor.setSmartCurrentLimit(40);
 
         if(Constants.robotMode == RobotMode.COMPETITION) {
             rightArmMotor.burnFlash();
@@ -46,8 +44,8 @@ public class ClimberIOSparkMax implements ClimberIO {
         inputs.leftArmHeight = 0; //write a calculation to find the current height - can be done with voltages
     }
 
-    public void setMotorVoltage(double volts) {
-        rightArmMotor.setVoltage(volts);
-        leftArmMotor.setVoltage(volts);
+    public void setMotorVoltage(double rightVolts, double leftVolts) {
+        rightArmMotor.setVoltage(rightVolts);
+        leftArmMotor.setVoltage(leftVolts);
     }
 }
