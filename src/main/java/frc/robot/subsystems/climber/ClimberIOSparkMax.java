@@ -40,8 +40,8 @@ public class ClimberIOSparkMax implements ClimberIO {
     public void updateInputs(ClimberIOInputs inputs) {
         inputs.rightSwerveVelocity = encoderRight.getVelocity();
         inputs.leftSwerveVelocity = encoderLeft.getVelocity();
-        inputs.rightArmHeight = 0; //write a calculation to find the current height - can be done with voltages
-        inputs.leftArmHeight = 0; //write a calculation to find the current height - can be done with voltages
+        inputs.rightArmHeight = encoderRight.getPosition(); //position is calculated in rotations
+        inputs.leftArmHeight = encoderLeft.getPosition(); //ditto
     }
 
     public void setMotorVoltage(double rightVolts, double leftVolts) {

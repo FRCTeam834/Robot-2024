@@ -5,7 +5,7 @@
 package frc.robot.subsystems.climber;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.climber.ClimberIO.ClimberIOInputs;
+import frc.robot.Constants;
 
 public class Climber extends SubsystemBase {
   private final ClimberIO io;
@@ -17,8 +17,19 @@ public class Climber extends SubsystemBase {
   }
 
   public void setArmSpeeds (double rightArmSpeed, double leftArmSpeed){
-    inputs.rightSwerveVelocity = rightArmSpeed;
-    inputs.leftSwerveVelocity = leftArmSpeed;
+    if(inputs.rightArmHeight >= Constants.ClimberConstants.minArmHeight 
+    && inputs.rightArmHeight <= Constants.ClimberConstants.maxArmHeight){
+      inputs.rightSwerveVelocity = rightArmSpeed;
+    } else {
+      inputs.rightSwerveVelocity = 0;
+    }
+
+    if(inputs.leftArmHeight >= Constants.ClimberConstants.minArmHeight 
+    && inputs.leftArmHeight <= Constants.ClimberConstants.maxArmHeight){
+      inputs.leftSwerveVelocity = leftArmSpeed;
+    } else {
+      inputs.leftSwerveVelocity = 0;
+    }
   }
 
   @Override
