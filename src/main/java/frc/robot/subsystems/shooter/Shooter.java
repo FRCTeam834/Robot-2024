@@ -6,8 +6,11 @@ package frc.robot.subsystems.shooter;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -39,12 +42,9 @@ public class Shooter extends SubsystemBase {
 
   /** NOTE: tuning values are NOT set here, set them in defaults */
   private ArmFeedforward pivotFeedforward = new ArmFeedforward(0, 0, 0);
-  private final PIDController pivotPID = new PIDController(0, 0, 0);
+  private final ProfiledPIDController pivotPID = new ProfiledPIDController(0.0, 0.0, 0.0, 
+    new TrapezoidProfile.Constraints(Units.degreesToRadians(60), Units.degreesToRadians(60)));
 
-  private final PIDController topRollerPID = new PIDController(0, 0, 0);
-  private final PIDController bottomRollerPID = new PIDController(0, 0, 0);
-
-  private SimpleMotorFeedforward rollerFeedforward = new SimpleMotorFeedforward(0, 0);
 
   private double desiredAngle = 0.0; // radians
   private double desiredRollerSpeeds = 0.0; // rpm
@@ -64,13 +64,34 @@ public class Shooter extends SubsystemBase {
     rollerkV.initDefault(0);
   }
 
-  private static InterpolatingDoubleTreeMap shotTable = new InterpolatingDoubleTreeMap();
+  private static InterpolatingDoubleTreeMap shotAngleTable = new InterpolatingDoubleTreeMap();
+  private static InterpolatingDoubleTreeMap shotAngleToleranceTable = new InterpolatingDoubleTreeMap();
+  private static InterpolatingDoubleTreeMap shotSpeedTable = new InterpolatingDoubleTreeMap();
+  private static InterpolatingDoubleTreeMap shotSpeedToleranceTable = new InterpolatingDoubleTreeMap();
+  private static double intakePivotAngle = Units.degreesToRadians(0);
+  private static double idleSpeed = 0;
 
   /** Initialize values for shot table */
   static {
     /** key: <horizontal distance m>, value: <pivot angle rad> */
-    shotTable.put(0.0, 0.0);
-    shotTable.put(1.0, 1.0);
+    shotAngleTable.put(0.0, 0.0);
+    shotAngleTable.put(1.0, 1.0);
+    /** key: <horizontal distance m>, value: <rpm> */
+    shotSpeedTable.put(0.0, 0.0);
+    shotSpeedTable.put(1.0, 1.0);
+
+    /**
+     * TOLERANCES
+     */
+
+    /** key: <horizontal distance m>, value: <pivot angle tolerance rad> */
+    shotAngleToleranceTable.put(-1.0, Units.degreesToRadians(2)); // -1 is values for amp I guess
+    shotAngleToleranceTable.put(0.0, Units.degreesToRadians(2));
+    shotAngleToleranceTable.put(5.0, Units.degreesToRadians(0.2));
+     /** key: <horizontal distance m>, value: <tolerance rpm> */
+    shotSpeedToleranceTable.put(-1.0, 20.0); // -1 is values for amp I guess
+    shotSpeedToleranceTable.put(0.5, 20.0);
+    shotSpeedToleranceTable.put(5.0, 5.0);
   }
 
   public Shooter(ShooterIO io) {
@@ -92,11 +113,10 @@ public class Shooter extends SubsystemBase {
       pivotFeedforward = new ArmFeedforward(pivotkS.get(), pivotkG.get(), pivotkV.get());
     }
     if (rollerkP.hasChanged(hashCode()) || rollerkD.hasChanged(hashCode())) {
-      topRollerPID.setPID(rollerkP.get(), 0.0, rollerkD.get());
-      bottomRollerPID.setPID(rollerkP.get(), 0.0, rollerkD.get());
+      io.setRollerPID(rollerkP.get(), 0.0, rollerkD.get());
     }
     if (rollerkS.hasChanged(hashCode()) || rollerkV.hasChanged(hashCode())) {
-      rollerFeedforward = new SimpleMotorFeedforward(rollerkS.get(), rollerkV.get());
+      io.setRollerFeedforward(rollerkS.get(), rollerkV.get());
     }
     
     if (DriverStation.isDisabled()) {
@@ -106,16 +126,11 @@ public class Shooter extends SubsystemBase {
 
     if (!pivotStopped) {
       io.setPivotVoltage(
-        pivotFeedforward.calculate(desiredAngle, 0.0) +
+        pivotFeedforward.calculate(pivotPID.getGoal().position, pivotPID.getGoal().velocity) +
         pivotPID.calculate(inputs.pivotAngle, desiredAngle));
     }
     if (!shooterStopped) {
-      io.setTopRollerVoltage(
-        rollerFeedforward.calculate(desiredRollerSpeeds) +
-        topRollerPID.calculate(inputs.topRollerVelocity, desiredRollerSpeeds));
-      io.setBottomRollerVoltage(
-        rollerFeedforward.calculate(desiredRollerSpeeds) +
-        bottomRollerPID.calculate(inputs.bottomRollerVelocity, desiredRollerSpeeds));
+      io.setRollerSpeeds(desiredRollerSpeeds);
     }
   }
 
@@ -134,6 +149,7 @@ public class Shooter extends SubsystemBase {
   public void setDesiredPivotAngle (double angle) {
     pivotStopped = false;
     desiredAngle = angle;
+    pivotPID.setGoal(new TrapezoidProfile.State(angle, 0.0));
   }
 
   /**
@@ -142,7 +158,19 @@ public class Shooter extends SubsystemBase {
    * @return radians
    */
   public double getPivotAngleForDistance (double dist) {
-    return shotTable.get(dist);
+    return shotAngleTable.get(dist);
+  }
+
+  public double getShooterSpeedForDistance (double dist) {
+    return shotSpeedTable.get(dist);
+  }
+
+  public double getIdleShooterSpeed () {
+    return Shooter.idleSpeed;
+  }
+
+  public double getIntakePivotAngle () {
+    return intakePivotAngle;
   }
 
   /**
@@ -164,6 +192,15 @@ public class Shooter extends SubsystemBase {
 
   public double getCurrentBottomRollerSpeed () {
     return inputs.bottomRollerVelocity;
+  }
+
+  public boolean atSetpoint (double dist) {
+    double toleranceRPM = shotSpeedToleranceTable.get(dist);
+    double toleranceAngle = shotAngleToleranceTable.get(dist);
+    return 
+      Math.abs(desiredRollerSpeeds - getCurrentTopRollerSpeed()) <= toleranceRPM &&
+      Math.abs(desiredRollerSpeeds - getCurrentBottomRollerSpeed()) <= toleranceRPM &&
+      Math.abs(desiredAngle - getCurrentPivotAngle()) <= toleranceAngle;
   }
 
   @Override

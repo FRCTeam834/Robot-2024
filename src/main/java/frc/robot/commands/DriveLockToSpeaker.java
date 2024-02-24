@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.test;
+package frc.robot.commands;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
@@ -24,21 +24,17 @@ public class DriveLockToSpeaker extends Command {
   private final DoubleSupplier vxSupplier;
   private final DoubleSupplier vySupplier;
   private final DoubleSupplier omegaSupplier;
-  private final BooleanSupplier joystickSupplier;
 
   private final PIDController alignController;
   private double PIDOutput;
 
-  private final Pose2d speakerLocation = new Pose2d(0, 0, new Rotation2d(0)); // random value change to actual
-
   
-  public DriveLockToSpeaker(Swerve driveTrain, PoseEstimator poseEstimator, DoubleSupplier vxSupplier, DoubleSupplier vySupplier, DoubleSupplier omegaSupplier, BooleanSupplier joystickSupplier) {
+  public DriveLockToSpeaker(Swerve driveTrain, PoseEstimator poseEstimator, DoubleSupplier vxSupplier, DoubleSupplier vySupplier, DoubleSupplier omegaSupplier) {
     this.driveTrain = driveTrain;
     this.poseEstimator = poseEstimator;
     this.vxSupplier = vxSupplier;
     this.vySupplier = vySupplier;
     this.omegaSupplier = omegaSupplier;
-    this.joystickSupplier = joystickSupplier;
 
     alignController = new PIDController(8, 0, 0);
     alignController.enableContinuousInput(-Math.PI, Math.PI);
@@ -52,10 +48,7 @@ public class DriveLockToSpeaker extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(joystickSupplier.getAsBoolean()) {
-      Pose2d currentPose = poseEstimator.getEstimatedPose();
-      double desiredRotationRad = Math.atan2(speakerLocation.getY() - currentPose.getY(), speakerLocation.getX() - currentPose.getX());
-      double error = currentPose.getRotation().getRadians() - desiredRotationRad;
+      double error = poseEstimator.getRotationToSpeaker();
     
       PIDOutput = alignController.calculate(error);
 
@@ -63,12 +56,6 @@ public class DriveLockToSpeaker extends Command {
       vxSupplier.getAsDouble() * Swerve.maxTranslationSpeed.get(), 
       vySupplier.getAsDouble() * Swerve.maxTranslationSpeed.get(), 
       -MathUtil.clamp(PIDOutput, -Swerve.maxSteerSpeed.get(), Swerve.maxSteerSpeed.get()));
-    } else {
-      driveTrain.drive(
-      vxSupplier.getAsDouble() * Swerve.maxTranslationSpeed.get(), 
-      vySupplier.getAsDouble() * Swerve.maxTranslationSpeed.get(), 
-      omegaSupplier.getAsDouble() * Swerve.maxSteerSpeed.get());
-    }
   }
 
   // Called once the command ends or is interrupted.

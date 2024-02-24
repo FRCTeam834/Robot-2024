@@ -28,10 +28,10 @@ public class IntakeAndIndex extends Command {
   @Override
   public void execute() {
     if (!indexer.noteDetectedBack() && !indexer.noteDetectedFront()) {
-      intake.setSetpoint(Intake.Setpoint.SLURP);
+      intake.setSetpoint(Intake.Setpoint.FAST);
       indexer.setSetpoint(Indexer.Setpoint.FAST);
     } else if (!indexer.noteDetectedFront()) {
-      intake.setSetpoint(Intake.Setpoint.BURP);
+      intake.setSetpoint(Intake.Setpoint.SLOW);
       indexer.setSetpoint(Indexer.Setpoint.SLOW);
     }
   }

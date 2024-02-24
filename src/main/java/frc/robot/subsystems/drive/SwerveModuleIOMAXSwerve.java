@@ -1,6 +1,7 @@
 package frc.robot.subsystems.drive;
 
 import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
@@ -14,14 +15,14 @@ import frc.robot.Constants;
 import frc.robot.Constants.RobotMode;
 
 public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
-    private final CANSparkMax driveSparkMax;
+    private final CANSparkFlex driveSparkMax;
     private final CANSparkMax steerSparkMax;
 
     private final RelativeEncoder driveEncoder;
     private final AbsoluteEncoder steerEncoder;
 
     private final double wheelDiameter = Units.inchesToMeters(3.0);
-    private final double driveEncoderGearing = 4.71429;
+    private final double driveEncoderGearing = 3.56;
     private final double steerEncoderGearing = 1;
 
     public SwerveModuleIOMAXSwerve (int index) {
@@ -29,7 +30,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
         switch (index) {
             /** Front Left */
             case 0: {
-                driveSparkMax = new CANSparkMax(3, MotorType.kBrushless);
+                driveSparkMax = new CANSparkFlex(3, MotorType.kBrushless);
                 steerSparkMax = new CANSparkMax(2, MotorType.kBrushless);
                 driveSparkMax.restoreFactoryDefaults();
                 steerSparkMax.restoreFactoryDefaults();
@@ -43,7 +44,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
             }
             /** Front Right */
             case 1: {
-                driveSparkMax = new CANSparkMax(5, MotorType.kBrushless);
+                driveSparkMax = new CANSparkFlex(5, MotorType.kBrushless);
                 steerSparkMax = new CANSparkMax(4, MotorType.kBrushless);
                 driveSparkMax.restoreFactoryDefaults();
                 steerSparkMax.restoreFactoryDefaults();
@@ -57,7 +58,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
             }
             /** Back Left */
             case 2: {
-                driveSparkMax = new CANSparkMax(7, MotorType.kBrushless);
+                driveSparkMax = new CANSparkFlex(7, MotorType.kBrushless);
                 steerSparkMax = new CANSparkMax(6, MotorType.kBrushless);
                 driveSparkMax.restoreFactoryDefaults();
                 steerSparkMax.restoreFactoryDefaults();
@@ -71,7 +72,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
             }
             /** Back Right */
             case 3: {
-                driveSparkMax = new CANSparkMax(9, MotorType.kBrushless);
+                driveSparkMax = new CANSparkFlex(9, MotorType.kBrushless);
                 steerSparkMax = new CANSparkMax(8, MotorType.kBrushless);
                 driveSparkMax.restoreFactoryDefaults();
                 steerSparkMax.restoreFactoryDefaults();

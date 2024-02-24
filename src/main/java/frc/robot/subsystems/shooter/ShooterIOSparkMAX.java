@@ -1,13 +1,17 @@
 package frc.robot.subsystems.shooter;
 
 import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import frc.robot.Constants;
 import frc.robot.Constants.RobotMode;
 
@@ -20,18 +24,30 @@ public class ShooterIOSparkMAX implements ShooterIO {
     private final RelativeEncoder bottomRollerEncoder;
     private final AbsoluteEncoder pivotEncoder;
 
+    private SparkPIDController topRollerController;
+    private SparkPIDController bottomRollerController;
+    private SimpleMotorFeedforward rollerFeedforward;
+
     public ShooterIOSparkMAX() {
         topRollerMotor = new CANSparkMax(999, MotorType.kBrushless);
         bottomRollerMotor = new CANSparkMax(998, MotorType.kBrushless);
         pivotMotor = new CANSparkMax(997, MotorType.kBrushless);
 
+        topRollerController = topRollerMotor.getPIDController();
+        bottomRollerController = bottomRollerMotor.getPIDController();
+
         topRollerEncoder = topRollerMotor.getEncoder();
         bottomRollerEncoder = bottomRollerMotor.getEncoder();
 
-        topRollerEncoder.setAverageDepth(4);
-        topRollerEncoder.setMeasurementPeriod(8);
-        bottomRollerEncoder.setAverageDepth(4);
-        bottomRollerEncoder.setMeasurementPeriod(8);
+        topRollerController.setFeedbackDevice(topRollerEncoder);
+        bottomRollerController.setFeedbackDevice(bottomRollerEncoder);
+
+        setRollerPID(0.0, 0.0, 0.0);
+
+        topRollerEncoder.setAverageDepth(2);
+        topRollerEncoder.setMeasurementPeriod(10);
+        bottomRollerEncoder.setAverageDepth(2);
+        bottomRollerEncoder.setMeasurementPeriod(10);
 
         pivotEncoder = pivotMotor.getAbsoluteEncoder(Type.kDutyCycle);
         pivotEncoder.setZeroOffset(0.0);
@@ -78,11 +94,28 @@ public class ShooterIOSparkMAX implements ShooterIO {
     }
 
     @Override
+    public void setRollerSpeeds (double speeds) {
+        topRollerController.setReference(speeds, ControlType.kVelocity, 0, rollerFeedforward.calculate(speeds));
+        bottomRollerController.setReference(speeds, ControlType.kVelocity, 0, rollerFeedforward.calculate(speeds));
+    }
+
+    public void setRollerPID (double kP, double kI, double kD) {
+        topRollerController.setP(kP);
+        topRollerController.setI(kI);
+        topRollerController.setD(kD);
+        bottomRollerController.setP(kP);
+        bottomRollerController.setI(kI);
+        bottomRollerController.setD(kD);
+    }
+
+    public void setRollerFeedforward (double kS, double kV) {
+        rollerFeedforward = new SimpleMotorFeedforward(kS, kV);
+    }
+
     public void setTopRollerVoltage(double volts) {
         topRollerMotor.setVoltage(volts);
     }
 
-    @Override
     public void setBottomRollerVoltage(double volts) {
         bottomRollerMotor.setVoltage(volts);
     }

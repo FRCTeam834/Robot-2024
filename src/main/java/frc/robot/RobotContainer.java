@@ -17,12 +17,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.DriveLockToSpeaker;
 import frc.robot.commands.DriveWithNoteAlign;
 import frc.robot.commands.DriveWithSpeeds;
-import frc.robot.commands.test.DriveLockToSpeaker;
+import frc.robot.commands.IntakeAndIndex;
+import frc.robot.commands.ShootWhenReady;
 import frc.robot.commands.test.DumbShooter;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.Swerve;
@@ -53,9 +56,9 @@ public class RobotContainer {
     new GyroIOPigeon2()
   );
   PoseEstimator poseEstimator = new PoseEstimator(swerve, vision);
-  //Shooter shooter = new Shooter(new ShooterIOSparkMAX());
-  //Indexer indexer = new Indexer(new IndexerIOSparkMAX());
-  //Intake intake = new Intake(new IntakeIOSparkMAX());
+  Shooter shooter = new Shooter(new ShooterIOSparkMAX());
+  Indexer indexer = new Indexer(new IndexerIOSparkMAX());
+  Intake intake = new Intake(new IntakeIOSparkMAX());
 
   private final SendableChooser<Command> autoChooser;
   private final Field2d pathPlannerField;
@@ -63,13 +66,11 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
-    swerve.setDefaultCommand(new DriveLockToSpeaker(
+    swerve.setDefaultCommand(new DriveWithSpeeds(
       swerve,
-      poseEstimator,
       OI::getRightJoystickY,
       OI::getRightJoystickX,
-      OI::getLeftJoystickX,
-      OI::isRightJoystickTriggerPressed
+      OI::getLeftJoystickX
     ));
 
     /* 
@@ -128,12 +129,35 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+
+    new JoystickButton(OI.rightJoystick, 1).whileTrue(new ParallelCommandGroup(
+      new DriveLockToSpeaker(
+        swerve,
+        poseEstimator,
+        OI::getRightJoystickY,
+        OI::getRightJoystickX,
+        OI::getLeftJoystickX
+      ),
+      new ShootWhenReady(shooter, indexer, poseEstimator)
+    ).onlyIf(indexer::hasNote));
+
+    new JoystickButton(OI.leftJoystick, 1).whileTrue(new ParallelCommandGroup(
+      new DriveWithNoteAlign(
+        swerve,
+        vision,
+        OI::getRightJoystickY,
+        OI::getRightJoystickX,
+        OI::getLeftJoystickX
+      ),
+      new IntakeAndIndex(intake, indexer)
+    ).onlyWhile(() -> !indexer.hasNote()));
+
     /** Amp lineup */
-    /*new JoystickButton(OI.rightJoystick, 1).whileTrue(AutoBuilder.pathfindThenFollowPath(
+    new JoystickButton(OI.leftJoystick, 3).whileTrue(AutoBuilder.pathfindThenFollowPath(
       PathPlannerPath.fromPathFile("Copy of Amp Lineup"),
       Constants.AMP_LINEUP_CONSTRAINTS,
       0.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
-    ));*/
+    ));
 
     new JoystickButton(OI.rightJoystick, 3).onTrue(new InstantCommand(() -> {
       swerve.resetYaw(0);

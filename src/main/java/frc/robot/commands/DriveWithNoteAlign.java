@@ -21,7 +21,6 @@ public class DriveWithNoteAlign extends Command {
   private final DoubleSupplier vxSupplier;
   private final DoubleSupplier vySupplier;
   private final DoubleSupplier omegaSupplier;
-  private final BooleanSupplier rightJoystickTrigger;
 
   private static final TunableNumber alignkP = new TunableNumber("Commands/DriveWithNoteAlignkP");
   private final PIDController alignController;
@@ -33,13 +32,12 @@ public class DriveWithNoteAlign extends Command {
     alignkP.initDefault(0.6);
   }
   
-  public DriveWithNoteAlign(Swerve driveTrain, Vision vision, DoubleSupplier vxSupplier, DoubleSupplier vySupplier, DoubleSupplier omegaSupplier, BooleanSupplier rightJoystickTrigger) {
+  public DriveWithNoteAlign(Swerve driveTrain, Vision vision, DoubleSupplier vxSupplier, DoubleSupplier vySupplier, DoubleSupplier omegaSupplier) {
     this.driveTrain = driveTrain;
     this.vision = vision;
     this.vxSupplier = vxSupplier;
     this.vySupplier = vySupplier;
     this.omegaSupplier = omegaSupplier;
-    this.rightJoystickTrigger = rightJoystickTrigger;
 
     alignController = new PIDController(alignkP.get(), 0, 0);
     addRequirements(driveTrain);
@@ -53,7 +51,7 @@ public class DriveWithNoteAlign extends Command {
   @Override
   public void execute() {
     rotationToNote = vision.getRotationToNoteTelemetry();
-    if (rightJoystickTrigger.getAsBoolean() && rotationToNote != 0.0) {
+    if (rotationToNote != 0.0 && Math.abs(omegaSupplier.getAsDouble()) < 0.2) {
       PIDOutput = alignController.calculate(rotationToNote);
 
       driveTrain.drive(
