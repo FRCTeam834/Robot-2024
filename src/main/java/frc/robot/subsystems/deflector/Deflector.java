@@ -5,7 +5,6 @@
 package frc.robot.subsystems.deflector;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.utility.LoggedTunableNumber;
 
 import org.littletonrobotics.junction.Logger;
 
@@ -14,21 +13,23 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.deflector.DeflectorIO;
+import frc.robot.subsystems.deflector.DeflectorIO.DeflectorIOInputs;
+import frc.robot.utility.TunableNumber;
 
 public class Deflector extends SubsystemBase {
   /** Creates a new Deflector. */
   private final DeflectorIO io;
-  private final DeflectorIOInputsAutoLogged inputs = new DeflectorIOInputsAutoLogged();
+  private final DeflectorIOInputs inputs = new DeflectorIOInputs();
 
-  private boolean isLifted = true;
+  boolean isLifted = true;
   //In degrees
   private double desiredAngle = 0.0;
-  private final double VOLTS_TO_HOLD_THE_DEFLECTOR = 0.1; //! Add the correct voltage here
+
 
   //Tunable feedforward constants
-  private static final LoggedTunableNumber deflectorkS = new LoggedTunableNumber("deflector/deflectorkS");
-  private static final LoggedTunableNumber deflectorkG = new LoggedTunableNumber("deflector/deflectorkG");
-  private static final LoggedTunableNumber deflectorkV = new LoggedTunableNumber("deflector/deflectorkV");
+  private static final TunableNumber deflectorkS = new TunableNumber("deflector/deflectorkS");
+  private static final TunableNumber deflectorkG = new TunableNumber("deflector/deflectorkG");
+  private static final TunableNumber deflectorkV = new TunableNumber("deflector/deflectorkV");
 
   private ArmFeedforward deflectorFeedforward = new ArmFeedforward(0.0,0.0,0.0);
   
@@ -57,20 +58,21 @@ public class Deflector extends SubsystemBase {
     desiredAngle = 0.0; //! Add correct angle here
   }
 
+  public void stop() {
+    io.stopDeflector();
+  }
+
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    Logger.processInputs("deflector", inputs);
+    //!Might need to flip this
     if (limitSwitch.get()) {
-      // Set the voltage to a small number to keep the limit switch up
       isLifted = true;
-    } else {
-      isLifted = false;
     }
     if (isLifted) {
-      io.setDeflectorVoltage(VOLTS_TO_HOLD_THE_DEFLECTOR);
+      io.stopDeflector();
     } else {
-      io.setDeflectorVoltage(deflectorFeedforward.calculate(desiredAngle*3.14159/180, 0.0));
+      io.setDeflectorVoltage(deflectorFeedforward.calculate(desiredAngle*3.14159265/180, 0.0));
     }
     
     if (deflectorkS.hasChanged(hashCode()) || deflectorkG.hasChanged(hashCode()) || deflectorkV.hasChanged(hashCode())) {
@@ -78,7 +80,7 @@ public class Deflector extends SubsystemBase {
     }
 
     if (DriverStation.isDisabled()) {
-      //stop();
+      io.stopDeflector();
       return;
     }
 

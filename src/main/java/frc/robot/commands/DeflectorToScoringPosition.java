@@ -3,50 +3,44 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.deflector.Deflector;
-import frc.robot.subsystems.deflector.DeflectorIOSparkMax;
 
-public class tempDeflector extends Command {
-  /** Creates a new tempDeflector. */
-  public final CommandXboxController deflectorController = new CommandXboxController(0);
+public class DeflectorToScoringPosition extends Command {
+  /** Creates a new DeflectorToScoringPosition. */
   public Deflector deflector;
-  public Trigger aButton = deflectorController.a();
-  public Trigger bButton = deflectorController.b();
-
-  //public double desiredAngle;
-  public tempDeflector(Deflector deflector) {
+  private final DigitalInput limitSwitch = new DigitalInput(0);
+  
+  public DeflectorToScoringPosition(Deflector deflector) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.deflector = deflector;
+    addRequirements(deflector);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (aButton.getAsBoolean()) {
-      deflector.goToScoringPosition();
-    } else if (bButton.getAsBoolean()) {
-      deflector.goToNeutralPosition();
-    }
-
+    deflector.goToScoringPosition();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    deflector.goToNeutralPosition();
+    deflector.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    if (limitSwitch.get()) {
+      return true;
+    }
     return false;
   }
 }

@@ -5,10 +5,14 @@
 package frc.robot.subsystems.deflector;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.Constants.RobotMode;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+
 
 public class DeflectorIOSparkMax implements DeflectorIO {
   /** Creates a new DeflectorIOSparkMax. */
@@ -20,11 +24,13 @@ public class DeflectorIOSparkMax implements DeflectorIO {
     deflectorEncoder = deflectorMotor.getEncoder();
 
     deflectorMotor.restoreFactoryDefaults();
-    deflectorMotor.setIdleMode(IdleMode.kBrake);
+    deflectorMotor.setIdleMode(IdleMode.kCoast);
     deflectorMotor.setSmartCurrentLimit(20); //! Need correct current limit
 
     //! Burn flash needed?
-
+    if (Constants.robotMode == RobotMode.COMPETITION) {
+      deflectorMotor.burnFlash();
+    }
   }
 
   @Override
@@ -36,6 +42,11 @@ public class DeflectorIOSparkMax implements DeflectorIO {
   @Override
   public void setDeflectorVoltage(double voltage) {
     deflectorMotor.setVoltage(voltage);
+  }
+
+  @Override
+  public void stopDeflector(){
+    deflectorMotor.setVoltage(0);
   }
   
 
