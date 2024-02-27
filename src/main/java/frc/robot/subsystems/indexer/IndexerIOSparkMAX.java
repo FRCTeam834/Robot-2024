@@ -14,7 +14,7 @@ public class IndexerIOSparkMAX implements IndexerIO {
     private final DigitalInput backBeamBreak; // detects when to stop note to hold
 
     public IndexerIOSparkMAX() {
-        motor = new CANSparkMax(2389, MotorType.kBrushless);
+        motor = new CANSparkMax(17, MotorType.kBrushless);
 
         // channel # on DIO
         frontBeamBreak = new DigitalInput(0);

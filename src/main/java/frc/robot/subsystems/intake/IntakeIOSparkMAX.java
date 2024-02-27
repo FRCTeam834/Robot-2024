@@ -8,28 +8,20 @@ import frc.robot.Constants;
 import frc.robot.Constants.RobotMode;
 
 public class IntakeIOSparkMAX implements IntakeIO {
-    private final CANSparkMax topRollerMotor;
-    private final CANSparkMax bottomRollerMotor;
+    private final CANSparkMax rollerMotor;
 
     public IntakeIOSparkMAX() {
-        topRollerMotor = new CANSparkMax(123, MotorType.kBrushless);
-        bottomRollerMotor = new CANSparkMax(124, MotorType.kBrushless);
+        rollerMotor = new CANSparkMax(16, MotorType.kBrushless);
 
-        CANSparkMax[] motors = { topRollerMotor, bottomRollerMotor };
+        rollerMotor.restoreFactoryDefaults();
+        rollerMotor.setIdleMode(IdleMode.kBrake);
+        rollerMotor.enableVoltageCompensation(12.0);
+        rollerMotor.setSmartCurrentLimit(20);
 
-        for (CANSparkMax motor : motors) {
-            motor.restoreFactoryDefaults();
-            motor.setIdleMode(IdleMode.kBrake);
-            motor.enableVoltageCompensation(12.0);
-            motor.setSmartCurrentLimit(20);
-        }
-
-        topRollerMotor.setInverted(false);
-        bottomRollerMotor.setInverted(true);
+        rollerMotor.setInverted(false);
 
         if(Constants.robotMode == RobotMode.COMPETITION) {
-            topRollerMotor.burnFlash();
-            bottomRollerMotor.burnFlash();
+            rollerMotor.burnFlash();
         }
     }
 
@@ -38,7 +30,6 @@ public class IntakeIOSparkMAX implements IntakeIO {
 
     @Override
     public void setVoltage(double voltage) {
-        topRollerMotor.setVoltage(voltage);
-        bottomRollerMotor.setVoltage(voltage);
+        rollerMotor.setVoltage(voltage);
     }
 }

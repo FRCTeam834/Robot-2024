@@ -49,8 +49,8 @@ public class Swerve extends SubsystemBase {
   private final GyroIO gyro;
   private final GyroIOInputs gyroInputs = new GyroIOInputs();
   private final SwerveModule[] modules = new SwerveModule[4]; // ordered: { FL, FR, BL, BR }
-  private final double width = Units.inchesToMeters(26.2);
-  private final double length = Units.inchesToMeters(26.25);
+  private final double width = Units.inchesToMeters(20.75);
+  private final double length = Units.inchesToMeters(18.375);
   private final SwerveDriveKinematics kinematics = new SwerveDriveKinematics(
     new Translation2d(width / 2, length / 2),
     new Translation2d(width / 2, -length / 2),

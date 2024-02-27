@@ -6,6 +6,7 @@ public interface ShooterIO {
         public double bottomRollerVelocity;
         public double pivotAngle;
         public double pivotVelocity;
+        public double pivotAppliedVoltage;
     }
 
     public default void updateInputs(ShooterIOInputs inputs) {}

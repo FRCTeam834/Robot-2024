@@ -26,12 +26,19 @@ public class ShooterIOSparkMAX implements ShooterIO {
 
     private SparkPIDController topRollerController;
     private SparkPIDController bottomRollerController;
-    private SimpleMotorFeedforward rollerFeedforward;
+    private SimpleMotorFeedforward rollerFeedforward = new SimpleMotorFeedforward(0, 0);
 
     public ShooterIOSparkMAX() {
-        topRollerMotor = new CANSparkMax(999, MotorType.kBrushless);
-        bottomRollerMotor = new CANSparkMax(998, MotorType.kBrushless);
-        pivotMotor = new CANSparkMax(997, MotorType.kBrushless);
+        topRollerMotor = new CANSparkMax(12, MotorType.kBrushless);
+        bottomRollerMotor = new CANSparkMax(13, MotorType.kBrushless);
+        pivotMotor = new CANSparkMax(11, MotorType.kBrushless);
+
+        CANSparkMax[] motors = { topRollerMotor, bottomRollerMotor, pivotMotor };
+
+        for (CANSparkMax motor : motors) {
+            motor.restoreFactoryDefaults();
+            motor.enableVoltageCompensation(12.0);
+        }
 
         topRollerController = topRollerMotor.getPIDController();
         bottomRollerController = bottomRollerMotor.getPIDController();
@@ -48,23 +55,20 @@ public class ShooterIOSparkMAX implements ShooterIO {
         topRollerEncoder.setMeasurementPeriod(10);
         bottomRollerEncoder.setAverageDepth(2);
         bottomRollerEncoder.setMeasurementPeriod(10);
-
+        
         pivotEncoder = pivotMotor.getAbsoluteEncoder(Type.kDutyCycle);
-        pivotEncoder.setZeroOffset(0.0);
-
-        CANSparkMax[] motors = { topRollerMotor, bottomRollerMotor, pivotMotor };
-
-        for (CANSparkMax motor : motors) {
-            motor.restoreFactoryDefaults();
-            motor.enableVoltageCompensation(12.0);
-        }
+        pivotEncoder.setInverted(true);
+        pivotEncoder.setPositionConversionFactor(Math.PI * 2);
+        pivotEncoder.setVelocityConversionFactor(Math.PI * 2 / 60);
+        pivotEncoder.setZeroOffset(4.0828111 - 0.1570796327);
+        pivotMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10);
 
         topRollerMotor.setInverted(false);
         bottomRollerMotor.setInverted(true);
 
         topRollerMotor.setIdleMode(IdleMode.kCoast);
         bottomRollerMotor.setIdleMode(IdleMode.kCoast);
-        pivotMotor.setIdleMode(IdleMode.kBrake);
+        pivotMotor.setIdleMode(IdleMode.kCoast);
 
         topRollerMotor.setSmartCurrentLimit(40);
         bottomRollerMotor.setSmartCurrentLimit(40);
@@ -91,6 +95,7 @@ public class ShooterIOSparkMAX implements ShooterIO {
         inputs.pivotVelocity = pivotEncoder.getVelocity();
         inputs.topRollerVelocity = topRollerEncoder.getVelocity();
         inputs.bottomRollerVelocity = bottomRollerEncoder.getVelocity();
+        inputs.pivotAppliedVoltage = pivotMotor.getAppliedOutput();
     }
 
     @Override

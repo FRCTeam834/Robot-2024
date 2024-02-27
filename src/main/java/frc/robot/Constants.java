@@ -9,7 +9,7 @@ import frc.robot.subsystems.vision.AprilTagIOPhotonVision;
 import frc.robot.subsystems.vision.NoteDetectionIOPhotonVision;
 
 public class Constants {
-    public static final RobotMode robotMode = RobotMode.DEVELOPMENT;
+    public static final RobotMode robotMode = RobotMode.COMPETITION;
 
     public static enum RobotMode {
         COMPETITION,

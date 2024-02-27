@@ -39,7 +39,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 steerEncoder.setInverted(true); // MAXSwerve has steer gearing reversed
                 // revs -> radians
                 steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing);
-                steerEncoder.setZeroOffset(5.3642789 - Units.degreesToRadians(90));
+                steerEncoder.setZeroOffset(4.6401 - Units.degreesToRadians(90));
                 break;
             }
             /** Front Right */
@@ -53,7 +53,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 steerEncoder.setInverted(true); // MAXSwerve has steer gearing reversed
                 // revs -> radians
                 steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing);
-                steerEncoder.setZeroOffset(5.2844797 - Units.degreesToRadians(0));
+                steerEncoder.setZeroOffset(1.1835198 - Units.degreesToRadians(0));
                 break;
             }
             /** Back Left */
@@ -67,7 +67,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 steerEncoder.setInverted(true); // MAXSwerve has steer gearing reversed
                 // revs -> radians
                 steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing);
-                steerEncoder.setZeroOffset(5.3027100 - Units.degreesToRadians(180));
+                steerEncoder.setZeroOffset(2.7218 - Units.degreesToRadians(180));
                 break;
             }
             /** Back Right */
@@ -81,7 +81,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 steerEncoder.setInverted(true); // MAXSwerve has steer gearing reversed
                 // revs -> radians
                 steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing);
-                steerEncoder.setZeroOffset(5.8548015 - Units.degreesToRadians(270));
+                steerEncoder.setZeroOffset(4.708 - Units.degreesToRadians(270));
                 break;
             }
             default: throw new RuntimeException("Invalid SwerveModuleIOMAXSwerve index!");

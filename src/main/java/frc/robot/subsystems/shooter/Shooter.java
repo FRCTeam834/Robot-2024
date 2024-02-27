@@ -43,7 +43,7 @@ public class Shooter extends SubsystemBase {
   /** NOTE: tuning values are NOT set here, set them in defaults */
   private ArmFeedforward pivotFeedforward = new ArmFeedforward(0, 0, 0);
   private final ProfiledPIDController pivotPID = new ProfiledPIDController(0.0, 0.0, 0.0, 
-    new TrapezoidProfile.Constraints(Units.degreesToRadians(60), Units.degreesToRadians(60)));
+    new TrapezoidProfile.Constraints(Units.degreesToRadians(360), Units.degreesToRadians(360)));
 
 
   private double desiredAngle = 0.0; // radians
@@ -52,15 +52,15 @@ public class Shooter extends SubsystemBase {
   /** Defaults (final values) are initialized here */
   static {
     /** */
-    pivotkP.initDefault(0);
-    pivotkD.initDefault(0);
-    pivotkS.initDefault(0);
-    pivotkG.initDefault(0);
-    pivotkV.initDefault(0);
+    pivotkP.initDefault(8);
+    pivotkD.initDefault(0.005);
+    pivotkS.initDefault(0.05);
+    pivotkG.initDefault(0.09);
+    pivotkV.initDefault(1.6);
     /** */
-    rollerkP.initDefault(0);
+    rollerkP.initDefault(1);
     rollerkD.initDefault(0);
-    rollerkS.initDefault(0);
+    rollerkS.initDefault(0.1);
     rollerkV.initDefault(0);
   }
 
@@ -111,6 +111,32 @@ public class Shooter extends SubsystemBase {
     }
     if (pivotkS.hasChanged(hashCode()) || pivotkG.hasChanged(hashCode()) || pivotkV.hasChanged(hashCode())) {
       pivotFeedforward = new ArmFeedforward(pivotkS.get(), pivotkG.get(), pivotkV.get());
+      System.out.println("Runs");
+      System.out.println("Runs");
+      System.out.println("Runs");
+      System.out.println("Runs");
+      System.out.println("Runs");
+      System.out.println("Runs");
+      System.out.println("Runs");
+      System.out.println("Runs");
+      System.out.println("Runs");
+      System.out.println("Runs");
+      System.out.println("Runs");
+      System.out.println("Runs");
+      System.out.println("Runs");
+      System.out.println("Runs");
+      System.out.println("Runs");
+      System.out.println("Runs");
+      System.out.println("Runs");
+      System.out.println("Runs");
+      System.out.println("Runs");
+      
+      System.out.println("Runs");
+      System.out.println("Runs");
+      System.out.println("Runs");
+      System.out.println("Runs");
+      System.out.println("Runs");
+
     }
     if (rollerkP.hasChanged(hashCode()) || rollerkD.hasChanged(hashCode())) {
       io.setRollerPID(rollerkP.get(), 0.0, rollerkD.get());
@@ -126,8 +152,8 @@ public class Shooter extends SubsystemBase {
 
     if (!pivotStopped) {
       io.setPivotVoltage(
-        pivotFeedforward.calculate(pivotPID.getGoal().position, pivotPID.getGoal().velocity) +
-        pivotPID.calculate(inputs.pivotAngle, desiredAngle));
+        pivotFeedforward.calculate(pivotPID.getSetpoint().position, pivotPID.getSetpoint().velocity) +
+        pivotPID.calculate(inputs.pivotAngle));
     }
     if (!shooterStopped) {
       io.setRollerSpeeds(desiredRollerSpeeds);
@@ -150,6 +176,10 @@ public class Shooter extends SubsystemBase {
     pivotStopped = false;
     desiredAngle = angle;
     pivotPID.setGoal(new TrapezoidProfile.State(angle, 0.0));
+  }
+
+  public void setPivotVoltage (double voltage) {
+    io.setPivotVoltage(voltage);
   }
 
   /**
@@ -212,5 +242,11 @@ public class Shooter extends SubsystemBase {
     builder.addDoubleProperty("PivotAngle", this::getCurrentPivotAngle, null);
     builder.addDoubleProperty("TopRollerSpeed", this::getCurrentTopRollerSpeed, null);
     builder.addDoubleProperty("BottomRollerSpeed", this::getCurrentBottomRollerSpeed, null);
+    builder.addDoubleProperty("AppliedVoltage", () -> {
+      return inputs.pivotAppliedVoltage;
+    }, null);
+    builder.addDoubleProperty("DesiredAngle", () -> {
+      return desiredAngle;
+    }, null);
   }
 }

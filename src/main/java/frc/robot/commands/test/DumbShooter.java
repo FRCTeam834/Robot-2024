@@ -15,8 +15,8 @@ public class DumbShooter extends Command {
   private final DoubleSupplier pivotAngleSupplier;
   private final DoubleSupplier speedDeltaSupplier;
 
-  private final static double minPivotAngle = Units.degreesToRadians(-20);
-  private final static double maxPivotAngle = Units.degreesToRadians(-70);
+  private final static double minPivotAngle = 0.16;
+  private final static double maxPivotAngle = 1;
 
   private final static double speedGainPerSecond = 100 * 0.02; // 100 rpm/s
   private double rollerSpeed = 0.0;
@@ -47,9 +47,10 @@ public class DumbShooter extends Command {
       (maxPivotAngle - minPivotAngle) * normalized;
 
     shooter.setDesiredPivotAngle(mappedAngle);
+    //shooter.setPivotVoltage(pivotAngleSupplier.getAsDouble());
 
     rollerSpeed += speedDeltaSupplier.getAsDouble() * speedGainPerSecond;
-    shooter.setDesiredRollerSpeeds(rollerSpeed);
+    //shooter.setDesiredRollerSpeeds(rollerSpeed);
   }
 
   // Called once the command ends or is interrupted.
