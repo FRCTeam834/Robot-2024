@@ -26,6 +26,7 @@ import frc.robot.commands.DriveWithNoteAlign;
 import frc.robot.commands.DriveWithSpeeds;
 import frc.robot.commands.IntakeAndIndex;
 import frc.robot.commands.ShootWhenReady;
+import frc.robot.commands.SubwooferShot;
 import frc.robot.commands.test.DumbShooter;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.Swerve;
@@ -149,8 +150,10 @@ public class RobotContainer {
         OI::getRightJoystickX,
         OI::getLeftJoystickX
       ),
-      new IntakeAndIndex(intake, indexer)
+      new IntakeAndIndex(intake, indexer, shooter)
     ).onlyWhile(() -> !indexer.hasNote()));
+
+    new JoystickButton(OI.leftJoystick, 3).onTrue(new SubwooferShot(shooter, indexer));
 
     /** Amp lineup */
     new JoystickButton(OI.leftJoystick, 3).whileTrue(AutoBuilder.pathfindThenFollowPath(

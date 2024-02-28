@@ -46,11 +46,11 @@ public class DumbShooter extends Command {
     double mappedAngle = minPivotAngle + 
       (maxPivotAngle - minPivotAngle) * normalized;
 
-    shooter.setDesiredPivotAngle(mappedAngle);
+    //shooter.setDesiredPivotAngle(mappedAngle);
     //shooter.setPivotVoltage(pivotAngleSupplier.getAsDouble());
 
     rollerSpeed += speedDeltaSupplier.getAsDouble() * speedGainPerSecond;
-    //shooter.setDesiredRollerSpeeds(rollerSpeed);
+    shooter.setDesiredRollerSpeeds(rollerSpeed);
   }
 
   // Called once the command ends or is interrupted.

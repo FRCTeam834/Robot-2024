@@ -17,14 +17,14 @@ public class IndexerIOSparkMAX implements IndexerIO {
         motor = new CANSparkMax(17, MotorType.kBrushless);
 
         // channel # on DIO
-        frontBeamBreak = new DigitalInput(0);
-        backBeamBreak = new DigitalInput(1);
+        frontBeamBreak = new DigitalInput(9);
+        backBeamBreak = new DigitalInput(8);
 
         motor.restoreFactoryDefaults();
         motor.setIdleMode(IdleMode.kBrake);
         motor.setInverted(false);
         motor.enableVoltageCompensation(12.0);
-        motor.setSmartCurrentLimit(20);
+        motor.setSmartCurrentLimit(40);
 
         if(Constants.robotMode == RobotMode.COMPETITION) {
             motor.burnFlash();
@@ -34,8 +34,8 @@ public class IndexerIOSparkMAX implements IndexerIO {
     @Override
     public void updateInputs(IndexerIOInputs inputs) {
         // our sensors are normally open
-        inputs.noteIsDetectedFront = frontBeamBreak.get();
-        inputs.noteIsDetectedBack = backBeamBreak.get();
+        inputs.noteIsDetectedFront = !frontBeamBreak.get();
+        inputs.noteIsDetectedBack = !backBeamBreak.get();
     }
 
     @Override

@@ -4,8 +4,12 @@
 
 package frc.robot.subsystems.indexer;
 
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+import frc.robot.Constants.RobotMode;
 import frc.robot.subsystems.indexer.IndexerIO.IndexerIOInputs;
 
 public class Indexer extends SubsystemBase {
@@ -14,9 +18,9 @@ public class Indexer extends SubsystemBase {
 
   /** Stores setpoint "speeds" (voltages) for indexer */
   public static enum Setpoint {
-    FAST(2.0),
-    SLOW(1.0),
-    FEED(1.0),
+    FAST(12.0),
+    SLOW(4),
+    FEED(6.0),
     STOP(0.0);
 
     public final double voltage;
@@ -28,6 +32,7 @@ public class Indexer extends SubsystemBase {
 
   public Indexer(IndexerIO io) {
     this.io = io;
+    SmartDashboard.putData(this);
   }
 
   @Override
@@ -62,5 +67,15 @@ public class Indexer extends SubsystemBase {
 
   public void stop () {
     setVoltage(0);
+  }
+
+  @Override
+  public void initSendable (SendableBuilder builder) {
+    if (Constants.robotMode != RobotMode.DEVELOPMENT) return;
+
+    builder.setSmartDashboardType("Indexer");
+
+    builder.addBooleanProperty("noteDetectedBack", () -> { return inputs.noteIsDetectedBack; }, null);
+    builder.addBooleanProperty("noteDetectedFront", () -> { return inputs.noteIsDetectedFront; }, null);
   }
 }

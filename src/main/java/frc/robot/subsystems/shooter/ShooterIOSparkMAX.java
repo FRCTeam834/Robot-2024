@@ -26,7 +26,8 @@ public class ShooterIOSparkMAX implements ShooterIO {
 
     private SparkPIDController topRollerController;
     private SparkPIDController bottomRollerController;
-    private SimpleMotorFeedforward rollerFeedforward = new SimpleMotorFeedforward(0, 0);
+    private SimpleMotorFeedforward topRollerFeedforward = new SimpleMotorFeedforward(0, 0);
+    private SimpleMotorFeedforward bottomRollerFeedforward = new SimpleMotorFeedforward(0, 0);
 
     public ShooterIOSparkMAX() {
         topRollerMotor = new CANSparkMax(12, MotorType.kBrushless);
@@ -51,9 +52,9 @@ public class ShooterIOSparkMAX implements ShooterIO {
 
         setRollerPID(0.0, 0.0, 0.0);
 
-        topRollerEncoder.setAverageDepth(2);
+        topRollerEncoder.setAverageDepth(4);
         topRollerEncoder.setMeasurementPeriod(10);
-        bottomRollerEncoder.setAverageDepth(2);
+        bottomRollerEncoder.setAverageDepth(4);
         bottomRollerEncoder.setMeasurementPeriod(10);
         
         pivotEncoder = pivotMotor.getAbsoluteEncoder(Type.kDutyCycle);
@@ -100,8 +101,8 @@ public class ShooterIOSparkMAX implements ShooterIO {
 
     @Override
     public void setRollerSpeeds (double speeds) {
-        topRollerController.setReference(speeds, ControlType.kVelocity, 0, rollerFeedforward.calculate(speeds));
-        bottomRollerController.setReference(speeds, ControlType.kVelocity, 0, rollerFeedforward.calculate(speeds));
+        topRollerController.setReference(speeds, ControlType.kVelocity, 0, topRollerFeedforward.calculate(speeds));
+        bottomRollerController.setReference(speeds, ControlType.kVelocity, 0, bottomRollerFeedforward.calculate(speeds));
     }
 
     public void setRollerPID (double kP, double kI, double kD) {
@@ -113,8 +114,12 @@ public class ShooterIOSparkMAX implements ShooterIO {
         bottomRollerController.setD(kD);
     }
 
-    public void setRollerFeedforward (double kS, double kV) {
-        rollerFeedforward = new SimpleMotorFeedforward(kS, kV);
+    public void setTopRollerFeedforward (double kS, double kV) {
+        topRollerFeedforward = new SimpleMotorFeedforward(kS, kV);
+    }
+
+    public void setBottomRollerFeedforward (double kS, double kV) {
+        bottomRollerFeedforward = new SimpleMotorFeedforward(kS, kV);
     }
 
     public void setTopRollerVoltage(double volts) {

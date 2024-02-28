@@ -34,10 +34,10 @@ public class SwerveModule extends SubsystemBase {
     private SwerveModuleState rawSetpoint = new SwerveModuleState();
 
     static {
-        drivekS.initDefault(0.31437);
-        drivekV.initDefault(2);
-        drivekP.initDefault(1);
-        steerkP.initDefault(1);
+        drivekS.initDefault(0.28);
+        drivekV.initDefault(1.4);
+        drivekP.initDefault(1.3);
+        steerkP.initDefault(2.9);
     }
 
     public SwerveModule (SwerveModuleIO io, int index) {
@@ -68,7 +68,8 @@ public class SwerveModule extends SubsystemBase {
         SwerveModuleState optimizedState = SwerveModule.optimize(state, getAngle(), Units.degreesToRadians(90));
         // Don't drive if speed is too low to prevent jittering
         if (Math.abs(optimizedState.speedMetersPerSecond) < 0.01) {
-            optimizedState.speedMetersPerSecond = 0;
+            stop();
+            return;
         }
 
         //optimizedState.angle = new Rotation2d(MathUtil.angleModulus(optimizedState.angle.getRadians()));

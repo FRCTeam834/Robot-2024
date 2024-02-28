@@ -14,11 +14,11 @@ public class IntakeIOSparkMAX implements IntakeIO {
         rollerMotor = new CANSparkMax(16, MotorType.kBrushless);
 
         rollerMotor.restoreFactoryDefaults();
-        rollerMotor.setIdleMode(IdleMode.kBrake);
+        rollerMotor.setIdleMode(IdleMode.kCoast);
         rollerMotor.enableVoltageCompensation(12.0);
-        rollerMotor.setSmartCurrentLimit(20);
+        rollerMotor.setSmartCurrentLimit(30);
 
-        rollerMotor.setInverted(false);
+        rollerMotor.setInverted(true);
 
         if(Constants.robotMode == RobotMode.COMPETITION) {
             rollerMotor.burnFlash();
