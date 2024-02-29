@@ -27,6 +27,7 @@ public class ShootWhenReady extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    hasBegunFeed = false;
     indexer.setSetpoint(Indexer.Setpoint.STOP);
   }
 
@@ -38,7 +39,7 @@ public class ShootWhenReady extends Command {
     // indexer has alrdy begun feeding into shooter, too late to stop it
     if (hasBegunFeed) return;
     // tolerances
-    if (poseEstimator.getRotationToSpeaker() > Units.degreesToRadians(5)) return;
+    if (Math.abs(poseEstimator.getRotationToSpeaker()) > Units.degreesToRadians(5)) return;
     if (!shooter.atSetpoint(poseEstimator.getDistanceToSpeaker())) return;
 
     hasBegunFeed = true;
@@ -57,6 +58,6 @@ public class ShootWhenReady extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return indexer.hasNote();
+    return !indexer.hasNote();
   }
 }

@@ -33,6 +33,8 @@ public class IntakeAndIndex extends Command {
   public void initialize() {
     shooter.setDesiredPivotAngle(0.85);
     timer = new Timer();
+    timer.reset();
+    timer.stop();
     intakeTimer = new Timer();
     intakeTimer.reset();
     intakeTimer.stop();

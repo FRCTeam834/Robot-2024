@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.shooter;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -53,6 +54,8 @@ public class Shooter extends SubsystemBase {
   private double desiredAngle = 0.0; // radians
   private double desiredRollerSpeeds = 0.0; // rpm
 
+  private double currentDist = 0.0;
+
   /** Defaults (final values) are initialized here */
   static {
     /** */
@@ -75,17 +78,17 @@ public class Shooter extends SubsystemBase {
   private static InterpolatingDoubleTreeMap shotAngleToleranceTable = new InterpolatingDoubleTreeMap();
   private static InterpolatingDoubleTreeMap shotSpeedTable = new InterpolatingDoubleTreeMap();
   private static InterpolatingDoubleTreeMap shotSpeedToleranceTable = new InterpolatingDoubleTreeMap();
-  private static double intakePivotAngle = Units.degreesToRadians(0);
+  private static double intakePivotAngle = Units.degreesToRadians(0.95);
   private static double idleSpeed = 0;
 
   /** Initialize values for shot table */
   static {
     /** key: <horizontal distance m>, value: <pivot angle rad> */
-    shotAngleTable.put(0.0, 0.0);
-    shotAngleTable.put(1.0, 1.0);
+    shotAngleTable.put(0.0, 1.0);
+    shotAngleTable.put(5.0, 0.5);
     /** key: <horizontal distance m>, value: <rpm> */
-    shotSpeedTable.put(0.0, 0.0);
-    shotSpeedTable.put(1.0, 1.0);
+    shotSpeedTable.put(0.0, 4000.0);
+    shotSpeedTable.put(5.0, 5000.0);
 
     /**
      * TOLERANCES
@@ -94,11 +97,11 @@ public class Shooter extends SubsystemBase {
     /** key: <horizontal distance m>, value: <pivot angle tolerance rad> */
     shotAngleToleranceTable.put(-1.0, Units.degreesToRadians(2)); // -1 is values for amp I guess
     shotAngleToleranceTable.put(0.0, Units.degreesToRadians(5));
-    shotAngleToleranceTable.put(5.0, Units.degreesToRadians(0.2));
+    shotAngleToleranceTable.put(5.0, Units.degreesToRadians(2));
      /** key: <horizontal distance m>, value: <tolerance rpm> */
     shotSpeedToleranceTable.put(-1.0, 20.0); // -1 is values for amp I guess
-    shotSpeedToleranceTable.put(0.0, 20.0);
-    shotSpeedToleranceTable.put(5.0, 5.0);
+    shotSpeedToleranceTable.put(0.0, 50.0);
+    shotSpeedToleranceTable.put(5.0, 50.0);
   }
 
   public Shooter(ShooterIO io) {
@@ -118,32 +121,6 @@ public class Shooter extends SubsystemBase {
     }
     if (pivotkS.hasChanged(hashCode()) || pivotkG.hasChanged(hashCode()) || pivotkV.hasChanged(hashCode())) {
       pivotFeedforward = new ArmFeedforward(pivotkS.get(), pivotkG.get(), pivotkV.get());
-      System.out.println("Runs");
-      System.out.println("Runs");
-      System.out.println("Runs");
-      System.out.println("Runs");
-      System.out.println("Runs");
-      System.out.println("Runs");
-      System.out.println("Runs");
-      System.out.println("Runs");
-      System.out.println("Runs");
-      System.out.println("Runs");
-      System.out.println("Runs");
-      System.out.println("Runs");
-      System.out.println("Runs");
-      System.out.println("Runs");
-      System.out.println("Runs");
-      System.out.println("Runs");
-      System.out.println("Runs");
-      System.out.println("Runs");
-      System.out.println("Runs");
-      
-      System.out.println("Runs");
-      System.out.println("Runs");
-      System.out.println("Runs");
-      System.out.println("Runs");
-      System.out.println("Runs");
-
     }
     if (rollerkP.hasChanged(hashCode()) || rollerkD.hasChanged(hashCode())) {
       io.setRollerPID(rollerkP.get(), 0.0, rollerkD.get());
@@ -186,6 +163,7 @@ public class Shooter extends SubsystemBase {
   public void setDesiredPivotAngle (double angle) {
     pivotStopped = false;
     desiredAngle = angle;
+    angle = MathUtil.clamp(angle, 0.17, 1.1);
     pivotPID.setGoal(new TrapezoidProfile.State(angle, 0.0));
   }
 

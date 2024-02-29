@@ -1,8 +1,11 @@
 package frc.robot.utility;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -33,6 +36,7 @@ public class PoseEstimator extends SubsystemBase {
             new Pose2d()
         );
         SmartDashboard.putData("PoseEstimate", poseEstimateField);
+        SmartDashboard.putData(this);
     }
 
     public Pose2d getEstimatedPose () {
@@ -58,7 +62,7 @@ public class PoseEstimator extends SubsystemBase {
               if (alliance.isPresent()) {
                 if (alliance.get() == Alliance.Red) {
                     /** RED SPEAKER LOCATION */
-                    speakerLocation = new Translation2d(0.0, 0.0);
+                    speakerLocation = new Translation2d(Units.inchesToMeters(652.73), Units.inchesToMeters(218.42));
                 }
               }
         return speakerLocation;
@@ -68,8 +72,9 @@ public class PoseEstimator extends SubsystemBase {
         Translation2d speakerLocation = getSpeakerLocation();
         
         Pose2d currentPose = getEstimatedPose();
+        double currentAngle = currentPose.getRotation().getRadians() + Units.degreesToRadians(180);
         double desiredRotationRad = Math.atan2(speakerLocation.getY() - currentPose.getY(), speakerLocation.getX() - currentPose.getX());
-        double error = currentPose.getRotation().getRadians() - desiredRotationRad;
+        double error = MathUtil.angleModulus(currentAngle - desiredRotationRad);
 
         return error;
     }
@@ -101,4 +106,13 @@ public class PoseEstimator extends SubsystemBase {
             poseEstimateField.setRobotPose(getEstimatedPose());
         }
     }
+
+    @Override
+  public void initSendable (SendableBuilder builder) {
+    if (Constants.robotMode != RobotMode.DEVELOPMENT) return;
+
+    builder.setSmartDashboardType("Pose Estimator");
+
+    builder.addDoubleProperty("ErrorToSpeaker", this::getRotationToSpeaker, null);
+  }
 }

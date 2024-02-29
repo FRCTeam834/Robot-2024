@@ -85,11 +85,11 @@ public class RobotContainer {
     */
 
     
-    shooter.setDefaultCommand(new DumbShooter(
+    /*shooter.setDefaultCommand(new DumbShooter(
       shooter,
       OI::getXboxRightJoystickY,
       OI::getXboxLeftJoystickY
-    ));
+    ));*/
     //
 
     /**
