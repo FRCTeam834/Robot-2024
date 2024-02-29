@@ -56,7 +56,7 @@ public class PoseEstimator extends SubsystemBase {
 
     public Translation2d getSpeakerLocation () {
         /** BLUE SPEAKER LOCATION */
-         Translation2d speakerLocation = new Translation2d(0.0, 0.0);
+         Translation2d speakerLocation = new Translation2d(Units.inchesToMeters(-1.5), Units.inchesToMeters(218.42));
 
         var alliance = DriverStation.getAlliance();
               if (alliance.isPresent()) {

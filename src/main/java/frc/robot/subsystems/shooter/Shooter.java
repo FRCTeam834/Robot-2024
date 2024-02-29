@@ -79,7 +79,7 @@ public class Shooter extends SubsystemBase {
   private static InterpolatingDoubleTreeMap shotSpeedTable = new InterpolatingDoubleTreeMap();
   private static InterpolatingDoubleTreeMap shotSpeedToleranceTable = new InterpolatingDoubleTreeMap();
   private static double intakePivotAngle = Units.degreesToRadians(0.95);
-  private static double idleSpeed = 0;
+  private static double idleSpeed = 1000;
 
   /** Initialize values for shot table */
   static {
@@ -96,7 +96,7 @@ public class Shooter extends SubsystemBase {
 
     /** key: <horizontal distance m>, value: <pivot angle tolerance rad> */
     shotAngleToleranceTable.put(-1.0, Units.degreesToRadians(2)); // -1 is values for amp I guess
-    shotAngleToleranceTable.put(0.0, Units.degreesToRadians(5));
+    shotAngleToleranceTable.put(0.0, Units.degreesToRadians(1));
     shotAngleToleranceTable.put(5.0, Units.degreesToRadians(2));
      /** key: <horizontal distance m>, value: <tolerance rpm> */
     shotSpeedToleranceTable.put(-1.0, 20.0); // -1 is values for amp I guess

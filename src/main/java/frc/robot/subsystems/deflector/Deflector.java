@@ -31,9 +31,6 @@ public class Deflector extends SubsystemBase {
 
   private ArmFeedforward deflectorFeedforward = new ArmFeedforward(0.0,0.0,0.0);
   
-  // Limit switch
-  private static final DigitalInput limitSwitch = new DigitalInput(0); //! Put the correct channel here
-  
   //! Need the right defaults here
   static {
     deflectorkS.initDefault(0.0);
@@ -60,14 +57,15 @@ public class Deflector extends SubsystemBase {
     io.stopDeflector();
   }
 
+  public void setVoltage (double voltage) {
+    io.setDeflectorVoltage(voltage);
+  }
+
   @Override
   public void periodic() {
     io.updateInputs(inputs);
     //!Might need to flip this
-    if (limitSwitch.get()) {
-      isLifted = true;
-    }
-    if (isLifted) {
+    /*if (isLifted) {
       io.stopDeflector();
     } else {
       io.setDeflectorVoltage(deflectorFeedforward.calculate(desiredAngle*3.14159265/180, 0.0));
@@ -76,7 +74,7 @@ public class Deflector extends SubsystemBase {
     if (deflectorkS.hasChanged(hashCode()) || deflectorkG.hasChanged(hashCode()) || deflectorkV.hasChanged(hashCode())) {
       deflectorFeedforward = new ArmFeedforward(deflectorkS.get(), deflectorkG.get(), deflectorkV.get());
     }
-
+*/
     if (DriverStation.isDisabled()) {
       io.stopDeflector();
       return;

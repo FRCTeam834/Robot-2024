@@ -20,7 +20,7 @@ public class DeflectorIOSparkMax implements DeflectorIO {
   private final RelativeEncoder deflectorEncoder;
   
   public DeflectorIOSparkMax() {
-    deflectorMotor = new CANSparkMax(9, MotorType.kBrushless); //! Add correct ID for the deflector motor
+    deflectorMotor = new CANSparkMax(10, MotorType.kBrushless); //! Add correct ID for the deflector motor
     deflectorEncoder = deflectorMotor.getEncoder();
 
     deflectorMotor.restoreFactoryDefaults();

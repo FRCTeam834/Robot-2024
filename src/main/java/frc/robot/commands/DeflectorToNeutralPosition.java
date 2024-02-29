@@ -27,12 +27,13 @@ public class DeflectorToNeutralPosition extends Command {
   public void initialize() {
     timer.reset();
     timer.start();
+    deflector.setVoltage(-6);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    deflector.goToNeutralPosition();
+    
   }
 
   // Called once the command ends or is interrupted.
@@ -52,7 +53,7 @@ public class DeflectorToNeutralPosition extends Command {
      * }
      * 
     */
-    if (timer.get() > 1) {
+    if (timer.get() > 0.3) {
       return true;
     }
     return false;

@@ -28,8 +28,8 @@ public class SubwooferShot extends Command {
     fed = false;
     a.reset();
     a.start();
-    shooter.setDesiredPivotAngle(0.3);
-    shooter.setDesiredRollerSpeeds(5000);
+    shooter.setDesiredPivotAngle(0.7);
+    shooter.setDesiredRollerSpeeds(2000);
     indexer.setSetpoint(Indexer.Setpoint.STOP);
   }
 

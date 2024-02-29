@@ -60,16 +60,16 @@ public class Swerve extends SubsystemBase {
   private boolean stopped = true;
   private ChassisSpeeds setpoint = new ChassisSpeeds();
   private ChassisSpeeds lastChassisSpeeds = new ChassisSpeeds();
-  private ChassisSpeedsRateLimiter rateLimiter = new ChassisSpeedsRateLimiter(15, 15);
-  private SlewRateLimiter omegaLimiter = new SlewRateLimiter(Math.PI * 8);
+  private ChassisSpeedsRateLimiter rateLimiter = new ChassisSpeedsRateLimiter(16, 16);
+  private SlewRateLimiter omegaLimiter = new SlewRateLimiter(Math.PI * 12);
 
   private double commandedForward;
   private double commandedStrafe;
   private double commandedOmega;
 
   static {
-    maxModuleSpeed.initDefault(Units.feetToMeters(5));
-    maxTranslationSpeed.initDefault(Units.feetToMeters(5));
+    maxModuleSpeed.initDefault(Units.feetToMeters(16));
+    maxTranslationSpeed.initDefault(Units.feetToMeters(16));
     maxSteerSpeed.initDefault(Units.degreesToRadians(540));
     translationP.initDefault(0.5);
     translationD.initDefault(0);

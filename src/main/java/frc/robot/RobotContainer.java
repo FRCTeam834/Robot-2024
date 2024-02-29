@@ -21,6 +21,8 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.DeflectorToNeutralPosition;
+import frc.robot.commands.DeflectorToScoringPosition;
 import frc.robot.commands.DriveLockToSpeaker;
 import frc.robot.commands.DriveWithNoteAlign;
 import frc.robot.commands.DriveWithSpeeds;
@@ -28,6 +30,8 @@ import frc.robot.commands.IntakeAndIndex;
 import frc.robot.commands.ShootWhenReady;
 import frc.robot.commands.SubwooferShot;
 import frc.robot.commands.test.DumbShooter;
+import frc.robot.subsystems.deflector.Deflector;
+import frc.robot.subsystems.deflector.DeflectorIOSparkMax;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.Swerve;
 import frc.robot.subsystems.drive.SwerveModuleIOMAXSwerve;
@@ -60,6 +64,7 @@ public class RobotContainer {
   Shooter shooter = new Shooter(new ShooterIOSparkMAX());
   Indexer indexer = new Indexer(new IndexerIOSparkMAX());
   Intake intake = new Intake(new IntakeIOSparkMAX());
+  Deflector deflector = new Deflector(new DeflectorIOSparkMax());
 
   private final SendableChooser<Command> autoChooser;
   private final Field2d pathPlannerField;
@@ -156,11 +161,11 @@ public class RobotContainer {
     new JoystickButton(OI.leftJoystick, 3).onTrue(new SubwooferShot(shooter, indexer));
 
     /** Amp lineup */
-    new JoystickButton(OI.leftJoystick, 3).whileTrue(AutoBuilder.pathfindThenFollowPath(
+    /*new JoystickButton(OI.leftJoystick, 3).whileTrue(AutoBuilder.pathfindThenFollowPath(
       PathPlannerPath.fromPathFile("Copy of Amp Lineup"),
       Constants.AMP_LINEUP_CONSTRAINTS,
       0.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
-    ));
+    ));*/
 
     new JoystickButton(OI.rightJoystick, 3).onTrue(new InstantCommand(() -> {
       swerve.resetYaw(0);
@@ -169,6 +174,11 @@ public class RobotContainer {
     new JoystickButton(OI.rightJoystick, 10).onTrue(new InstantCommand(() -> {
       poseEstimator.resetPose(new Pose2d());
     }));
+
+    new JoystickButton(OI.leftJoystick, 7).onTrue(new DeflectorToNeutralPosition(deflector));
+    new JoystickButton(OI.leftJoystick, 6).onTrue(new DeflectorToScoringPosition(deflector));
+
+    
   }
 
   /**
