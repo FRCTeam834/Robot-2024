@@ -2,8 +2,9 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.shooter;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.indexer.Indexer;
@@ -13,8 +14,7 @@ public class SubwooferShot extends Command {
   /** Creates a new SubwooferShot. */
   private final Shooter shooter;
   private final Indexer indexer;
-  private boolean fed = false;
-  Timer a = new Timer();
+  Timer stopTimer = new Timer();
   public SubwooferShot(Shooter shooter, Indexer indexer) {
     this.shooter = shooter;
     this.indexer = indexer;
@@ -25,20 +25,15 @@ public class SubwooferShot extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    fed = false;
-    a.reset();
-    a.start();
-    shooter.setDesiredPivotAngle(0.7);
-    shooter.setDesiredRollerSpeeds(2000);
+    shooter.setDesiredPivotAngle(1);
+    shooter.setDesiredRollerSpeeds(4000);
     indexer.setSetpoint(Indexer.Setpoint.STOP);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (a.get() < 1) return;
-    if (!shooter.atSetpoint(0.0)) return;
-    fed = true;;
+    if (!shooter.atDesiredSetpoint(Units.degreesToRadians(3), 100)) return;
     indexer.setSetpoint(Indexer.Setpoint.FEED);
   }
 
