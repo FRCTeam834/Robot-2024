@@ -2,10 +2,11 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.test;
+package frc.robot.commands.shooter;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.shooter.Shooter;
@@ -16,9 +17,11 @@ public class DumbShooter extends Command {
   private final DoubleSupplier speedDeltaSupplier;
 
   private final static double minPivotAngle = 0.16;
-  private final static double maxPivotAngle = 1;
+  private final static double maxPivotAngle = 1.1;
 
-  private final static double speedGainPerSecond = 100 * 0.02; // 100 rpm/s
+  private final static double speedGainPerSecond = 1000 * 0.02; // 1000 rpm/s
+  private final static double angleGainPerSecond = Units.degreesToRadians(10) * 0.02; // 10 deg/s
+  private double pivotAngle = minPivotAngle;
   private double rollerSpeed = 0.0;
 
   public DumbShooter(
@@ -35,19 +38,18 @@ public class DumbShooter extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    pivotAngle = minPivotAngle;
+    rollerSpeed = 0.0;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // Turn supplied angle from [-1, 1] to [0, 1]
-    double normalized = (pivotAngleSupplier.getAsDouble() + 1) / 2;
-    // Turn [0, 1] to [min, max]
-    double mappedAngle = minPivotAngle + 
-      (maxPivotAngle - minPivotAngle) * normalized;
+    pivotAngle += pivotAngleSupplier.getAsDouble() * angleGainPerSecond;
+    pivotAngle = MathUtil.clamp(pivotAngle, minPivotAngle, maxPivotAngle);
 
-    //shooter.setDesiredPivotAngle(mappedAngle);
-    //shooter.setPivotVoltage(pivotAngleSupplier.getAsDouble());
+    shooter.setDesiredPivotAngle(pivotAngle);
 
     rollerSpeed += speedDeltaSupplier.getAsDouble() * speedGainPerSecond;
     shooter.setDesiredRollerSpeeds(rollerSpeed);

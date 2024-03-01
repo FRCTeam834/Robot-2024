@@ -16,7 +16,7 @@ public class IntakeIOSparkMAX implements IntakeIO {
         rollerMotor.restoreFactoryDefaults();
         rollerMotor.setIdleMode(IdleMode.kCoast);
         rollerMotor.enableVoltageCompensation(12.0);
-        rollerMotor.setSmartCurrentLimit(30);
+        rollerMotor.setSmartCurrentLimit(40);
 
         rollerMotor.setInverted(true);
 

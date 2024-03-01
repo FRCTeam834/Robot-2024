@@ -26,10 +26,12 @@ import frc.robot.commands.DeflectorToScoringPosition;
 import frc.robot.commands.DriveLockToSpeaker;
 import frc.robot.commands.DriveWithNoteAlign;
 import frc.robot.commands.DriveWithSpeeds;
-import frc.robot.commands.IntakeAndIndex;
-import frc.robot.commands.ShootWhenReady;
 import frc.robot.commands.SubwooferShot;
-import frc.robot.commands.test.DumbShooter;
+import frc.robot.commands.intake.IndexerFeed;
+import frc.robot.commands.intake.IntakeAndIndex;
+import frc.robot.commands.intake.IntakeSequence;
+import frc.robot.commands.shooter.DumbShooter;
+import frc.robot.commands.shooter.ShootWhenReady;
 import frc.robot.subsystems.deflector.Deflector;
 import frc.robot.subsystems.deflector.DeflectorIOSparkMax;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -90,11 +92,11 @@ public class RobotContainer {
     */
 
     
-    /**shooter.setDefaultCommand(new DumbShooter(
+    shooter.setDefaultCommand(new DumbShooter(
       shooter,
       OI::getXboxRightJoystickY,
       OI::getXboxLeftJoystickY
-    ));*/
+    ));
     //
 
     /**
@@ -136,6 +138,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
+    /*
     new JoystickButton(OI.rightJoystick, 1).whileTrue(new ParallelCommandGroup(
       new DriveLockToSpeaker(
         swerve,
@@ -157,10 +160,13 @@ public class RobotContainer {
       ),
       new IntakeAndIndex(intake, indexer, shooter)
     ));
+    */
 
-    new JoystickButton(OI.leftJoystick, 1).onTrue(new SubwooferShot(shooter, indexer));
+    
+    //new JoystickButton(OI.leftJoystick, 1).onTrue(new SubwooferShot(shooter, indexer));
 
     /** Amp lineup */
+    /*
     new JoystickButton(OI.leftJoystick, 11).whileTrue(AutoBuilder.pathfindThenFollowPath(
       PathPlannerPath.fromPathFile("Copy of Amp Lineup"),
       Constants.AMP_LINEUP_CONSTRAINTS,
@@ -177,8 +183,11 @@ public class RobotContainer {
 
     new JoystickButton(OI.leftJoystick, 7).onTrue(new DeflectorToNeutralPosition(deflector));
     new JoystickButton(OI.leftJoystick, 6).onTrue(new DeflectorToScoringPosition(deflector));
+    */
 
+    new JoystickButton(OI.leftJoystick, 3).whileTrue(new IntakeSequence(intake, indexer, shooter));
     
+    new JoystickButton(OI.rightJoystick, 2).whileTrue(new IndexerFeed(indexer));
   }
 
   /**

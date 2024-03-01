@@ -53,16 +53,16 @@ public class Indexer extends SubsystemBase {
     io.setVoltage(voltage);
   }
 
-  public boolean noteDetectedFront () {
+  public boolean noteDetectedIntakeSide () {
     return inputs.noteIsDetectedFront;
   }
 
-  public boolean noteDetectedBack () {
+  public boolean noteDetectedShooterSide () {
     return inputs.noteIsDetectedBack;
   }
 
   public boolean hasNote () {
-    return noteDetectedBack();
+    return noteDetectedIntakeSide();
   }
 
   public void stop () {

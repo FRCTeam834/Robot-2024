@@ -3,7 +3,10 @@ package frc.robot.utility;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -23,8 +26,6 @@ public class PoseEstimator extends SubsystemBase {
     private final Vision vision;
     private final SwerveDrivePoseEstimator poseEstimator;
     private final Field2d poseEstimateField = new Field2d();
-
-    private double distanceToSpeaker = 0.0;
 
     public PoseEstimator (Swerve swerve, Vision vision) {
         this.swerve = swerve;
@@ -79,8 +80,27 @@ public class PoseEstimator extends SubsystemBase {
         return error;
     }
 
+    public double calculateDistanceToSpeakerInTime (double time) {
+        Translation2d speakerLocation = getSpeakerLocation();
+        Pose2d currentPose = getEstimatedPose();
+        Transform2d adjustForFuture = new Transform2d();
+        if (time > 0) {
+            // assume no rotation
+            adjustForFuture = new Transform2d(
+                swerve.getLastChassisSpeeds().vxMetersPerSecond * time,
+                swerve.getLastChassisSpeeds().vyMetersPerSecond * time,
+                new Rotation2d()
+            );
+        }
+        currentPose.transformBy(adjustForFuture);
+
+        return Math.sqrt(
+            Math.pow(currentPose.getX() - speakerLocation.getX(), 2) +
+            Math.pow(currentPose.getY() - speakerLocation.getY(), 2));
+    }
+
     public double getDistanceToSpeaker () {
-        return distanceToSpeaker;
+        return calculateDistanceToSpeakerInTime(0.0);
     }
 
     @Override
@@ -95,12 +115,6 @@ public class PoseEstimator extends SubsystemBase {
                 visionInputs[i].lastTimestamp
             );
         }
-
-        Translation2d speakerLocation = getSpeakerLocation();
-         Pose2d currentPose = getEstimatedPose();
-        distanceToSpeaker = Math.sqrt(
-            Math.pow(currentPose.getX() - speakerLocation.getX(), 2) +
-            Math.pow(currentPose.getY() - speakerLocation.getY(), 2));
 
         if (Constants.robotMode == RobotMode.DEVELOPMENT) {
             poseEstimateField.setRobotPose(getEstimatedPose());

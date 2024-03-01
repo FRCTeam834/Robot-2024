@@ -222,6 +222,15 @@ public class Shooter extends SubsystemBase {
   public boolean atSetpoint (double dist) {
     double toleranceRPM = shotSpeedToleranceTable.get(dist);
     double toleranceAngle = shotAngleToleranceTable.get(dist);
+    double setpointRPM = shotSpeedTable.get(dist);
+    double setpointAngle = shotAngleTable.get(dist);
+    return 
+      Math.abs(setpointRPM - getCurrentTopRollerSpeed()) <= toleranceRPM &&
+      Math.abs(setpointRPM - getCurrentBottomRollerSpeed()) <= toleranceRPM &&
+      Math.abs(setpointAngle - getCurrentPivotAngle()) <= toleranceAngle;
+  }
+
+  public boolean atDesiredSetpoint (double toleranceAngle, double toleranceRPM) {
     return 
       Math.abs(desiredRollerSpeeds - getCurrentTopRollerSpeed()) <= toleranceRPM &&
       Math.abs(desiredRollerSpeeds - getCurrentBottomRollerSpeed()) <= toleranceRPM &&
