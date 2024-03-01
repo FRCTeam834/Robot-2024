@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.indexer.Indexer;
 import frc.robot.subsystems.shooter.Shooter;
@@ -15,6 +16,8 @@ public class ShootWhenReady extends Command {
   private final Indexer indexer;
   private final PoseEstimator poseEstimator;
   private boolean hasBegunFeed = false;
+  private int confidenceTicks = 0;
+  private Timer timer = new Timer();
   
   public ShootWhenReady(Shooter shooter, Indexer indexer, PoseEstimator poseEstimator) {
     this.shooter = shooter;
@@ -27,7 +30,10 @@ public class ShootWhenReady extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    timer.reset();
+    timer.stop();
     hasBegunFeed = false;
+    confidenceTicks = 5;
     indexer.setSetpoint(Indexer.Setpoint.STOP);
   }
 
@@ -39,12 +45,15 @@ public class ShootWhenReady extends Command {
     // indexer has alrdy begun feeding into shooter, too late to stop it
     if (hasBegunFeed) return;
     // tolerances
-    if (Math.abs(poseEstimator.getRotationToSpeaker()) > Units.degreesToRadians(5)) return;
+    if (Math.abs(poseEstimator.getRotationToSpeaker()) > Units.degreesToRadians(2)) return;
     if (!shooter.atSetpoint(poseEstimator.getDistanceToSpeaker())) return;
+    if (--confidenceTicks > 0) return;
 
     hasBegunFeed = true;
 
     indexer.setSetpoint(Indexer.Setpoint.FEED);
+
+    timer.start();
   }
 
   // Called once the command ends or is interrupted.
@@ -58,6 +67,6 @@ public class ShootWhenReady extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !indexer.hasNote();
+    return timer.hasElapsed(0.5);
   }
 }

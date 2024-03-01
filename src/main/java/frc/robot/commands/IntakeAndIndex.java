@@ -46,16 +46,32 @@ public class IntakeAndIndex extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!indexer.noteDetectedBack() && !indexer.noteDetectedFront()) {
-      intake.setSetpoint(Intake.Setpoint.FAST);
-      indexer.setSetpoint(Indexer.Setpoint.FAST);
-    } else if (!indexer.noteDetectedBack()) {
-      intakeTimer.start();
-      if (intakeTimer.hasElapsed(0.2)){
-        intake.setSetpoint(Intake.Setpoint.SLOWREVERSE);
+
+    System.out.println(intakeTimer.get());
+
+    if (intakeTimer.hasElapsed(0.1)){
+      System.out.println("intakeTimer");
+        intake.setSetpoint(Intake.Setpoint.STOP);
         indexer.setSetpoint(Indexer.Setpoint.SLOW);
         timer.start();
+        intakeTimer.stop();
+        intakeTimer.reset();
       }
+
+    if (timer.hasElapsed(0.05)) {
+      shooter.setDesiredPivotAngle(0.6);
+      if (indexer.noteDetectedBack()) {
+        indexer.setVoltage(-1);
+      } else if (!indexer.noteDetectedBack()) {
+        indexer.setVoltage(1);
+      }
+    } else if (!indexer.noteDetectedBack() && !indexer.noteDetectedFront()) {
+      intake.setSetpoint(Intake.Setpoint.FAST);
+      indexer.setSetpoint(Indexer.Setpoint.FAST);
+    } else if (indexer.noteDetectedBack()) {
+      intake.setSetpoint(Intake.Setpoint.FAST);
+      indexer.setSetpoint(Indexer.Setpoint.SLOW);
+      intakeTimer.start();
     }
 
     if (indexer.noteDetectedBack()) {
@@ -73,6 +89,6 @@ public class IntakeAndIndex extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (indexer.hasNote() && stopTimer.hasElapsed(0.05)) || timer.hasElapsed(3);
+    return false;//(timer.hasElapsed(3));
   }
 }

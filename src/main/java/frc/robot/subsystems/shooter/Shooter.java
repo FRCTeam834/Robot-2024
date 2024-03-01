@@ -79,16 +79,21 @@ public class Shooter extends SubsystemBase {
   private static InterpolatingDoubleTreeMap shotSpeedTable = new InterpolatingDoubleTreeMap();
   private static InterpolatingDoubleTreeMap shotSpeedToleranceTable = new InterpolatingDoubleTreeMap();
   private static double intakePivotAngle = Units.degreesToRadians(0.95);
-  private static double idleSpeed = 1000;
+  private static double idleSpeed = 0;
 
   /** Initialize values for shot table */
   static {
     /** key: <horizontal distance m>, value: <pivot angle rad> */
-    shotAngleTable.put(0.0, 1.0);
-    shotAngleTable.put(5.0, 0.5);
+    shotAngleTable.put(0.01, 1.05);
+    shotAngleTable.put(0.656, 1.05);
+    shotAngleTable.put(2.88, 0.625);
+    shotAngleTable.put(4.4, 0.44);
+    shotAngleTable.put(5.6, 0.40);
+    shotAngleTable.put(7.0, 0.38);
     /** key: <horizontal distance m>, value: <rpm> */
-    shotSpeedTable.put(0.0, 4000.0);
-    shotSpeedTable.put(5.0, 5000.0);
+    shotSpeedTable.put(0.0, 5500.0);
+    shotSpeedTable.put(5.6, 6000.0);
+    shotSpeedTable.put(7.0, 6000.0);
 
     /**
      * TOLERANCES
@@ -96,8 +101,8 @@ public class Shooter extends SubsystemBase {
 
     /** key: <horizontal distance m>, value: <pivot angle tolerance rad> */
     shotAngleToleranceTable.put(-1.0, Units.degreesToRadians(2)); // -1 is values for amp I guess
-    shotAngleToleranceTable.put(0.0, Units.degreesToRadians(1));
-    shotAngleToleranceTable.put(5.0, Units.degreesToRadians(2));
+    shotAngleToleranceTable.put(0.0, Units.degreesToRadians(2));
+    shotAngleToleranceTable.put(5.0, Units.degreesToRadians(1));
      /** key: <horizontal distance m>, value: <tolerance rpm> */
     shotSpeedToleranceTable.put(-1.0, 20.0); // -1 is values for amp I guess
     shotSpeedToleranceTable.put(0.0, 50.0);
@@ -151,6 +156,7 @@ public class Shooter extends SubsystemBase {
     pivotPID.reset(inputs.pivotAngle, 0.0);
     pivotStopped = true;
     shooterStopped = true;
+    desiredRollerSpeeds = 0;
     io.setPivotVoltage(0.0);
     io.setTopRollerVoltage(0.0);
     io.setBottomRollerVoltage(0.0);

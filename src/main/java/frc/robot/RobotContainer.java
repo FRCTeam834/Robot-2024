@@ -90,7 +90,7 @@ public class RobotContainer {
     */
 
     
-    /*shooter.setDefaultCommand(new DumbShooter(
+    /**shooter.setDefaultCommand(new DumbShooter(
       shooter,
       OI::getXboxRightJoystickY,
       OI::getXboxLeftJoystickY
@@ -145,9 +145,9 @@ public class RobotContainer {
         OI::getLeftJoystickX
       ),
       new ShootWhenReady(shooter, indexer, poseEstimator)
-    ).onlyIf(indexer::hasNote));
+    ));
 
-    new JoystickButton(OI.leftJoystick, 1).whileTrue(new ParallelCommandGroup(
+    new JoystickButton(OI.leftJoystick, 3).whileTrue(new ParallelCommandGroup(
       new DriveWithNoteAlign(
         swerve,
         vision,
@@ -156,16 +156,16 @@ public class RobotContainer {
         OI::getLeftJoystickX
       ),
       new IntakeAndIndex(intake, indexer, shooter)
-    ).onlyWhile(() -> !indexer.hasNote()));
+    ));
 
-    new JoystickButton(OI.leftJoystick, 3).onTrue(new SubwooferShot(shooter, indexer));
+    new JoystickButton(OI.leftJoystick, 1).onTrue(new SubwooferShot(shooter, indexer));
 
     /** Amp lineup */
-    /*new JoystickButton(OI.leftJoystick, 3).whileTrue(AutoBuilder.pathfindThenFollowPath(
+    new JoystickButton(OI.leftJoystick, 11).whileTrue(AutoBuilder.pathfindThenFollowPath(
       PathPlannerPath.fromPathFile("Copy of Amp Lineup"),
       Constants.AMP_LINEUP_CONSTRAINTS,
       0.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
-    ));*/
+    ));
 
     new JoystickButton(OI.rightJoystick, 3).onTrue(new InstantCommand(() -> {
       swerve.resetYaw(0);

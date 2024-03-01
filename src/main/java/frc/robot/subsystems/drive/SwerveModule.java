@@ -35,7 +35,7 @@ public class SwerveModule extends SubsystemBase {
 
     static {
         drivekS.initDefault(0.28);
-        drivekV.initDefault(1.4);
+        drivekV.initDefault(1.6);
         drivekP.initDefault(1.3);
         steerkP.initDefault(2.9);
     }

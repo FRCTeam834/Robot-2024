@@ -36,7 +36,7 @@ public class DriveLockToSpeaker extends Command {
     this.vySupplier = vySupplier;
     this.omegaSupplier = omegaSupplier;
 
-    alignController = new PIDController(5, 0, 0);
+    alignController = new PIDController(2, 0, 0);
     alignController.enableContinuousInput(-Math.PI, Math.PI);
     addRequirements(driveTrain);
   }
@@ -53,8 +53,8 @@ public class DriveLockToSpeaker extends Command {
       PIDOutput = alignController.calculate(error);
 
       driveTrain.drive(
-      vxSupplier.getAsDouble() * Swerve.maxTranslationSpeed.get(), 
-      vySupplier.getAsDouble() * Swerve.maxTranslationSpeed.get(), 
+      vxSupplier.getAsDouble() * Swerve.maxTranslationSpeed.get() / 5.0, 
+      vySupplier.getAsDouble() * Swerve.maxTranslationSpeed.get() / 5.0, 
       -MathUtil.clamp(PIDOutput, -Swerve.maxSteerSpeed.get(), Swerve.maxSteerSpeed.get()));
   }
 

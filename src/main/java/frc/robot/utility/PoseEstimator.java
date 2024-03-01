@@ -114,5 +114,6 @@ public class PoseEstimator extends SubsystemBase {
     builder.setSmartDashboardType("Pose Estimator");
 
     builder.addDoubleProperty("ErrorToSpeaker", this::getRotationToSpeaker, null);
+    builder.addDoubleProperty("DistanceToSpeaker", this::getDistanceToSpeaker, null);
   }
 }

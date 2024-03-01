@@ -21,12 +21,12 @@ public class Constants {
     public static AprilTagIOPhotonVision[] aprilTagCameras = {
         new AprilTagIOPhotonVision(
             "CameraFront",
-            new Transform3d(Units.inchesToMeters(8), Units.inchesToMeters(9), Units.inchesToMeters(16.5),
+            new Transform3d(Units.inchesToMeters(-7.875), Units.inchesToMeters(-8.5), Units.inchesToMeters(16.5),
             new Rotation3d(Units.degreesToRadians(180), Units.degreesToRadians(10), Units.degreesToRadians(180)))
         ),
         new AprilTagIOPhotonVision(
             "CameraRight",
-            new Transform3d(Units.inchesToMeters(14.25), Units.inchesToMeters(10), Units.inchesToMeters(15),
+            new Transform3d(Units.inchesToMeters(5.25), Units.inchesToMeters(11.25), Units.inchesToMeters(15.25),
             new Rotation3d(Units.degreesToRadians(180), Units.degreesToRadians(10), 0.0))
         ),
         new AprilTagIOPhotonVision(
@@ -39,6 +39,6 @@ public class Constants {
     public static NoteDetectionIOPhotonVision noteDetectionCamera = new NoteDetectionIOPhotonVision("Poly");
 
     public static PathConstraints AMP_LINEUP_CONSTRAINTS = new PathConstraints(
-        0.5, 0.5, // set to low values for testing
+        1, 1, // set to low values for testing
         Units.degreesToRadians(360), Units.degreesToRadians(360));
 }

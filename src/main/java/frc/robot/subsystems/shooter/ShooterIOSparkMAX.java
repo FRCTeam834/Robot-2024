@@ -82,6 +82,9 @@ public class ShooterIOSparkMAX implements ShooterIO {
         //TODO: what do?
         pivotMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 10);
 
+        topRollerMotor.setClosedLoopRampRate(0.5);
+        bottomRollerMotor.setClosedLoopRampRate(0.5);
+
         if(Constants.robotMode == RobotMode.COMPETITION) {
             topRollerMotor.burnFlash();
             bottomRollerMotor.burnFlash();

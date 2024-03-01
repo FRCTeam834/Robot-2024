@@ -18,9 +18,9 @@ public class Indexer extends SubsystemBase {
 
   /** Stores setpoint "speeds" (voltages) for indexer */
   public static enum Setpoint {
-    FAST(12.0),
-    SLOW(4),
-    FEED(6.0),
+    FAST(10.0),
+    SLOW(4.0),
+    FEED(4.0),
     STOP(0.0);
 
     public final double voltage;
