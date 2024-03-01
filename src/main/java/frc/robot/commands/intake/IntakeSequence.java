@@ -4,6 +4,8 @@
 
 package frc.robot.commands.intake;
 
+import java.util.function.BooleanSupplier;
+
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.indexer.Indexer;
 import frc.robot.subsystems.intake.Intake;
@@ -14,12 +16,12 @@ import frc.robot.subsystems.shooter.Shooter;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class IntakeSequence extends SequentialCommandGroup {
   /** Creates a new IntakeSequence. */
-  public IntakeSequence(Intake intake, Indexer indexer, Shooter shooter) {
+  public IntakeSequence(Intake intake, Indexer indexer, Shooter shooter, BooleanSupplier runSupplier) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new IntakeAndIndex(intake, indexer, shooter),
-      new WiggleIndexer(intake, indexer)
+      new IntakeAndIndex(intake, indexer, shooter).onlyWhile(runSupplier::getAsBoolean),
+      new WiggleIndexer(intake, indexer).onlyIf(runSupplier)
     );
   }
 }

@@ -16,7 +16,7 @@ public class WiggleIndexer extends Command {
   private Timer wiggleTimer = new Timer();
 
   //
-  private final double wiggleTime = 1;
+  private final double wiggleTime = 2;
 
 
   /** Creates a new WiggleIndexer. */
@@ -32,7 +32,8 @@ public class WiggleIndexer extends Command {
   public void initialize() {
     firstWiggle = true;
     wiggleTimer.reset();
-    wiggleTimer.start();
+    wiggleTimer.stop();
+    intake.setSetpoint(Intake.Setpoint.SLOW);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -48,13 +49,17 @@ public class WiggleIndexer extends Command {
       }
     } else {
       firstWiggle = false;
+      wiggleTimer.start();
       indexer.setVoltage(1);
     }
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    indexer.stop();
+    intake.stop();
+  }
 
   // Returns true when the command should end.
   @Override

@@ -39,7 +39,7 @@ public class DumbShooter extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    pivotAngle = minPivotAngle;
+    //pivotAngle = minPivotAngle;
     rollerSpeed = 0.0;
   }
 

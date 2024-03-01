@@ -127,6 +127,8 @@ public class RobotContainer {
     configureBindings();
   }
 
+  JoystickButton leftJoystick3 = new JoystickButton(OI.leftJoystick, 3);
+
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
@@ -185,7 +187,7 @@ public class RobotContainer {
     new JoystickButton(OI.leftJoystick, 6).onTrue(new DeflectorToScoringPosition(deflector));
     */
 
-    new JoystickButton(OI.leftJoystick, 3).whileTrue(new IntakeSequence(intake, indexer, shooter));
+    leftJoystick3.onTrue(new IntakeSequence(intake, indexer, shooter, leftJoystick3));
     
     new JoystickButton(OI.rightJoystick, 2).whileTrue(new IndexerFeed(indexer));
   }
