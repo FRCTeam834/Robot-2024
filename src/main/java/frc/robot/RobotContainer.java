@@ -21,17 +21,20 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.DeflectorToNeutralPosition;
-import frc.robot.commands.DeflectorToScoringPosition;
+import frc.robot.Constants.RobotMode;
 import frc.robot.commands.DriveLockToSpeaker;
+import frc.robot.commands.DrivePrepareShoot;
+import frc.robot.commands.DriveShootWhenReady;
 import frc.robot.commands.DriveWithNoteAlign;
 import frc.robot.commands.DriveWithSpeeds;
-import frc.robot.commands.intake.IndexerFeed;
+import frc.robot.commands.archive.ArchiveShootWhenReady;
+import frc.robot.commands.deflector.DeflectorToNeutralPosition;
+import frc.robot.commands.deflector.DeflectorToScoringPosition;
 import frc.robot.commands.intake.IntakeAndIndex;
 import frc.robot.commands.intake.IntakeSequence;
-import frc.robot.commands.shooter.DumbShooter;
-import frc.robot.commands.shooter.ShootWhenReady;
-import frc.robot.commands.shooter.SubwooferShot;
+import frc.robot.commands.outtake.DumbShooter;
+import frc.robot.commands.outtake.IndexerFeed;
+import frc.robot.commands.outtake.SubwooferShot;
 import frc.robot.subsystems.deflector.Deflector;
 import frc.robot.subsystems.deflector.DeflectorIOSparkMax;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -73,31 +76,12 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Configure the trigger bindings
     swerve.setDefaultCommand(new DriveWithSpeeds(
       swerve,
       OI::getRightJoystickY,
       OI::getRightJoystickX,
       OI::getLeftJoystickX
     ));
-
-    /* 
-    swerve.setDefaultCommand(new AlignToNote(swerve, 
-    vision, 
-    OI::getRightJoystickX, 
-    OI::getRightJoystickY, 
-    OI::getLeftJoystickX, 
-    OI::isRightJoystickTriggerPressed
-    ));
-    */
-
-    
-    shooter.setDefaultCommand(new DumbShooter(
-      shooter,
-      OI::getXboxRightJoystickY,
-      OI::getXboxLeftJoystickY
-    ));
-    //
 
     /**
      * Pathplanner stuff
@@ -127,7 +111,16 @@ public class RobotContainer {
     configureBindings();
   }
 
+  JoystickButton leftJoystick1 = new JoystickButton(OI.leftJoystick, 1);
   JoystickButton leftJoystick3 = new JoystickButton(OI.leftJoystick, 3);
+
+  JoystickButton rightJoystick1 = new JoystickButton(OI.rightJoystick, 1);
+  JoystickButton rightJoystick3 = new JoystickButton(OI.rightJoystick, 3);
+  JoystickButton rightJoystick10 = new JoystickButton(OI.rightJoystick, 10);
+
+  JoystickButton xboxA = new JoystickButton(OI.xbox, 1);
+  JoystickButton xboxB = new JoystickButton(OI.xbox, 2);
+  JoystickButton xboxX = new JoystickButton(OI.xbox, 3);
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -140,32 +133,35 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    /*
-    new JoystickButton(OI.rightJoystick, 1).whileTrue(new ParallelCommandGroup(
-      new DriveLockToSpeaker(
-        swerve,
-        poseEstimator,
-        OI::getRightJoystickY,
-        OI::getRightJoystickX,
-        OI::getLeftJoystickX
-      ),
-      new ShootWhenReady(shooter, indexer, poseEstimator)
+    // For tuning ONLY
+    if (Constants.robotMode == RobotMode.DEVELOPMENT) {
+      shooter.setDefaultCommand(new DumbShooter(
+        shooter,
+        OI::getXboxRightJoystickY,
+        OI::getXboxLeftJoystickY
+      ));
+    }
+
+    rightJoystick10.onTrue(new InstantCommand(() -> { swerve.resetYaw(0); }));
+
+    rightJoystick3.whileTrue(new DrivePrepareShoot(
+      swerve, shooter, poseEstimator,
+      OI::getRightJoystickY,
+      OI::getRightJoystickX,
+      OI::getLeftJoystickX
     ));
 
-    new JoystickButton(OI.leftJoystick, 3).whileTrue(new ParallelCommandGroup(
-      new DriveWithNoteAlign(
-        swerve,
-        vision,
-        OI::getRightJoystickY,
-        OI::getRightJoystickX,
-        OI::getLeftJoystickX
-      ),
-      new IntakeAndIndex(intake, indexer, shooter)
+    rightJoystick1.whileTrue(new DriveShootWhenReady(
+      swerve, shooter, indexer, poseEstimator,
+      OI::getRightJoystickY,
+      OI::getRightJoystickX,
+      OI::getLeftJoystickX
     ));
-    */
 
-    
-    //new JoystickButton(OI.leftJoystick, 1).onTrue(new SubwooferShot(shooter, indexer));
+    leftJoystick3.whileTrue(new IntakeSequence(intake, indexer, shooter, leftJoystick3));
+
+    xboxA.whileTrue(new SubwooferShot(shooter, indexer));
+    xboxB.whileTrue(new IndexerFeed(indexer));
 
     /** Amp lineup */
     /*
@@ -174,14 +170,6 @@ public class RobotContainer {
       Constants.AMP_LINEUP_CONSTRAINTS,
       0.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
     ));
-
-    new JoystickButton(OI.rightJoystick, 3).onTrue(new InstantCommand(() -> {
-      swerve.resetYaw(0);
-    }));
-
-    new JoystickButton(OI.rightJoystick, 10).onTrue(new InstantCommand(() -> {
-      poseEstimator.resetPose(new Pose2d());
-    }));
 
     new JoystickButton(OI.leftJoystick, 7).onTrue(new DeflectorToNeutralPosition(deflector));
     new JoystickButton(OI.leftJoystick, 6).onTrue(new DeflectorToScoringPosition(deflector));

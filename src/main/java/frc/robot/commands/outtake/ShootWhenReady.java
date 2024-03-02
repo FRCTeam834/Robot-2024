@@ -2,71 +2,66 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.shooter;
+package frc.robot.commands.outtake;
 
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.indexer.Indexer;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.utility.PoseEstimator;
 
+/**
+ * Indexer feeds note into shooter once tolerances are met
+ * For teleop use
+ */
 public class ShootWhenReady extends Command {
   private final Shooter shooter;
   private final Indexer indexer;
   private final PoseEstimator poseEstimator;
-  private boolean hasBegunFeed = false;
-  private int confidenceTicks = 0;
-  private Timer timer = new Timer();
-  
-  public ShootWhenReady(Shooter shooter, Indexer indexer, PoseEstimator poseEstimator) {
-    this.shooter = shooter;
+  private int confidenceTicks;
+
+  public ShootWhenReady(Indexer indexer, Shooter shooter, PoseEstimator poseEstimator) {
     this.indexer = indexer;
+    this.shooter = shooter;
     this.poseEstimator = poseEstimator;
-    addRequirements(shooter);
-    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(indexer);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.reset();
-    timer.stop();
-    hasBegunFeed = false;
-    confidenceTicks = 5;
+    confidenceTicks = 3;
     indexer.setSetpoint(Indexer.Setpoint.STOP);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    shooter.setDesiredPivotAngle(shooter.getPivotAngleForDistance(poseEstimator.getDistanceToSpeaker()));
-    shooter.setDesiredRollerSpeeds(shooter.getShooterSpeedForDistance(poseEstimator.getDistanceToSpeaker()));
-    // indexer has alrdy begun feeding into shooter, too late to stop it
-    if (hasBegunFeed) return;
-    // tolerances
-    if (Math.abs(poseEstimator.getRotationToSpeaker()) > Units.degreesToRadians(2)) return;
-    if (!shooter.atSetpoint(poseEstimator.getDistanceToSpeaker())) return;
+    // Shooter is at setpoint angle and speeds
+    if (!shooter.atSetpoint(poseEstimator.getDistanceToSpeaker())) {
+      confidenceTicks++;
+      return;
+    };
+    // Robot is pointed at speaker
+    if (Math.abs(poseEstimator.getRotationToSpeaker()) > Units.degreesToRadians(2)) {
+      confidenceTicks++;
+      return;
+    }
+    // confidence ticks make sure we are within tolerance for some time and not by chance
     if (--confidenceTicks > 0) return;
 
-    hasBegunFeed = true;
-
     indexer.setSetpoint(Indexer.Setpoint.FEED);
-
-    timer.start();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.setDesiredRollerSpeeds(shooter.getIdleShooterSpeed());
-    shooter.setDesiredPivotAngle(shooter.getIntakePivotAngle());
     indexer.setSetpoint(Indexer.Setpoint.STOP);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.hasElapsed(0.5);
+    return indexer.noteDetectedShooterSide();
   }
 }

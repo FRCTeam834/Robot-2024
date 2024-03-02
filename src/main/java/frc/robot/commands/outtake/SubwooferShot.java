@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.shooter;
+package frc.robot.commands.outtake;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
@@ -10,11 +10,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.indexer.Indexer;
 import frc.robot.subsystems.shooter.Shooter;
 
+/**
+ * Hardcoded shot from subwoofer
+ * Can be used if vision or IR sensors are broken
+ */
 public class SubwooferShot extends Command {
   /** Creates a new SubwooferShot. */
   private final Shooter shooter;
   private final Indexer indexer;
-  Timer stopTimer = new Timer();
+
   public SubwooferShot(Shooter shooter, Indexer indexer) {
     this.shooter = shooter;
     this.indexer = indexer;
@@ -47,6 +51,6 @@ public class SubwooferShot extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !indexer.hasNote();
+    return false;
   }
 }

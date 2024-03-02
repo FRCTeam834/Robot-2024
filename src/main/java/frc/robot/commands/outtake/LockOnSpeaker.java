@@ -2,12 +2,16 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.shooter;
+package frc.robot.commands.outtake;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.utility.PoseEstimator;
 
+/**
+ * Makes shooter continously go to setpoint for speaker shot
+ * Useful to reduce wait time before shooting
+ */
 public class LockOnSpeaker extends Command {
   /** Creates a new LockOnSpeaker. */
   private final Shooter shooter;
@@ -20,29 +24,26 @@ public class LockOnSpeaker extends Command {
     this.poseEstimator = poseEstimator;
 
     addRequirements(shooter);
-    // Use addRequirements() here to declare subsystem dependencies.
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // Look ahead a little so shooter isn't lagging behind
+    // look ahead time should be about the response time of the system
     double distance = poseEstimator.calculateDistanceToSpeakerInTime(lookAheadTime);
     shooter.setDesiredPivotAngle(shooter.getPivotAngleForDistance(distance));
     shooter.setDesiredRollerSpeeds(shooter.getShooterSpeedForDistance(distance));
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     shooter.stop();
     shooter.setDesiredPivotAngle(0.95);
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;
