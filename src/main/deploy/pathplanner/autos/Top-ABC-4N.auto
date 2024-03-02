@@ -5,7 +5,7 @@
       "x": 0.7216707118599425,
       "y": 6.685374509637908
     },
-    "rotation": 60.84354115595517
+    "rotation": 59.844877063565704
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S-Curve"
+            "pathName": "Top-ABC-4N"
           }
         }
       ]

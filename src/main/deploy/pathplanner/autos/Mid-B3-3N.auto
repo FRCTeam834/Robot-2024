@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7216707118599425,
-      "y": 6.685374509637908
+      "x": 1.3618936913799755,
+      "y": 5.546025832792407
     },
-    "rotation": 60.84354115595517
+    "rotation": -1.18418256500966
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S-Curve"
+            "pathName": "Mid-B3-3N"
           }
         }
       ]

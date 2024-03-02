@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7216707118599425,
-      "y": 6.685374509637908
+      "x": 0.6777856564972392,
+      "y": 4.381438795284999
     },
-    "rotation": 60.84354115595517
+    "rotation": -60.05044010306554
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "S-Curve"
+            "pathName": "Bot-C5-3N"
           }
         }
       ]
