@@ -57,6 +57,6 @@ public class IntakeAndIndex extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return stopTimer.hasElapsed(0.1);
+    return stopTimer.hasElapsed(0.1) || indexer.noteDetectedShooterSide();
   }
 }
