@@ -39,12 +39,12 @@ public class ShootWhenReady extends Command {
   public void execute() {
     // Shooter is at setpoint angle and speeds
     if (!shooter.atSetpoint(poseEstimator.getDistanceToSpeaker())) {
-      confidenceTicks++;
+      confidenceTicks = Math.min(confidenceTicks, confidenceTicks + 1);
       return;
     };
     // Robot is pointed at speaker
     if (Math.abs(poseEstimator.getRotationToSpeaker()) > Units.degreesToRadians(2)) {
-      confidenceTicks++;
+      confidenceTicks = Math.min(confidenceTicks, confidenceTicks + 1);
       return;
     }
     // confidence ticks make sure we are within tolerance for some time and not by chance
@@ -57,11 +57,14 @@ public class ShootWhenReady extends Command {
   @Override
   public void end(boolean interrupted) {
     indexer.setSetpoint(Indexer.Setpoint.STOP);
+    if (!indexer.hasNote()) {
+      shooter.setDesiredRollerSpeeds(shooter.getIdleShooterSpeed());
+    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return indexer.noteDetectedShooterSide();
+    return !indexer.noteDetectedShooterSide();
   }
 }

@@ -40,8 +40,8 @@ public class IntakeAndIndex extends Command {
       intake.setSetpoint(Intake.Setpoint.FAST);
       indexer.setSetpoint(Indexer.Setpoint.FAST);
     } else if (indexer.noteDetectedIntakeSide()) {
-      intake.setSetpoint(Intake.Setpoint.SLOW);
-      indexer.setSetpoint(Indexer.Setpoint.SLOW);
+      // intake.setSetpoint(Intake.Setpoint.SLOW);
+      // indexer.setSetpoint(Indexer.Setpoint.SLOW);
       shooter.setDesiredPivotAngle(0.6);
       stopTimer.start();
     }
@@ -57,6 +57,6 @@ public class IntakeAndIndex extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return stopTimer.hasElapsed(0.1) || indexer.noteDetectedShooterSide();
+    return stopTimer.hasElapsed(0.05) && indexer.noteDetectedShooterSide();
   }
 }

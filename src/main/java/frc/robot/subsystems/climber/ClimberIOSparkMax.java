@@ -14,8 +14,8 @@ public class ClimberIOSparkMax implements ClimberIO {
     private final RelativeEncoder encoderRight;
 
     public ClimberIOSparkMax() {
-        rightArmMotor = new CANSparkMax(0, MotorType.kBrushless); //unknown ID for SparkMax
-        leftArmMotor = new CANSparkMax(0, MotorType.kBrushless); //unknown ID for SparkMax
+        rightArmMotor = new CANSparkMax(15, MotorType.kBrushless); //unknown ID for SparkMax
+        leftArmMotor = new CANSparkMax(14, MotorType.kBrushless); //unknown ID for SparkMax
         encoderRight = rightArmMotor.getEncoder();
         encoderLeft = leftArmMotor.getEncoder();
 

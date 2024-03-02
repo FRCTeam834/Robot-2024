@@ -5,6 +5,7 @@
 package frc.robot.commands.outtake;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.indexer.Indexer;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.utility.PoseEstimator;
 
@@ -15,12 +16,14 @@ import frc.robot.utility.PoseEstimator;
 public class LockOnSpeaker extends Command {
   /** Creates a new LockOnSpeaker. */
   private final Shooter shooter;
+  private final Indexer indexer;
   private final PoseEstimator poseEstimator;
 
-  private static final double lookAheadTime = 0.2;
+  private static final double lookAheadTime = 0.1;
 
-  public LockOnSpeaker(Shooter shooter, PoseEstimator poseEstimator) {
+  public LockOnSpeaker(Shooter shooter, Indexer indexer, PoseEstimator poseEstimator) {
     this.shooter = shooter;
+    this.indexer = indexer;
     this.poseEstimator = poseEstimator;
 
     addRequirements(shooter);
@@ -31,6 +34,7 @@ public class LockOnSpeaker extends Command {
 
   @Override
   public void execute() {
+    System.out.println("distance: " + poseEstimator.calculateDistanceToSpeakerInTime(lookAheadTime));
     // Look ahead a little so shooter isn't lagging behind
     // look ahead time should be about the response time of the system
     double distance = poseEstimator.calculateDistanceToSpeakerInTime(lookAheadTime);
@@ -40,8 +44,10 @@ public class LockOnSpeaker extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    shooter.stop();
-    shooter.setDesiredPivotAngle(0.95);
+    if (!indexer.hasNote()) {
+      shooter.stop();
+      shooter.setDesiredPivotAngle(0.95);
+    }
   }
 
   @Override

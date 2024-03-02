@@ -23,8 +23,9 @@ public class DriveShootWhenReady extends ParallelCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new LockOnSpeaker(shooter, indexer, poseEstimator),
       new ShootWhenReady(indexer, shooter, poseEstimator),
-      new DriveLockToSpeaker(driveTrain, poseEstimator, vxSupplier, vySupplier, omegaSupplier, 0.3)
+      new DriveLockToSpeaker(driveTrain, poseEstimator, vxSupplier, vySupplier, omegaSupplier, 0.1)
     );
   }
 }

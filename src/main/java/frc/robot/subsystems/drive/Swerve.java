@@ -68,10 +68,10 @@ public class Swerve extends SubsystemBase {
   private double commandedOmega;
 
   static {
-    maxModuleSpeed.initDefault(Units.feetToMeters(18));
-    maxTranslationSpeed.initDefault(Units.feetToMeters(18));
+    maxModuleSpeed.initDefault(Units.feetToMeters(7));
+    maxTranslationSpeed.initDefault(Units.feetToMeters(5));
     maxSteerSpeed.initDefault(Units.degreesToRadians(270));
-    translationP.initDefault(0.5);
+    translationP.initDefault(1);
     translationD.initDefault(0);
     rotationP.initDefault(0.5);
     rotationD.initDefault(0);

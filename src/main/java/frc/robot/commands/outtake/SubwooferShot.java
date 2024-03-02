@@ -37,7 +37,7 @@ public class SubwooferShot extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!shooter.atDesiredSetpoint(Units.degreesToRadians(3), 100)) return;
+    if (!shooter.atDesiredSetpoint(Units.degreesToRadians(2), 100)) return;
     indexer.setSetpoint(Indexer.Setpoint.FEED);
   }
 
@@ -51,6 +51,6 @@ public class SubwooferShot extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return !indexer.noteDetectedShooterSide();
   }
 }

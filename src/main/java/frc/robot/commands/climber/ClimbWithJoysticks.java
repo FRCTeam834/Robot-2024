@@ -25,6 +25,7 @@ public class ClimbWithJoysticks extends Command {
     this.climber = climber;
     this.rightYSupplier = rightYSupplier;
     this.leftYSupplier = leftYSupplier;
+    addRequirements(climber);
   }
 
   // Called when the command is initially scheduled.

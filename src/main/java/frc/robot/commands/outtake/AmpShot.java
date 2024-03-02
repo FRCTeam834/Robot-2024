@@ -28,8 +28,8 @@ public class AmpShot extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setDesiredPivotAngle(0.75);
-    shooter.setDesiredRollerSpeeds(2000);
+    shooter.setDesiredPivotAngle(0.8);
+    shooter.setDesiredRollerSpeeds(3350);
     indexer.setSetpoint(Indexer.Setpoint.STOP);
   }
 

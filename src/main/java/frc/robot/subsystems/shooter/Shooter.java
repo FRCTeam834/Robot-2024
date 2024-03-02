@@ -84,16 +84,22 @@ public class Shooter extends SubsystemBase {
   /** Initialize values for shot table */
   static {
     /** key: <horizontal distance m>, value: <pivot angle rad> */
-    shotAngleTable.put(0.01, 1.05);
-    shotAngleTable.put(0.656, 1.05);
-    shotAngleTable.put(2.88, 0.625);
-    shotAngleTable.put(4.4, 0.44);
-    shotAngleTable.put(5.6, 0.40);
-    shotAngleTable.put(7.0, 0.38);
+    shotAngleTable.put(0.0, 0.96);
+    shotAngleTable.put(1.31, 0.96);
+    shotAngleTable.put(2.286, 0.727);
+    shotAngleTable.put(3.51, 0.543);
+    shotAngleTable.put(5.02, 0.448);
+    shotAngleTable.put(5.53, 0.433);
+    
     /** key: <horizontal distance m>, value: <rpm> */
-    shotSpeedTable.put(0.0, 5500.0);
-    shotSpeedTable.put(5.6, 6000.0);
-    shotSpeedTable.put(7.0, 6000.0);
+    
+    shotSpeedTable.put(0.0, 4000.0);
+    shotSpeedTable.put(1.31, 4000.0);
+    shotSpeedTable.put(2.286, 4000.0);
+    shotSpeedTable.put(3.51, 5000.0);
+    shotSpeedTable.put(5.02, 5000.0);
+    shotSpeedTable.put(5.53, 5000.0);
+    
 
     /**
      * TOLERANCES

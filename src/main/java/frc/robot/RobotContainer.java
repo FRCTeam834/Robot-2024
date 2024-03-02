@@ -4,6 +4,7 @@
 
 package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
@@ -28,13 +29,18 @@ import frc.robot.commands.DriveShootWhenReady;
 import frc.robot.commands.DriveWithNoteAlign;
 import frc.robot.commands.DriveWithSpeeds;
 import frc.robot.commands.archive.ArchiveShootWhenReady;
+import frc.robot.commands.climber.ClimbWithJoysticks;
 import frc.robot.commands.deflector.DeflectorToNeutralPosition;
 import frc.robot.commands.deflector.DeflectorToScoringPosition;
+import frc.robot.commands.intake.AutonIntakeAndAim;
 import frc.robot.commands.intake.IntakeAndIndex;
 import frc.robot.commands.intake.IntakeSequence;
+import frc.robot.commands.outtake.AmpShot;
 import frc.robot.commands.outtake.DumbShooter;
 import frc.robot.commands.outtake.IndexerFeed;
 import frc.robot.commands.outtake.SubwooferShot;
+import frc.robot.subsystems.climber.Climber;
+import frc.robot.subsystems.climber.ClimberIOSparkMax;
 import frc.robot.subsystems.deflector.Deflector;
 import frc.robot.subsystems.deflector.DeflectorIOSparkMax;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -70,6 +76,7 @@ public class RobotContainer {
   Indexer indexer = new Indexer(new IndexerIOSparkMAX());
   Intake intake = new Intake(new IntakeIOSparkMAX());
   Deflector deflector = new Deflector(new DeflectorIOSparkMax());
+  Climber climber = new Climber(new ClimberIOSparkMax());
 
   private final SendableChooser<Command> autoChooser;
   private final Field2d pathPlannerField;
@@ -83,14 +90,25 @@ public class RobotContainer {
       OI::getLeftJoystickX
     ));
 
+    climber.setDefaultCommand(new ClimbWithJoysticks(
+      climber,
+      OI::getXboxRightJoystickY,
+      OI::getXboxLeftJoystickY
+    ));
+
     /**
      * Pathplanner stuff
-     */
+    */
+
+    NamedCommands.registerCommand("SubwooferShot", new SubwooferShot(shooter, indexer));
+    NamedCommands.registerCommand("AutonIntakeAndAim", new AutonIntakeAndAim(intake, indexer, shooter, poseEstimator));
+    NamedCommands.registerCommand("IndexerFeed", new IndexerFeed(indexer));
+
     swerve.configureAutoBuilder(poseEstimator);
     // autoChooser = new SendableChooser<>();
     autoChooser = AutoBuilder.buildAutoChooser();
     autoChooser.setDefaultOption("Do Nothing", new InstantCommand());
-    //autoChooser.addOption("S-Curve", new PathPlannerAuto("S-Curve"));
+    autoChooser.addOption("TestPath", new PathPlannerAuto("TestAuto"));
     
     SmartDashboard.putData(autoChooser);
     pathPlannerField = new Field2d();
@@ -121,6 +139,7 @@ public class RobotContainer {
   JoystickButton xboxA = new JoystickButton(OI.xbox, 1);
   JoystickButton xboxB = new JoystickButton(OI.xbox, 2);
   JoystickButton xboxX = new JoystickButton(OI.xbox, 3);
+  JoystickButton xboxY = new JoystickButton(OI.xbox, 4);
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -134,18 +153,18 @@ public class RobotContainer {
   private void configureBindings() {
 
     // For tuning ONLY
-    if (Constants.robotMode == RobotMode.DEVELOPMENT) {
+    /*if (Constants.robotMode == RobotMode.DEVELOPMENT) {
       shooter.setDefaultCommand(new DumbShooter(
         shooter,
         OI::getXboxRightJoystickY,
         OI::getXboxLeftJoystickY
       ));
-    }
+    }*/
 
     rightJoystick10.onTrue(new InstantCommand(() -> { swerve.resetYaw(0); }));
 
     rightJoystick3.whileTrue(new DrivePrepareShoot(
-      swerve, shooter, poseEstimator,
+      swerve, shooter, indexer, poseEstimator,
       OI::getRightJoystickY,
       OI::getRightJoystickX,
       OI::getLeftJoystickX
@@ -162,6 +181,7 @@ public class RobotContainer {
 
     xboxA.whileTrue(new SubwooferShot(shooter, indexer));
     xboxB.whileTrue(new IndexerFeed(indexer));
+    xboxY.whileTrue(new AmpShot(shooter, indexer));
 
     /** Amp lineup */
     /*

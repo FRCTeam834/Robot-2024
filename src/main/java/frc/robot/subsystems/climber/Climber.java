@@ -12,6 +12,8 @@ public class Climber extends SubsystemBase {
   private final ClimberIO io;
   private final ClimberIOInputs inputs = new ClimberIOInputs();
 
+  private double rightSpeed = 0.0;
+  private double leftSpeed = 0.0;
   /** Creates a new Climber. */
   public Climber(ClimberIO io) {
     this.io = io;
@@ -22,14 +24,14 @@ public class Climber extends SubsystemBase {
 
     //if(inputs.rightArmHeight >= Constants.ClimberConstants.minArmHeight 
     //&& inputs.rightArmHeight <= Constants.ClimberConstants.maxArmHeight){
-      inputs.rightSwerveVelocity = rightArmSpeed;
+      rightSpeed = rightArmSpeed;
     //} else {
      // inputs.rightSwerveVelocity = 0;
     //}
 
     //if(inputs.leftArmHeight >= Constants.ClimberConstants.minArmHeight 
     //&& inputs.leftArmHeight <= Constants.ClimberConstants.maxArmHeight){
-      inputs.leftSwerveVelocity = leftArmSpeed;
+      leftSpeed = leftArmSpeed;
     //} else {
     //  inputs.leftSwerveVelocity = 0;
     //}
@@ -38,7 +40,7 @@ public class Climber extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
-    io.setSwerveVelocity(inputs.leftSwerveVelocity * 12, //multiplies by 12 for a max of 12 volts
-                         inputs.rightSwerveVelocity * 12);
+    io.setMotorVoltage(leftSpeed * 12, //multiplies by 12 for a max of 12 volts
+                         rightSpeed * 12);
   }
 }
