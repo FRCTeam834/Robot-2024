@@ -15,6 +15,7 @@ public class IntakeAndIndex extends Command {
   private final Indexer indexer;
   private final Shooter shooter;
   private final Timer stopTimer = new Timer();
+  private final Timer slowIndexerTimer = new Timer();
   
   public IntakeAndIndex(Intake intake, Indexer indexer, Shooter shooter) {
     this.intake = intake;
@@ -29,6 +30,8 @@ public class IntakeAndIndex extends Command {
   public void initialize() {
     stopTimer.reset();
     stopTimer.stop();
+    slowIndexerTimer.reset();
+    slowIndexerTimer.stop();
     shooter.setDesiredPivotAngle(0.85);
   }
 
@@ -41,9 +44,15 @@ public class IntakeAndIndex extends Command {
       indexer.setSetpoint(Indexer.Setpoint.FAST);
     } else if (indexer.noteDetectedIntakeSide()) {
       // intake.setSetpoint(Intake.Setpoint.SLOW);
-      // indexer.setSetpoint(Indexer.Setpoint.SLOW);
+      //indexer.setSetpoint(Indexer.Setpoint.SLOW);
       shooter.setDesiredPivotAngle(0.6);
+      slowIndexerTimer.start();
       stopTimer.start();
+    }
+
+    if (slowIndexerTimer.hasElapsed(0.1)) {
+      indexer.setSetpoint(Indexer.Setpoint.SLOW);
+      intake.setSetpoint(Intake.Setpoint.SLOW);
     }
   }
 
@@ -57,6 +66,6 @@ public class IntakeAndIndex extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return stopTimer.hasElapsed(0.05) && indexer.noteDetectedShooterSide();
+    return stopTimer.hasElapsed(0.0) && indexer.noteDetectedShooterSide();
   }
 }

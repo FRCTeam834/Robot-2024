@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -90,11 +91,11 @@ public class RobotContainer {
       OI::getLeftJoystickX
     ));
 
-    climber.setDefaultCommand(new ClimbWithJoysticks(
+    /*climber.setDefaultCommand(new ClimbWithJoysticks(
       climber,
       OI::getXboxRightJoystickY,
       OI::getXboxLeftJoystickY
-    ));
+    ));*/
 
     /**
      * Pathplanner stuff
@@ -103,6 +104,8 @@ public class RobotContainer {
     NamedCommands.registerCommand("SubwooferShot", new SubwooferShot(shooter, indexer));
     NamedCommands.registerCommand("AutonIntakeAndAim", new AutonIntakeAndAim(intake, indexer, shooter, poseEstimator));
     NamedCommands.registerCommand("IndexerFeed", new IndexerFeed(indexer));
+    NamedCommands.registerCommand("DeflectorOut", new DeflectorToScoringPosition(deflector));
+    NamedCommands.registerCommand("AmpShot", new AmpShot(shooter, indexer));
 
     swerve.configureAutoBuilder(poseEstimator);
     // autoChooser = new SendableChooser<>();
@@ -153,13 +156,13 @@ public class RobotContainer {
   private void configureBindings() {
 
     // For tuning ONLY
-    /*if (Constants.robotMode == RobotMode.DEVELOPMENT) {
+    if (Constants.robotMode == RobotMode.DEVELOPMENT) {
       shooter.setDefaultCommand(new DumbShooter(
         shooter,
         OI::getXboxRightJoystickY,
         OI::getXboxLeftJoystickY
       ));
-    }*/
+    }
 
     rightJoystick10.onTrue(new InstantCommand(() -> { swerve.resetYaw(0); }));
 
@@ -180,17 +183,24 @@ public class RobotContainer {
     leftJoystick3.whileTrue(new IntakeSequence(intake, indexer, shooter, leftJoystick3));
 
     xboxA.whileTrue(new SubwooferShot(shooter, indexer));
-    xboxB.whileTrue(new IndexerFeed(indexer));
-    xboxY.whileTrue(new AmpShot(shooter, indexer));
+    //xboxB.whileTrue(new AmpShot(shooter, indexer));
+    //xboxX.whileTrue(new DeflectorToScoringPosition(deflector));
+    //xboxY.whileTrue(new DeflectorToNeutralPosition(deflector));
 
     /** Amp lineup */
-    /*
-    new JoystickButton(OI.leftJoystick, 11).whileTrue(AutoBuilder.pathfindThenFollowPath(
-      PathPlannerPath.fromPathFile("Copy of Amp Lineup"),
+    
+    /*leftJoystick1.whileTrue(AutoBuilder.pathfindThenFollowPath(
+      PathPlannerPath.fromPathFile("Amp Lineup"),
       Constants.AMP_LINEUP_CONSTRAINTS,
       0.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
+    ));*/
+    leftJoystick1.whileTrue(new SequentialCommandGroup(
+      new DeflectorToScoringPosition(deflector),
+      new AmpShot(shooter, indexer)
     ));
+    leftJoystick1.onFalse(new DeflectorToNeutralPosition(deflector));
 
+    /*
     new JoystickButton(OI.leftJoystick, 7).onTrue(new DeflectorToNeutralPosition(deflector));
     new JoystickButton(OI.leftJoystick, 6).onTrue(new DeflectorToScoringPosition(deflector));
     */

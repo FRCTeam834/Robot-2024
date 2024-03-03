@@ -16,7 +16,7 @@ public class WiggleIndexer extends Command {
   private Timer wiggleTimer = new Timer();
 
   //
-  private final double wiggleTime = 0.4;
+  private final double wiggleTime = 1;
 
 
   /** Creates a new WiggleIndexer. */
@@ -43,7 +43,7 @@ public class WiggleIndexer extends Command {
       // Since note is up against shooter
       // if first wiggle push note out faster
       if (firstWiggle) {
-        indexer.setVoltage(-4);
+        indexer.setVoltage(-6);
       } else {
         indexer.setVoltage(-1);
       }

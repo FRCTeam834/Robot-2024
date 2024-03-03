@@ -21,13 +21,13 @@ public class Constants {
     public static AprilTagIOPhotonVision[] aprilTagCameras = {
         new AprilTagIOPhotonVision(
             "CameraFront",
-            new Transform3d(Units.inchesToMeters(-7.875), Units.inchesToMeters(-8.5), Units.inchesToMeters(16.5),
+            new Transform3d(Units.inchesToMeters(-7), Units.inchesToMeters(-8.5), Units.inchesToMeters(16),
             new Rotation3d(Units.degreesToRadians(180), Units.degreesToRadians(10), Units.degreesToRadians(180)))
         ),
         new AprilTagIOPhotonVision(
             "CameraRight",
-            new Transform3d(Units.inchesToMeters(5.25), Units.inchesToMeters(11.25), Units.inchesToMeters(15.25),
-            new Rotation3d(Units.degreesToRadians(180), Units.degreesToRadians(10), 0.0))
+            new Transform3d(Units.inchesToMeters(5), Units.inchesToMeters(9.5), Units.inchesToMeters(15),
+            new Rotation3d(Units.degreesToRadians(180), Units.degreesToRadians(10), Units.degreesToRadians(0)))
         ),
         new AprilTagIOPhotonVision(
             "CameraLeft",

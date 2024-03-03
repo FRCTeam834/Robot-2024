@@ -12,7 +12,7 @@ import frc.robot.subsystems.deflector.Deflector;
 public class DeflectorToScoringPosition extends Command {
   /** Creates a new DeflectorToScoringPosition. */
   public Deflector deflector;
-  private final DigitalInput limitSwitch = new DigitalInput(0);
+  private static final DigitalInput limitSwitch = new DigitalInput(0);
   private final Timer timer = new Timer();
   private boolean hasHitSwitch = false;
   
@@ -28,7 +28,7 @@ public class DeflectorToScoringPosition extends Command {
     hasHitSwitch = false;
     timer.reset();
     timer.stop();
-    deflector.setVoltage(6);
+    deflector.setVoltage(8);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

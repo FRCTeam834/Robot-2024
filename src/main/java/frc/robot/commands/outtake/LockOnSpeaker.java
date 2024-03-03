@@ -44,7 +44,7 @@ public class LockOnSpeaker extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    if (!indexer.hasNote()) {
+    if (!indexer.noteDetectedIntakeSide() && !indexer.noteDetectedShooterSide()) {
       shooter.stop();
       shooter.setDesiredPivotAngle(0.95);
     }

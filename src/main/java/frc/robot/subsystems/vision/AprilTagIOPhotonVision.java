@@ -39,6 +39,14 @@ public class AprilTagIOPhotonVision implements AprilTagIO {
     @Override
     public void updateInputs(AprilTagIOInputs inputs) {
         var result = camera.getLatestResult();
+        if (!result.hasTargets()) {
+            inputs.poseEstimate = null;
+            return;
+        }
+        if (result.getBestTarget().getPoseAmbiguity() > 0.2) {
+            inputs.poseEstimate = null;
+            return;
+        }
         Optional<EstimatedRobotPose> currentPose = odometry.update(result);
 
         // If target found update pose

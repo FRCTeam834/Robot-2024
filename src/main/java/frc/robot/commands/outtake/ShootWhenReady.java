@@ -57,7 +57,7 @@ public class ShootWhenReady extends Command {
   @Override
   public void end(boolean interrupted) {
     indexer.setSetpoint(Indexer.Setpoint.STOP);
-    if (!indexer.hasNote()) {
+    if (!indexer.noteDetectedIntakeSide()) {
       shooter.setDesiredRollerSpeeds(shooter.getIdleShooterSpeed());
     }
   }
@@ -65,6 +65,6 @@ public class ShootWhenReady extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !indexer.noteDetectedShooterSide();
+    return !indexer.noteDetectedShooterSide() && !indexer.noteDetectedIntakeSide();
   }
 }
