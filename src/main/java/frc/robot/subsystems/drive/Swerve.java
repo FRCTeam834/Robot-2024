@@ -194,8 +194,8 @@ public class Swerve extends SubsystemBase {
     return kinematics.toChassisSpeeds(getModuleStates());
   }
 
-  public ChassisSpeeds getLastChassisSpeeds () {
-    return lastChassisSpeeds;
+  public ChassisSpeeds getCurrentChassisSpeeds () {
+    return kinematics.toChassisSpeeds(getModuleStates());
   }
 
   /** Expose kinematics for pose estimator etc. */

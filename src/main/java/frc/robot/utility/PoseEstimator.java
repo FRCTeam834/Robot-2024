@@ -87,8 +87,8 @@ public class PoseEstimator extends SubsystemBase {
         if (time > 0) {
             // assume no rotation
             adjustForFuture = new Transform2d(
-                swerve.getLastChassisSpeeds().vxMetersPerSecond * time,
-                swerve.getLastChassisSpeeds().vyMetersPerSecond * time,
+                swerve.getCurrentChassisSpeeds().vxMetersPerSecond * time,
+                swerve.getCurrentChassisSpeeds().vyMetersPerSecond * time,
                 new Rotation2d()
             );
         }
