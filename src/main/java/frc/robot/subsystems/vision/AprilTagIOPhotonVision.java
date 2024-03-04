@@ -24,8 +24,6 @@ public class AprilTagIOPhotonVision implements AprilTagIO {
     public static double fieldLength = Units.inchesToMeters(651.223);
     public static double fieldWidth = Units.inchesToMeters(323.277);
 
-    public static int[] allowedIDs = { 3, 4, 7, 8 };
-
     /**
      * Implements PhotonVision camera
      *
