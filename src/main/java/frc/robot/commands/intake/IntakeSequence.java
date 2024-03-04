@@ -20,6 +20,7 @@ public class IntakeSequence extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new ShooterToIntakeAngle(shooter),
       new IntakeAndIndex(intake, indexer, shooter).onlyWhile(runSupplier::getAsBoolean),
       new WiggleIndexer(intake, indexer).onlyIf(indexer::noteDetectedIntakeSide)
     );

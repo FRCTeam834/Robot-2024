@@ -43,8 +43,10 @@ public class AmpShot extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    shooter.setDesiredRollerSpeeds(shooter.getIdleShooterSpeed());
-    indexer.setSetpoint(Indexer.Setpoint.STOP);
+    if (!indexer.hasNote()) {
+      shooter.setDesiredRollerSpeeds(shooter.getIdleShooterSpeed());
+      indexer.setSetpoint(Indexer.Setpoint.STOP);
+    }
   }
 
   // Returns true when the command should end.

@@ -62,7 +62,7 @@ public class Indexer extends SubsystemBase {
   }
 
   public boolean hasNote () {
-    return noteDetectedIntakeSide();
+    return noteDetectedIntakeSide() || noteDetectedShooterSide();
   }
 
   public void stop () {
