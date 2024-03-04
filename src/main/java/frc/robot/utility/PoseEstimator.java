@@ -1,6 +1,7 @@
 package frc.robot.utility;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -27,6 +28,9 @@ public class PoseEstimator extends SubsystemBase {
     private final SwerveDrivePoseEstimator poseEstimator;
     private final Field2d poseEstimateField = new Field2d();
 
+    private static final double visionXYstddev = 0.1;
+    private static final double visionTHETAstddev = 1;
+
     public PoseEstimator (Swerve swerve, Vision vision) {
         this.swerve = swerve;
         this.vision = vision;
@@ -34,7 +38,9 @@ public class PoseEstimator extends SubsystemBase {
             swerve.getKinematics(),
             swerve.getYaw(),
             swerve.getModulePositions(),
-            new Pose2d()
+            new Pose2d(),
+            VecBuilder.fill(0.05, 0.05, 0.001),
+            VecBuilder.fill(visionXYstddev, visionXYstddev, visionTHETAstddev)
         );
         SmartDashboard.putData("PoseEstimate", poseEstimateField);
         SmartDashboard.putData(this);
@@ -80,6 +86,7 @@ public class PoseEstimator extends SubsystemBase {
         return error;
     }
 
+    
     public double calculateDistanceToSpeakerInTime (double time) {
         Translation2d speakerLocation = getSpeakerLocation();
         Pose2d currentPose = getEstimatedPose();
@@ -98,10 +105,13 @@ public class PoseEstimator extends SubsystemBase {
             Math.pow(currentPose.getX() - speakerLocation.getX(), 2) +
             Math.pow(currentPose.getY() - speakerLocation.getY(), 2));
     }
+    
 
+    
     public double getDistanceToSpeaker () {
         return calculateDistanceToSpeakerInTime(0.0);
     }
+    
 
     @Override
     public void periodic () {
@@ -112,7 +122,12 @@ public class PoseEstimator extends SubsystemBase {
             if (visionInputs[i].poseEstimate == null) continue;
             poseEstimator.addVisionMeasurement(
                 visionInputs[i].poseEstimate.toPose2d(),
-                visionInputs[i].lastTimestamp
+                visionInputs[i].lastTimestamp,
+                VecBuilder.fill(
+                    visionXYstddev * Math.pow(visionInputs[i].averageDistance, 2),
+                    visionXYstddev * Math.pow(visionInputs[i].averageDistance, 2),
+                    visionTHETAstddev // dont care we never trust this
+                )
             );
         }
 

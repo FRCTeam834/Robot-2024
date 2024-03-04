@@ -46,13 +46,7 @@ public class IntakeAndIndex extends Command {
       // intake.setSetpoint(Intake.Setpoint.SLOW);
       //indexer.setSetpoint(Indexer.Setpoint.SLOW);
       shooter.setDesiredPivotAngle(0.6);
-      slowIndexerTimer.start();
       stopTimer.start();
-    }
-
-    if (slowIndexerTimer.hasElapsed(0.1)) {
-      indexer.setSetpoint(Indexer.Setpoint.SLOW);
-      intake.setSetpoint(Intake.Setpoint.SLOW);
     }
   }
 

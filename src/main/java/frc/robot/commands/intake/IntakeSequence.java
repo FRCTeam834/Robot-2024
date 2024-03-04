@@ -21,7 +21,7 @@ public class IntakeSequence extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new IntakeAndIndex(intake, indexer, shooter).onlyWhile(runSupplier::getAsBoolean),
-      new WiggleIndexer(intake, indexer).onlyIf(runSupplier)
+      new WiggleIndexer(intake, indexer).onlyIf(indexer::noteDetectedIntakeSide)
     );
   }
 }
