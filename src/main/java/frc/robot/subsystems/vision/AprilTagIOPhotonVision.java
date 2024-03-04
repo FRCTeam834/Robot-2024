@@ -28,9 +28,9 @@ public class AprilTagIOPhotonVision implements AprilTagIO {
         this.name = name;
 
         camera = new PhotonCamera(name);
-        odometry = new PhotonPoseEstimator(loadFieldLayout(), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera, robotToCamera);
-
-        odometry.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
+        odometry = new PhotonPoseEstimator(loadFieldLayout(), PhotonPoseEstimator.PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera, robotToCamera);
+        
+        odometry.setMultiTagFallbackStrategy(PhotonPoseEstimator.PoseStrategy.LOWEST_AMBIGUITY);
     }
 
     public boolean isConnected () {
