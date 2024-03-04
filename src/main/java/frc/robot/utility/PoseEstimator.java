@@ -28,7 +28,7 @@ public class PoseEstimator extends SubsystemBase {
     private final SwerveDrivePoseEstimator poseEstimator;
     private final Field2d poseEstimateField = new Field2d();
 
-    private static final double visionXYstddev = 0.1;
+    private static final double visionXYstddev = 0.005;
     private static final double visionTHETAstddev = 1;
 
     public PoseEstimator (Swerve swerve, Vision vision) {

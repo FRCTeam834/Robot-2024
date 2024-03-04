@@ -16,6 +16,7 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Deflector": "Subsystem",
       "/SmartDashboard/PathTarget": "Field2d",
       "/SmartDashboard/PoseEstimate": "Field2d",
       "/SmartDashboard/SendableChooser[0]": "String Chooser"
