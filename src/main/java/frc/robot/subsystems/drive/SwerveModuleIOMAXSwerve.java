@@ -90,14 +90,14 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
         /** Everything else is common between every swerve module */
 
         driveEncoder = driveSparkMax.getEncoder();
-        //driveSparkMax.setInverted(false);
+        driveSparkMax.setInverted(false);
         //steerSparkMax.setInverted(false);
 
         driveSparkMax.setIdleMode(IdleMode.kBrake);
         steerSparkMax.setIdleMode(IdleMode.kBrake);
         driveSparkMax.enableVoltageCompensation(12.0);
         steerSparkMax.enableVoltageCompensation(12.0);
-        driveSparkMax.setSmartCurrentLimit(50);
+        driveSparkMax.setSmartCurrentLimit(40);
         steerSparkMax.setSmartCurrentLimit(20);
         driveSparkMax.setInverted(false);
 
@@ -108,10 +108,10 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
 
         // https://docs.revrobotics.com/sparkmax/operating-modes/control-interfaces
         driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20); // motor position frame
-        driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
-        driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
-        driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
-        driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
+        //driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
+        //driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
+        //driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
+        //driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
 
         //steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
         //steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);

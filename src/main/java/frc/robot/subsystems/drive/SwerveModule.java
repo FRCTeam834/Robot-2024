@@ -67,7 +67,7 @@ public class SwerveModule extends SubsystemBase {
         rawSetpoint = state;
         SwerveModuleState optimizedState = SwerveModule.optimize(state, getAngle(), Units.degreesToRadians(90));
         // Don't drive if speed is too low to prevent jittering
-        if (Math.abs(optimizedState.speedMetersPerSecond) < 0.01) {
+        if (Math.abs(optimizedState.speedMetersPerSecond) < 0.001) {
             stop();
             return;
         }
