@@ -142,7 +142,7 @@ public class Swerve extends SubsystemBase {
     }
     setpoint = rateLimiter.calculate(setpoint);
     setpoint.omegaRadiansPerSecond = omegaLimiter.calculate(setpoint.omegaRadiansPerSecond);
-    setpoint = ChassisSpeeds.discretize(setpoint, 0.02);
+    //setpoint = ChassisSpeeds.discretize(setpoint, 0.02);
     
     SwerveModuleState[] desiredStates = kinematics.toSwerveModuleStates(setpoint);
     SwerveDriveKinematics.desaturateWheelSpeeds(

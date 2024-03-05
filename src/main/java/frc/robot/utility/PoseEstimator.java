@@ -31,6 +31,8 @@ public class PoseEstimator extends SubsystemBase {
     private static final double visionXYstddev = 0.005;
     private static final double visionTHETAstddev = 1;
 
+    private Pose2d visionEstimate = new Pose2d();
+
     public PoseEstimator (Swerve swerve, Vision vision) {
         this.swerve = swerve;
         this.vision = vision;
@@ -129,10 +131,12 @@ public class PoseEstimator extends SubsystemBase {
                     visionTHETAstddev // dont care we never trust this
                 )
             );
+            visionEstimate = visionInputs[i].poseEstimate.toPose2d();
         }
 
         if (Constants.robotMode == RobotMode.DEVELOPMENT) {
-            poseEstimateField.setRobotPose(getEstimatedPose());
+            //poseEstimateField.setRobotPose(getEstimatedPose());
+            poseEstimateField.setRobotPose(visionEstimate);
         }
     }
 

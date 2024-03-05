@@ -20,11 +20,11 @@ public class Constants {
 
     public static AprilTagIOPhotonVision[] aprilTagCameras = {
         new AprilTagIOPhotonVision(
-            "CameraFront",
-            new Transform3d(Units.inchesToMeters(-7), Units.inchesToMeters(-8.5), Units.inchesToMeters(16),
-            new Rotation3d(Units.degreesToRadians(180), Units.degreesToRadians(10), Units.degreesToRadians(180)))
-        ),
-        new AprilTagIOPhotonVision(
+            "LongRangeCamera",
+            new Transform3d(Units.inchesToMeters(-7.25), Units.inchesToMeters(-7.96875), Units.inchesToMeters(16.125),
+            new Rotation3d(Units.degreesToRadians(180), Units.degreesToRadians(-10), Units.degreesToRadians(180)))
+        )
+        /*new AprilTagIOPhotonVision(
             "CameraRight",
             new Transform3d(Units.inchesToMeters(5), Units.inchesToMeters(9.5), Units.inchesToMeters(15),
             new Rotation3d(Units.degreesToRadians(180), Units.degreesToRadians(10), Units.degreesToRadians(0)))
@@ -33,7 +33,7 @@ public class Constants {
             "CameraLeft",
             new Transform3d(0.0, 0.0, 0.0,
             new Rotation3d(0.0, 0.0, 0.0))
-        )
+        )*/
     };
 
     public static NoteDetectionIOPhotonVision noteDetectionCamera = new NoteDetectionIOPhotonVision("Poly");

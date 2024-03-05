@@ -39,7 +39,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 steerEncoder.setInverted(true); // MAXSwerve has steer gearing reversed
                 // revs -> radians
                 steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing);
-                steerEncoder.setZeroOffset(4.6344842 - Units.degreesToRadians(90));
+                steerEncoder.setZeroOffset(4.63282 - Units.degreesToRadians(90));
                 break;
             }
             /** Front Right */
@@ -53,7 +53,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 steerEncoder.setInverted(true); // MAXSwerve has steer gearing reversed
                 // revs -> radians
                 steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing);
-                steerEncoder.setZeroOffset(1.1835198 - Units.degreesToRadians(0));
+                steerEncoder.setZeroOffset(1.1958 - Units.degreesToRadians(0));
                 break;
             }
             /** Back Left */
@@ -67,7 +67,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 steerEncoder.setInverted(true); // MAXSwerve has steer gearing reversed
                 // revs -> radians
                 steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing);
-                steerEncoder.setZeroOffset(2.7218 + Units.degreesToRadians(180));
+                steerEncoder.setZeroOffset(2.715878 + Units.degreesToRadians(180));
                 break;
             }
             /** Back Right */
@@ -81,7 +81,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 steerEncoder.setInverted(true); // MAXSwerve has steer gearing reversed
                 // revs -> radians
                 steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing);
-                steerEncoder.setZeroOffset(4.708 + Units.degreesToRadians(90));
+                steerEncoder.setZeroOffset(4.71407 + Units.degreesToRadians(90));
                 break;
             }
             default: throw new RuntimeException("Invalid SwerveModuleIOMAXSwerve index!");
@@ -107,11 +107,11 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
         driveEncoder.setPositionConversionFactor(Math.PI * wheelDiameter / driveEncoderGearing);
 
         // https://docs.revrobotics.com/sparkmax/operating-modes/control-interfaces
-        driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 10); // motor position frame
-        //driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
-        //driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
-        //driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
-        //driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
+        driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20); // motor position frame
+        driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
+        driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
+        driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
+        driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
 
         //steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
         //steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);

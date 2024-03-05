@@ -34,6 +34,7 @@ import frc.robot.commands.climber.ClimbWithJoysticks;
 import frc.robot.commands.deflector.DeflectorToNeutralPosition;
 import frc.robot.commands.deflector.DeflectorToScoringPosition;
 import frc.robot.commands.intake.AutonIntakeAndAim;
+import frc.robot.commands.intake.EjectStuckNote;
 import frc.robot.commands.intake.IntakeAndIndex;
 import frc.robot.commands.intake.IntakeSequence;
 import frc.robot.commands.outtake.AmpShot;
@@ -183,7 +184,7 @@ public class RobotContainer {
     leftJoystick3.whileTrue(new IntakeSequence(intake, indexer, shooter, leftJoystick3));
 
     xboxA.whileTrue(new SubwooferShot(shooter, indexer));
-    //xboxB.whileTrue(new AmpShot(shooter, indexer));
+    xboxB.whileTrue(new EjectStuckNote(intake, indexer, shooter));
     //xboxX.whileTrue(new DeflectorToScoringPosition(deflector));
     //xboxY.whileTrue(new DeflectorToNeutralPosition(deflector));
 
