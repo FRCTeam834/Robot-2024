@@ -29,7 +29,7 @@ public class PoseEstimator extends SubsystemBase {
     private final Field2d poseEstimateField = new Field2d();
 
     private static final double visionXYstddev = 0.005;
-    private static final double visionTHETAstddev = 1;
+    private static final double visionTHETAstddev = Double.MAX_VALUE;
 
     private Pose2d visionEstimate = new Pose2d();
 
