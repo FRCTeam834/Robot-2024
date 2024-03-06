@@ -32,7 +32,7 @@ public class IntakeAndIndex extends Command {
     stopTimer.stop();
     slowIndexerTimer.reset();
     slowIndexerTimer.stop();
-    shooter.setDesiredPivotAngle(0.85);
+    shooter.setDesiredPivotAngle(0.9);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -17,8 +17,8 @@ import frc.robot.Constants.RobotMode;
 
 public class ShooterIOSparkMAX implements ShooterIO {
 
-    private final CANSparkMax topRollerMotor;
-    private final CANSparkMax bottomRollerMotor;
+    private final CANSparkFlex topRollerMotor;
+    private final CANSparkFlex bottomRollerMotor;
     private final CANSparkMax pivotMotor;
     private final RelativeEncoder topRollerEncoder;
     private final RelativeEncoder bottomRollerEncoder;
@@ -30,16 +30,19 @@ public class ShooterIOSparkMAX implements ShooterIO {
     private SimpleMotorFeedforward bottomRollerFeedforward = new SimpleMotorFeedforward(0, 0);
 
     public ShooterIOSparkMAX() {
-        topRollerMotor = new CANSparkMax(12, MotorType.kBrushless);
-        bottomRollerMotor = new CANSparkMax(13, MotorType.kBrushless);
+        topRollerMotor = new CANSparkFlex(12, MotorType.kBrushless);
+        bottomRollerMotor = new CANSparkFlex(13, MotorType.kBrushless);
         pivotMotor = new CANSparkMax(11, MotorType.kBrushless);
 
-        CANSparkMax[] motors = { topRollerMotor, bottomRollerMotor, pivotMotor };
+        CANSparkFlex[] motors = { topRollerMotor, bottomRollerMotor };
 
-        for (CANSparkMax motor : motors) {
+        for (CANSparkFlex motor : motors) {
             motor.restoreFactoryDefaults();
             motor.enableVoltageCompensation(12.0);
         }
+
+        pivotMotor.restoreFactoryDefaults();
+        pivotMotor.enableVoltageCompensation(12.0);
 
         topRollerController = topRollerMotor.getPIDController();
         bottomRollerController = bottomRollerMotor.getPIDController();
@@ -61,7 +64,7 @@ public class ShooterIOSparkMAX implements ShooterIO {
         pivotEncoder.setInverted(true);
         pivotEncoder.setPositionConversionFactor(Math.PI * 2);
         pivotEncoder.setVelocityConversionFactor(Math.PI * 2 / 60);
-        pivotEncoder.setZeroOffset(4.0828111 - 0.1570796327);
+        pivotEncoder.setZeroOffset(4.073166 - 0.1570796327);
         pivotMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10);
 
         topRollerMotor.setInverted(false);

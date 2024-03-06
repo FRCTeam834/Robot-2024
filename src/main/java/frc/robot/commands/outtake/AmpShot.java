@@ -45,6 +45,7 @@ public class AmpShot extends Command {
   public void end(boolean interrupted) {
     if (!indexer.hasNote()) {
       shooter.setDesiredRollerSpeeds(shooter.getIdleShooterSpeed());
+      shooter.setDesiredPivotAngle(0.15);
       indexer.setSetpoint(Indexer.Setpoint.STOP);
     }
   }

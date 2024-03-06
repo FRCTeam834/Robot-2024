@@ -71,7 +71,7 @@ public class Shooter extends SubsystemBase {
     topRollerkS.initDefault(0.145);
     topRollerkV.initDefault(0.0017);
     bottomRollerkS.initDefault(0.145);
-    bottomRollerkV.initDefault(0.00159);
+    bottomRollerkV.initDefault(0.0017);
   }
 
   private static InterpolatingDoubleTreeMap shotAngleTable = new InterpolatingDoubleTreeMap();
@@ -79,24 +79,26 @@ public class Shooter extends SubsystemBase {
   private static InterpolatingDoubleTreeMap shotSpeedTable = new InterpolatingDoubleTreeMap();
   private static InterpolatingDoubleTreeMap shotSpeedToleranceTable = new InterpolatingDoubleTreeMap();
   private static double intakePivotAngle = Units.degreesToRadians(0.95);
-  private static double idleSpeed = 0;
+  private static double idleSpeed = 1000;
 
   /** Initialize values for shot table */
   static {
     /** key: <horizontal distance m>, value: <pivot angle rad> */
     shotAngleTable.put(0.0, 1.05);
     shotAngleTable.put(1.41, 1.05);
-    shotAngleTable.put(2.88, 0.625);
-    shotAngleTable.put(4.4, 0.44);
-    shotAngleTable.put(5.6, 0.4);
+    shotAngleTable.put(2.84, 0.7113);
+    shotAngleTable.put(3.6, 0.6248);
+    shotAngleTable.put(4.38, 0.566);
+    shotAngleTable.put(5.6, 0.40);
     shotAngleTable.put(7.0, 0.38);
     
     /** key: <horizontal distance m>, value: <rpm> */
     
     shotSpeedTable.put(0.0, 3500.0);
     shotSpeedTable.put(1.41, 3500.0);
-    shotSpeedTable.put(2.88, 3500.0);
-    shotSpeedTable.put(4.4, 4000.0);
+    shotSpeedTable.put(2.84, 3500.0);
+    shotSpeedTable.put(3.6, 3715.0);
+    shotSpeedTable.put(4.38, 4200.0);
     shotSpeedTable.put(5.6, 4500.0);
     shotSpeedTable.put(7.0, 5000.0);
     
@@ -107,12 +109,10 @@ public class Shooter extends SubsystemBase {
      */
 
     /** key: <horizontal distance m>, value: <pivot angle tolerance rad> */
-    shotAngleToleranceTable.put(-1.0, Units.degreesToRadians(2)); // -1 is values for amp I guess
     shotAngleToleranceTable.put(0.0, Units.degreesToRadians(2));
     shotAngleToleranceTable.put(5.0, Units.degreesToRadians(1));
      /** key: <horizontal distance m>, value: <tolerance rpm> */
-    shotSpeedToleranceTable.put(-1.0, 20.0); // -1 is values for amp I guess
-    shotSpeedToleranceTable.put(0.0, 50.0);
+    shotSpeedToleranceTable.put(0.0, 100.0);
     shotSpeedToleranceTable.put(5.0, 50.0);
   }
 

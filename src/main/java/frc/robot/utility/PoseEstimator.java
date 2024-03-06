@@ -28,8 +28,8 @@ public class PoseEstimator extends SubsystemBase {
     private final SwerveDrivePoseEstimator poseEstimator;
     private final Field2d poseEstimateField = new Field2d();
 
-    private static final double visionXYstddev = 0.005;
-    private static final double visionTHETAstddev = Double.MAX_VALUE;
+    private static final double visionXYstddev = 0.01;
+    private static final double visionTHETAstddev = 834;
 
     private Pose2d visionEstimate = new Pose2d();
 
@@ -65,13 +65,13 @@ public class PoseEstimator extends SubsystemBase {
 
     public Translation2d getSpeakerLocation () {
         /** BLUE SPEAKER LOCATION */
-         Translation2d speakerLocation = new Translation2d(Units.inchesToMeters(-1.5), Units.inchesToMeters(218.42));
+         Translation2d speakerLocation = new Translation2d(Units.inchesToMeters(0), Units.inchesToMeters(218.42));
 
         var alliance = DriverStation.getAlliance();
               if (alliance.isPresent()) {
                 if (alliance.get() == Alliance.Red) {
                     /** RED SPEAKER LOCATION */
-                    speakerLocation = new Translation2d(Units.inchesToMeters(652.73), Units.inchesToMeters(218.42));
+                    speakerLocation = new Translation2d(Units.inchesToMeters(651.2), Units.inchesToMeters(218.42));
                 }
               }
         return speakerLocation;
@@ -135,8 +135,8 @@ public class PoseEstimator extends SubsystemBase {
         }
 
         if (Constants.robotMode == RobotMode.DEVELOPMENT) {
-            //poseEstimateField.setRobotPose(getEstimatedPose());
-            poseEstimateField.setRobotPose(visionEstimate);
+            poseEstimateField.setRobotPose(getEstimatedPose());
+            //poseEstimateField.setRobotPose(visionEstimate);
         }
     }
 

@@ -60,8 +60,8 @@ public class Swerve extends SubsystemBase {
   private boolean stopped = true;
   private ChassisSpeeds setpoint = new ChassisSpeeds();
   private ChassisSpeeds lastChassisSpeeds = new ChassisSpeeds();
-  private ChassisSpeedsRateLimiter rateLimiter = new ChassisSpeedsRateLimiter(24, 24);
-  private SlewRateLimiter omegaLimiter = new SlewRateLimiter(Math.PI * 12);
+  private ChassisSpeedsRateLimiter rateLimiter = new ChassisSpeedsRateLimiter(24, Math.PI * 12);
+  //private SlewRateLimiter omegaLimiter = new SlewRateLimiter(Math.PI * 12);
 
   private double commandedForward;
   private double commandedStrafe;
@@ -127,7 +127,7 @@ public class Swerve extends SubsystemBase {
   }
 
   public void ppsetDesiredSpeeds (ChassisSpeeds speeds) {
-    //ChassisSpeeds convertedSpeeds = new ChassisSpeeds(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, -speeds.omegaRadiansPerSecond);
+    ChassisSpeeds convertedSpeeds = new ChassisSpeeds(speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, -speeds.omegaRadiansPerSecond);
     stopped = false;
     setpoint = speeds;
   }
@@ -141,7 +141,7 @@ public class Swerve extends SubsystemBase {
       return;
     }
     setpoint = rateLimiter.calculate(setpoint);
-    setpoint.omegaRadiansPerSecond = omegaLimiter.calculate(setpoint.omegaRadiansPerSecond);
+    //setpoint.omegaRadiansPerSecond = omegaLimiter.calculate(setpoint.omegaRadiansPerSecond);
     //setpoint = ChassisSpeeds.discretize(setpoint, 0.02);
     
     SwerveModuleState[] desiredStates = kinematics.toSwerveModuleStates(setpoint);

@@ -45,7 +45,7 @@ public class LockOnSpeaker extends Command {
   @Override
   public void end(boolean interrupted) {
     if (!indexer.noteDetectedIntakeSide() && !indexer.noteDetectedShooterSide()) {
-      shooter.stop();
+      shooter.setDesiredRollerSpeeds(shooter.getIdleShooterSpeed());
       shooter.setDesiredPivotAngle(0.95);
     }
   }

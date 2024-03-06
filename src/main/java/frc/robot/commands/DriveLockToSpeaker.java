@@ -37,7 +37,7 @@ public class DriveLockToSpeaker extends Command {
     this.omegaSupplier = omegaSupplier;
     this.speedMultiplier = speedMultipler;
 
-    alignController = new PIDController(2, 0, 0);
+    alignController = new PIDController(3, 0, 0);
     alignController.enableContinuousInput(-Math.PI, Math.PI);
     addRequirements(driveTrain);
   }

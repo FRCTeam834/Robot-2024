@@ -92,11 +92,11 @@ public class RobotContainer {
       OI::getLeftJoystickX
     ));
 
-    /*climber.setDefaultCommand(new ClimbWithJoysticks(
+    climber.setDefaultCommand(new ClimbWithJoysticks(
       climber,
       OI::getXboxRightJoystickY,
       OI::getXboxLeftJoystickY
-    ));*/
+    ));
 
     /**
      * Pathplanner stuff
@@ -157,13 +157,13 @@ public class RobotContainer {
   private void configureBindings() {
 
     // For tuning ONLY
-    if (Constants.robotMode == RobotMode.DEVELOPMENT) {
-      shooter.setDefaultCommand(new DumbShooter(
-        shooter,
-        OI::getXboxRightJoystickY,
-        OI::getXboxLeftJoystickY
-      ));
-    }
+    //if (Constants.robotMode == RobotMode.DEVELOPMENT) {
+    //  shooter.setDefaultCommand(new DumbShooter(
+    //    shooter,
+    //    OI::getXboxRightJoystickY,
+    //    OI::getXboxLeftJoystickY
+    //  ));
+    //}
 
     rightJoystick10.onTrue(new InstantCommand(() -> { swerve.resetYaw(0); }));
 

@@ -81,7 +81,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 steerEncoder.setInverted(true); // MAXSwerve has steer gearing reversed
                 // revs -> radians
                 steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing);
-                steerEncoder.setZeroOffset(4.71407 + Units.degreesToRadians(90));
+                steerEncoder.setZeroOffset(4.708008 + Units.degreesToRadians(90));
                 break;
             }
             default: throw new RuntimeException("Invalid SwerveModuleIOMAXSwerve index!");
@@ -90,7 +90,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
         /** Everything else is common between every swerve module */
 
         driveEncoder = driveSparkMax.getEncoder();
-        driveSparkMax.setInverted(false);
+        //driveSparkMax.setInverted(false);
         //steerSparkMax.setInverted(false);
 
         driveSparkMax.setIdleMode(IdleMode.kBrake);

@@ -44,7 +44,7 @@ public class ShootWhenReady extends Command {
     };
     // Robot is pointed at speaker
     if (Math.abs(poseEstimator.getRotationToSpeaker()) > Units.degreesToRadians(2)) {
-      confidenceTicks = Math.min(confidenceTicks, confidenceTicks + 1);
+      //confidenceTicks = Math.min(confidenceTicks, confidenceTicks + 1);
       return;
     }
     // confidence ticks make sure we are within tolerance for some time and not by chance

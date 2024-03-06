@@ -35,9 +35,9 @@ public class SwerveModule extends SubsystemBase {
 
     static {
         drivekS.initDefault(0.28);
-        drivekV.initDefault(1.6);
+        drivekV.initDefault(1.4);
         drivekP.initDefault(1.3);
-        steerkP.initDefault(2.9);
+        steerkP.initDefault(3);
     }
 
     public SwerveModule (SwerveModuleIO io, int index) {
@@ -76,7 +76,7 @@ public class SwerveModule extends SubsystemBase {
 
         // Scale by cosine of angle error, to reduce movement in perpendicular
         // direction of desired while steering catches up
-        //optimizedState.speedMetersPerSecond *= Math.cos(steerController.getPositionError());
+        optimizedState.speedMetersPerSecond *= Math.cos(steerController.getPositionError());
 
         io.setDriveVoltage(
             driveFeedforward.calculate(optimizedState.speedMetersPerSecond) +
