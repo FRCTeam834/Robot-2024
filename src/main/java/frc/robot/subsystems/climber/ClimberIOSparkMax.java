@@ -1,6 +1,9 @@
 package frc.robot.subsystems.climber;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.Timer;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 
@@ -31,6 +34,7 @@ public class ClimberIOSparkMax implements ClimberIO {
         leftArmMotor.setSmartCurrentLimit(40);
 
         if(Constants.robotMode == RobotMode.COMPETITION) {
+            Timer.delay(0.2);
             rightArmMotor.burnFlash();
             leftArmMotor.burnFlash();
         }

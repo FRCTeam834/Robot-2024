@@ -3,6 +3,7 @@ package frc.robot.subsystems.drive;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -11,6 +12,7 @@ import com.revrobotics.SparkAbsoluteEncoder.Type;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
 import frc.robot.Constants.RobotMode;
 
@@ -108,25 +110,36 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
 
         // https://docs.revrobotics.com/sparkmax/operating-modes/control-interfaces
         driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20); // motor position frame
-        //driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
-        //driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
-        //driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
-        //driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
+        driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
+        driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
+        driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
+        driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
 
         //steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
         //steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
 
         if (Constants.robotMode == RobotMode.COMPETITION) {
+            Timer.delay(0.2);
             driveSparkMax.burnFlash();
             steerSparkMax.burnFlash();
         }
     }
 
     public void updateInputs (SwerveModuleIOInputs inputs) {
-        inputs.drivePosition = driveEncoder.getPosition();
-        inputs.driveVelocity = driveEncoder.getVelocity();
-        // Normalize [-pi, pi]
-        inputs.steerAngle = MathUtil.angleModulus(steerEncoder.getPosition());
+        inputs.didLastError = didLastError();
+        if (!didLastError()) {
+            inputs.drivePosition = driveEncoder.getPosition();
+            inputs.driveVelocity = driveEncoder.getVelocity();
+            // Normalize [-pi, pi]
+            inputs.steerAngle = MathUtil.angleModulus(steerEncoder.getPosition());
+        } else {
+            throw new Error("caught one?: " + driveEncoder.getPosition() + "\n" + MathUtil.angleModulus(steerEncoder.getPosition()));
+        }
+    }
+
+    public boolean didLastError () {
+        return driveSparkMax.getLastError() == REVLibError.kOk
+            && steerSparkMax.getLastError() == REVLibError.kOk;
     }
 
     public void setDriveVoltage (double voltage) {

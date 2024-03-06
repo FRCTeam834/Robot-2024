@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
 import frc.robot.Constants.RobotMode;
 
@@ -83,12 +84,24 @@ public class ShooterIOSparkMAX implements ShooterIO {
         pivotEncoder.setVelocityConversionFactor(2 * Math.PI / 60);
 
         //TODO: what do?
-        pivotMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 10);
+        pivotMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20);
+
+        topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535);
+        bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535);
+        topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
+        bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
+        topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
+        bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
+        topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
+        bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
+        topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
+        bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
 
         topRollerMotor.setClosedLoopRampRate(0.5);
         bottomRollerMotor.setClosedLoopRampRate(0.5);
 
         if(Constants.robotMode == RobotMode.COMPETITION) {
+            Timer.delay(0.2);
             topRollerMotor.burnFlash();
             bottomRollerMotor.burnFlash();
             pivotMotor.burnFlash();

@@ -5,6 +5,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
 import frc.robot.Constants.RobotMode;
 
@@ -27,6 +28,7 @@ public class IndexerIOSparkMAX implements IndexerIO {
         motor.setSmartCurrentLimit(40);
 
         if(Constants.robotMode == RobotMode.COMPETITION) {
+            Timer.delay(0.2);
             motor.burnFlash();
         }
     }

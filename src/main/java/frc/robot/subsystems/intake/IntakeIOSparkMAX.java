@@ -1,6 +1,9 @@
 package frc.robot.subsystems.intake;
 
 import com.revrobotics.CANSparkMax;
+
+import edu.wpi.first.wpilibj.Timer;
+
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -21,6 +24,7 @@ public class IntakeIOSparkMAX implements IntakeIO {
         rollerMotor.setInverted(true);
 
         if(Constants.robotMode == RobotMode.COMPETITION) {
+            Timer.delay(0.2);
             rollerMotor.burnFlash();
         }
     }
