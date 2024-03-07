@@ -1,0 +1,37 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.2635531613655822,
+      "y": 5.562594074262223
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MID ABC P1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MID ABC P2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MID ABC P3"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
