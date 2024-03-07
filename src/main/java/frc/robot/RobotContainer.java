@@ -59,6 +59,7 @@ import frc.robot.subsystems.intake.IntakeIOSparkMAX;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIOSparkMAX;
 import frc.robot.subsystems.vision.Vision;
+import frc.robot.utility.LEDs;
 import frc.robot.utility.PoseEstimator;
 
 /**
@@ -83,6 +84,7 @@ public class RobotContainer {
   Intake intake = new Intake(new IntakeIOSparkMAX());
   Deflector deflector = new Deflector(new DeflectorIOSparkMax());
   Climber climber = new Climber(new ClimberIOSparkMax());
+  public LEDs leds = new LEDs();
 
   private final SendableChooser<Command> autoChooser;
   private final Field2d pathPlannerField;
@@ -107,7 +109,7 @@ public class RobotContainer {
     */
 
     NamedCommands.registerCommand("SubwooferShot", new SubwooferShot(shooter, indexer));
-    NamedCommands.registerCommand("AutonIntakeAndAim", new AutonIntakeAndAim(intake, indexer, shooter, poseEstimator));
+    NamedCommands.registerCommand("AutonIntakeAndAim", new AutonIntakeAndAim(intake, indexer, shooter, poseEstimator, leds));
     NamedCommands.registerCommand("IndexerFeed", new AutonIndexerFeed(indexer));
     NamedCommands.registerCommand("DeflectorOut", new DeflectorToScoringPosition(deflector));
     NamedCommands.registerCommand("AmpShot", new AmpShot(shooter, indexer));
@@ -187,7 +189,7 @@ public class RobotContainer {
       OI::getLeftJoystickX
     ));
 
-    leftJoystick3.whileTrue(new IntakeSequence(intake, indexer, shooter, leftJoystick3));
+    leftJoystick3.whileTrue(new IntakeSequence(intake, indexer, shooter, leds, leftJoystick3));
 
     xboxA.whileTrue(new SubwooferShot(shooter, indexer));
     xboxB.whileTrue(new EjectStuckNote(intake, indexer, shooter));
@@ -212,7 +214,7 @@ public class RobotContainer {
     new JoystickButton(OI.leftJoystick, 6).onTrue(new DeflectorToScoringPosition(deflector));
     */
 
-    leftJoystick3.onTrue(new IntakeSequence(intake, indexer, shooter, leftJoystick3));
+    leftJoystick3.onTrue(new IntakeSequence(intake, indexer, shooter, leds, leftJoystick3));
     
     new JoystickButton(OI.rightJoystick, 2).whileTrue(new IndexerFeed(indexer));
   }

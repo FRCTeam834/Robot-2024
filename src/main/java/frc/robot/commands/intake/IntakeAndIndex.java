@@ -9,18 +9,22 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.indexer.Indexer;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.utility.LEDs;
+import frc.robot.utility.LEDs.Colors;
 
 public class IntakeAndIndex extends Command {
   private final Intake intake;
   private final Indexer indexer;
   private final Shooter shooter;
+  private final LEDs leds;
   private final Timer stopTimer = new Timer();
   private final Timer slowIndexerTimer = new Timer();
   
-  public IntakeAndIndex(Intake intake, Indexer indexer, Shooter shooter) {
+  public IntakeAndIndex(Intake intake, Indexer indexer, Shooter shooter, LEDs leds) {
     this.intake = intake;
     this.indexer = indexer;
     this.shooter = shooter;
+    this.leds = leds;
 
     addRequirements(intake, indexer, shooter);
   }
@@ -43,6 +47,7 @@ public class IntakeAndIndex extends Command {
       intake.setSetpoint(Intake.Setpoint.FAST);
       indexer.setSetpoint(Indexer.Setpoint.FAST);
     } else if (indexer.noteDetectedIntakeSide()) {
+      leds.setColorForTime(Colors.STROBEWHITE, 0.5);
       // intake.setSetpoint(Intake.Setpoint.SLOW);
       //indexer.setSetpoint(Indexer.Setpoint.SLOW);
       shooter.setDesiredPivotAngle(0.6);

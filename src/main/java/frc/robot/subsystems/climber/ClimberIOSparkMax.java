@@ -52,4 +52,17 @@ public class ClimberIOSparkMax implements ClimberIO {
         rightArmMotor.setVoltage(rightVolts);
         leftArmMotor.setVoltage(leftVolts);
     }
+
+    public void setCurrentLimit (int currentLimit) {
+        rightArmMotor.setSmartCurrentLimit(currentLimit);
+        leftArmMotor.setSmartCurrentLimit(currentLimit);
+    }
+
+    public void zeroRightClimber () {
+        encoderRight.setPosition(0.0);
+    }
+
+    public void zeroLeftClimber () {
+        encoderLeft.setPosition(0.0);
+    }
 }

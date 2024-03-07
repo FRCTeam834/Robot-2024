@@ -11,6 +11,7 @@ import frc.robot.commands.outtake.LockOnSpeaker;
 import frc.robot.subsystems.indexer.Indexer;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.utility.LEDs;
 import frc.robot.utility.PoseEstimator;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -18,11 +19,11 @@ import frc.robot.utility.PoseEstimator;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutonIntakeAndAim extends SequentialCommandGroup {
   /** Creates a new AutonReadyShooter. */
-  public AutonIntakeAndAim(Intake intake, Indexer indexer, Shooter shooter, PoseEstimator poseEstimator) {
+  public AutonIntakeAndAim(Intake intake, Indexer indexer, Shooter shooter, PoseEstimator poseEstimator, LEDs leds) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new IntakeAndIndex(intake, indexer, shooter),
+      new IntakeAndIndex(intake, indexer, shooter, leds),
       new WiggleIndexer(intake, indexer)
     );
   }

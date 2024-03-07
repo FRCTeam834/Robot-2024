@@ -10,18 +10,19 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.indexer.Indexer;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.utility.LEDs;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class IntakeSequence extends SequentialCommandGroup {
   /** Creates a new IntakeSequence. */
-  public IntakeSequence(Intake intake, Indexer indexer, Shooter shooter, BooleanSupplier runSupplier) {
+  public IntakeSequence(Intake intake, Indexer indexer, Shooter shooter, LEDs leds, BooleanSupplier runSupplier) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ShooterToIntakeAngle(shooter),
-      new IntakeAndIndex(intake, indexer, shooter).onlyWhile(runSupplier::getAsBoolean),
+      new IntakeAndIndex(intake, indexer, shooter, leds).onlyWhile(runSupplier::getAsBoolean),
       new WiggleIndexer(intake, indexer).onlyIf(indexer::noteDetectedIntakeSide)
     );
   }

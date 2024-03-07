@@ -11,4 +11,5 @@ public interface ClimberIO {
 
     public default void updateInputs(ClimberIOInputs inputs) {}
     public default void setMotorVoltage(double rightVoltage, double leftVoltage) {}
+    public default void setCurrentLimit(int currentLimit) {}
 }

@@ -37,6 +37,18 @@ public class Climber extends SubsystemBase {
     //}
   }
 
+  public double getLeftArmVelocity () {
+    return inputs.leftSwerveVelocity;
+  }
+
+  public double getRightArmVelocity () {
+    return inputs.rightSwerveVelocity;
+  }
+
+  public void setCurrentLimit (int currentLimit) {
+    io.setCurrentLimit(currentLimit);
+  }
+
   @Override
   public void periodic() {
     io.updateInputs(inputs);
