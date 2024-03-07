@@ -14,12 +14,13 @@ import frc.robot.subsystems.shooter.Shooter;
  * Hardcoded shot from subwoofer
  * Can be used if vision or IR sensors are broken
  */
-public class SubwooferShot extends Command {
+public class AutonShot5Point5 extends Command {
   /** Creates a new SubwooferShot. */
   private final Shooter shooter;
   private final Indexer indexer;
+  private Timer timer = new Timer();
 
-  public SubwooferShot(Shooter shooter, Indexer indexer) {
+  public AutonShot5Point5(Shooter shooter, Indexer indexer) {
     this.shooter = shooter;
     this.indexer = indexer;
     addRequirements(shooter, indexer);
@@ -29,16 +30,21 @@ public class SubwooferShot extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setDesiredPivotAngle(1);
-    shooter.setDesiredRollerSpeeds(4000);
+    timer.reset();
+    timer.stop();
+    shooter.setDesiredPivotAngle(0.52);
+    shooter.setDesiredRollerSpeeds(5500);
     indexer.setSetpoint(Indexer.Setpoint.STOP);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!shooter.atDesiredSetpoint(Units.degreesToRadians(2), 100)) return;
-    indexer.setSetpoint(Indexer.Setpoint.FEED);
+    //if (!shooter.atDesiredSetpoint(Units.degreesToRadians(2), 100)) return;
+    //indexer.setSetpoint(Indexer.Setpoint.FEED);
+    if (!indexer.hasNote()) {
+      timer.start();
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -51,6 +57,6 @@ public class SubwooferShot extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return !indexer.hasNote();
+    return timer.hasElapsed(10);
   }
 }

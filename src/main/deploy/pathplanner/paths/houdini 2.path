@@ -3,41 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.6160371039603297,
-        "y": 6.680400169815762
+        "x": 3.94649899620084,
+        "y": 2.356642625503519
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.4535216733541423,
-        "y": 6.75830571115472
+        "x": 5.8551847590053425,
+        "y": 0.8472227620611829
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.8363450321206702,
-        "y": 6.845949445161049
+        "x": 8.28973292584782,
+        "y": 2.0255440748129425
       },
       "prevControl": {
-        "x": 2.4859807375943763,
-        "y": 6.86152119158444
+        "x": 8.215468800025224,
+        "y": 0.6887898100061751
       },
       "nextControl": {
-        "x": 3.274563702152316,
-        "y": 6.82647305982631
+        "x": 8.357900274519407,
+        "y": 3.2525563509015516
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.063357308209279,
-        "y": 6.680400169815762
+        "x": 4.170477427550348,
+        "y": 4.849619948350218
       },
       "prevControl": {
-        "x": 3.8004261061902915,
-        "y": 6.6998765551505
+        "x": 6.517381860386496,
+        "y": 3.4862729749184296
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,18 +46,23 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.8,
-      "rotationDegrees": 11.966573579773733,
+      "waypointRelativePos": 0.75,
+      "rotationDegrees": 50.826342029555626,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 1.3,
+      "rotationDegrees": 50.83,
       "rotateFast": false
     }
   ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Intake",
+      "name": "New Event Marker",
       "waypointRelativePos": 0.15,
       "command": {
-        "type": "sequential",
+        "type": "parallel",
         "data": {
           "commands": [
             {
@@ -71,8 +76,8 @@
       }
     },
     {
-      "name": "Shoot",
-      "waypointRelativePos": 1.35,
+      "name": "New Event Marker",
+      "waypointRelativePos": 1.5,
       "command": {
         "type": "sequential",
         "data": {
@@ -80,7 +85,7 @@
             {
               "type": "named",
               "data": {
-                "name": "IndexerFeed"
+                "name": "AutonShot5"
               }
             }
           ]
@@ -96,13 +101,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 10.713123022791137,
-    "rotateFast": false
+    "rotation": -3.2704879231834716,
+    "rotateFast": true
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": 59.58891873287467,
+    "rotation": -61.113418233089284,
     "velocity": 0
   },
   "useDefaultConstraints": true

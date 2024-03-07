@@ -8,6 +8,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -28,6 +29,7 @@ public class DriveLockToSpeaker extends Command {
   private final PIDController alignController;
   private double PIDOutput;
   private double speedMultiplier;
+  private final LinearFilter angleAverage = LinearFilter.movingAverage(3);
   
   public DriveLockToSpeaker(Swerve driveTrain, PoseEstimator poseEstimator, DoubleSupplier vxSupplier, DoubleSupplier vySupplier, DoubleSupplier omegaSupplier, double speedMultipler) {
     this.driveTrain = driveTrain;
@@ -37,19 +39,22 @@ public class DriveLockToSpeaker extends Command {
     this.omegaSupplier = omegaSupplier;
     this.speedMultiplier = speedMultipler;
 
-    alignController = new PIDController(3, 0, 0);
+    alignController = new PIDController(1.5, 0, 0);
     alignController.enableContinuousInput(-Math.PI, Math.PI);
     addRequirements(driveTrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    angleAverage.reset();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
       double error = poseEstimator.getRotationToSpeaker();
+      error = angleAverage.calculate(error);
     
       PIDOutput = alignController.calculate(error);
 

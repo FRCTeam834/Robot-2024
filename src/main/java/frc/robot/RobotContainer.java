@@ -38,8 +38,12 @@ import frc.robot.commands.intake.EjectStuckNote;
 import frc.robot.commands.intake.IntakeAndIndex;
 import frc.robot.commands.intake.IntakeSequence;
 import frc.robot.commands.outtake.AmpShot;
+import frc.robot.commands.outtake.AutonIndexerFeed;
+import frc.robot.commands.outtake.AutonShot5;
+import frc.robot.commands.outtake.AutonShot5Point5;
 import frc.robot.commands.outtake.DumbShooter;
 import frc.robot.commands.outtake.IndexerFeed;
+import frc.robot.commands.outtake.ManualFarPost;
 import frc.robot.commands.outtake.SubwooferShot;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.climber.ClimberIOSparkMax;
@@ -104,15 +108,17 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("SubwooferShot", new SubwooferShot(shooter, indexer));
     NamedCommands.registerCommand("AutonIntakeAndAim", new AutonIntakeAndAim(intake, indexer, shooter, poseEstimator));
-    NamedCommands.registerCommand("IndexerFeed", new IndexerFeed(indexer));
+    NamedCommands.registerCommand("IndexerFeed", new AutonIndexerFeed(indexer));
     NamedCommands.registerCommand("DeflectorOut", new DeflectorToScoringPosition(deflector));
     NamedCommands.registerCommand("AmpShot", new AmpShot(shooter, indexer));
+    NamedCommands.registerCommand("AutonShot5", new AutonShot5(shooter, indexer));
+    NamedCommands.registerCommand("AutonShot5Point5", new AutonShot5Point5(shooter, indexer));
 
     swerve.configureAutoBuilder(poseEstimator);
     // autoChooser = new SendableChooser<>();
     autoChooser = AutoBuilder.buildAutoChooser();
     autoChooser.setDefaultOption("Do Nothing", new InstantCommand());
-    autoChooser.addOption("TestPath", new PathPlannerAuto("TestAuto"));
+    autoChooser.addOption("houdini", new PathPlannerAuto("houdini"));
     
     SmartDashboard.putData(autoChooser);
     pathPlannerField = new Field2d();
@@ -185,7 +191,7 @@ public class RobotContainer {
 
     xboxA.whileTrue(new SubwooferShot(shooter, indexer));
     xboxB.whileTrue(new EjectStuckNote(intake, indexer, shooter));
-    //xboxX.whileTrue(new DeflectorToScoringPosition(deflector));
+    xboxX.whileTrue(new ManualFarPost(shooter, indexer));
     //xboxY.whileTrue(new DeflectorToNeutralPosition(deflector));
 
     /** Amp lineup */

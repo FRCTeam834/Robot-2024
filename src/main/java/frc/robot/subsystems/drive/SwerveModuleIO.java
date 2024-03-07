@@ -5,7 +5,6 @@ public interface SwerveModuleIO {
         public double drivePosition = 0.0;
         public double driveVelocity = 0.0;
         public double steerAngle = 0.0;
-        public boolean didLastError = false;
     }
 
     /** Update inputs with new sensor readings */

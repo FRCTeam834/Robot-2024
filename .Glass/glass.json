@@ -54,7 +54,7 @@
             0.0,
             0.8500000238418579
           ],
-          "height": -49,
+          "height": 442,
           "series": [
             {
               "color": [
@@ -96,7 +96,7 @@
             0.0,
             0.8500000238418579
           ],
-          "height": -49,
+          "height": 725,
           "series": [
             {
               "color": [
@@ -245,7 +245,7 @@
             0.0,
             0.8500000238418579
           ],
-          "height": 520,
+          "height": -49,
           "series": [
             {
               "color": [
@@ -314,7 +314,7 @@
             0.0,
             0.8500000238418579
           ],
-          "height": -49,
+          "height": 513,
           "series": [
             {
               "color": [
@@ -351,6 +351,24 @@
                 1.0
               ],
               "id": "NT:/SmartDashboard/SwerveModule 0/Angle"
+            },
+            {
+              "color": [
+                0.5058823823928833,
+                0.44705885648727417,
+                0.7019608020782471,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/SwerveModule 3/Setpoint Speed"
+            },
+            {
+              "color": [
+                0.5764706134796143,
+                0.4705882668495178,
+                0.3764706254005432,
+                1.0
+              ],
+              "id": "NT:/SmartDashboard/SwerveModule 3/Speed"
             }
           ]
         }

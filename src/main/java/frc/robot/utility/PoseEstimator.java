@@ -26,7 +26,11 @@ public class PoseEstimator extends SubsystemBase {
     private final Swerve swerve;
     private final Vision vision;
     private final SwerveDrivePoseEstimator poseEstimator;
+    //private final SwerveDrivePoseEstimator odometryEstimator;
+    //private final SwerveDrivePoseEstimator visionEstimator;
     private final Field2d poseEstimateField = new Field2d();
+    //private final Field2d odometryField = new Field2d();
+    //private final Field2d visionField = new Field2d();
 
     private static final double visionXYstddev = 0.01;
     private static final double visionTHETAstddev = 834;
@@ -45,6 +49,8 @@ public class PoseEstimator extends SubsystemBase {
             VecBuilder.fill(visionXYstddev, visionXYstddev, visionTHETAstddev)
         );
         SmartDashboard.putData("PoseEstimate", poseEstimateField);
+         //SmartDashboard.putData("OdometryEstimate", odometryField);
+         // SmartDashboard.putData("VisionEstimate", visionField);
         SmartDashboard.putData(this);
     }
 
@@ -122,20 +128,22 @@ public class PoseEstimator extends SubsystemBase {
         AprilTagIOInputs[] visionInputs = vision.getInputs();
         for (int i = 0; i < visionInputs.length; i++) {
             if (visionInputs[i].poseEstimate == null) continue;
+            //System.out.println("x: " + visionInputs[i].poseEstimate.toPose2d().getX() + " y: " + visionInputs[i].poseEstimate.toPose2d().getY());
             poseEstimator.addVisionMeasurement(
                 visionInputs[i].poseEstimate.toPose2d(),
                 visionInputs[i].lastTimestamp,
                 VecBuilder.fill(
-                    visionXYstddev * Math.pow(visionInputs[i].averageDistance, 2),
-                    visionXYstddev * Math.pow(visionInputs[i].averageDistance, 2),
-                    visionTHETAstddev // dont care we never trust this
+                    visionXYstddev,// * Math.pow(visionInputs[i].averageDistance, 2),
+                    visionXYstddev,// * Math.pow(visionInputs[i].averageDistance, 2),
+                    0.05 // dont care we never trust this
                 )
             );
-            visionEstimate = visionInputs[i].poseEstimate.toPose2d();
         }
 
         if (Constants.robotMode == RobotMode.DEVELOPMENT) {
             poseEstimateField.setRobotPose(getEstimatedPose());
+            //odometryField.setRobotPose(odometryEstimator.getEstimatedPosition());
+            //visionField.setRobotPose(visionEstimator.getEstimatedPosition());
             //poseEstimateField.setRobotPose(visionEstimate);
         }
     }

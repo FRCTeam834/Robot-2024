@@ -14,12 +14,12 @@ import frc.robot.subsystems.shooter.Shooter;
  * Hardcoded shot from subwoofer
  * Can be used if vision or IR sensors are broken
  */
-public class SubwooferShot extends Command {
+public class ManualFarPost extends Command {
   /** Creates a new SubwooferShot. */
   private final Shooter shooter;
   private final Indexer indexer;
 
-  public SubwooferShot(Shooter shooter, Indexer indexer) {
+  public ManualFarPost(Shooter shooter, Indexer indexer) {
     this.shooter = shooter;
     this.indexer = indexer;
     addRequirements(shooter, indexer);
@@ -29,15 +29,15 @@ public class SubwooferShot extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setDesiredPivotAngle(1);
-    shooter.setDesiredRollerSpeeds(4000);
+    shooter.setDesiredPivotAngle(0.45);
+    shooter.setDesiredRollerSpeeds(5500);
     indexer.setSetpoint(Indexer.Setpoint.STOP);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!shooter.atDesiredSetpoint(Units.degreesToRadians(2), 100)) return;
+    if (!shooter.atDesiredSetpoint(Units.degreesToRadians(0.6), 30)) return;
     indexer.setSetpoint(Indexer.Setpoint.FEED);
   }
 

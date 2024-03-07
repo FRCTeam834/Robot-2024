@@ -29,6 +29,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
 
     public SwerveModuleIOMAXSwerve (int index) {
         /** CAN IDs and encoder offsets are different for each module */
+        
         switch (index) {
             /** Front Left */
             case 0: {
@@ -36,11 +37,13 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 steerSparkMax = new CANSparkMax(2, MotorType.kBrushless);
                 driveSparkMax.restoreFactoryDefaults();
                 steerSparkMax.restoreFactoryDefaults();
+                Timer.delay(0.2);
                 steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10);
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
                 steerEncoder.setInverted(true); // MAXSwerve has steer gearing reversed
                 // revs -> radians
                 steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing);
+                Timer.delay(0.2);
                 steerEncoder.setZeroOffset(4.63282 - Units.degreesToRadians(90));
                 break;
             }
@@ -50,11 +53,13 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 steerSparkMax = new CANSparkMax(4, MotorType.kBrushless);
                 driveSparkMax.restoreFactoryDefaults();
                 steerSparkMax.restoreFactoryDefaults();
+                Timer.delay(0.2);
                 steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10);
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
                 steerEncoder.setInverted(true); // MAXSwerve has steer gearing reversed
                 // revs -> radians
                 steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing);
+                Timer.delay(0.2);
                 steerEncoder.setZeroOffset(1.1958 - Units.degreesToRadians(0));
                 break;
             }
@@ -64,11 +69,13 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 steerSparkMax = new CANSparkMax(6, MotorType.kBrushless);
                 driveSparkMax.restoreFactoryDefaults();
                 steerSparkMax.restoreFactoryDefaults();
+                Timer.delay(0.2);
                 steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10);
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
                 steerEncoder.setInverted(true); // MAXSwerve has steer gearing reversed
                 // revs -> radians
                 steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing);
+                Timer.delay(0.2);
                 steerEncoder.setZeroOffset(2.715878 + Units.degreesToRadians(180));
                 break;
             }
@@ -78,11 +85,13 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 steerSparkMax = new CANSparkMax(8, MotorType.kBrushless);
                 driveSparkMax.restoreFactoryDefaults();
                 steerSparkMax.restoreFactoryDefaults();
+                Timer.delay(0.2);
                 steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10);
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
                 steerEncoder.setInverted(true); // MAXSwerve has steer gearing reversed
                 // revs -> radians
                 steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing);
+                Timer.delay(0.2);
                 steerEncoder.setZeroOffset(4.708008 + Units.degreesToRadians(90));
                 break;
             }
@@ -115,31 +124,26 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
         driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
         driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
 
-        //steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
-        //steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
+        steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
+        steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
 
         if (Constants.robotMode == RobotMode.COMPETITION) {
             Timer.delay(0.2);
             driveSparkMax.burnFlash();
             steerSparkMax.burnFlash();
         }
+        Timer.delay(0.5);
     }
 
     public void updateInputs (SwerveModuleIOInputs inputs) {
-        inputs.didLastError = didLastError();
-        if (!didLastError()) {
+        if (driveSparkMax.getLastError() == REVLibError.kOk) {
             inputs.drivePosition = driveEncoder.getPosition();
             inputs.driveVelocity = driveEncoder.getVelocity();
+        }
+        if (steerSparkMax.getLastError() == REVLibError.kOk) {
             // Normalize [-pi, pi]
             inputs.steerAngle = MathUtil.angleModulus(steerEncoder.getPosition());
-        } else {
-            throw new Error("caught one?: " + driveEncoder.getPosition() + "\n" + MathUtil.angleModulus(steerEncoder.getPosition()));
         }
-    }
-
-    public boolean didLastError () {
-        return driveSparkMax.getLastError() == REVLibError.kOk
-            && steerSparkMax.getLastError() == REVLibError.kOk;
     }
 
     public void setDriveVoltage (double voltage) {

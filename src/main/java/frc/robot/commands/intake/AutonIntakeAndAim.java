@@ -23,10 +23,7 @@ public class AutonIntakeAndAim extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new IntakeAndIndex(intake, indexer, shooter),
-      new ParallelCommandGroup(
-        new WiggleIndexer(intake, indexer),
-        new LockOnSpeaker(shooter, indexer, poseEstimator)
-      )
+      new WiggleIndexer(intake, indexer)
     );
   }
 }
