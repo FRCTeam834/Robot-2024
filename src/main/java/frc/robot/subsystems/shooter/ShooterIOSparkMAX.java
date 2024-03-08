@@ -46,8 +46,8 @@ public class ShooterIOSparkMAX implements ShooterIO {
             configureSpark("roller enable voltage comp", () -> { return motor.enableVoltageCompensation(12.0); });
         }
 
-        pivotMotor.restoreFactoryDefaults();
-        pivotMotor.enableVoltageCompensation(12.0);
+        configureSpark("", () -> { return pivotMotor.restoreFactoryDefaults(); });
+        configureSpark("", () -> { return pivotMotor.enableVoltageCompensation(12.0); });
 
         topRollerController = topRollerMotor.getPIDController();
         bottomRollerController = bottomRollerMotor.getPIDController();
@@ -55,60 +55,60 @@ public class ShooterIOSparkMAX implements ShooterIO {
         topRollerEncoder = topRollerMotor.getEncoder();
         bottomRollerEncoder = bottomRollerMotor.getEncoder();
 
-        topRollerController.setFeedbackDevice(topRollerEncoder);
-        bottomRollerController.setFeedbackDevice(bottomRollerEncoder);
+        configureSpark("", () -> { return topRollerController.setFeedbackDevice(topRollerEncoder); });
+        configureSpark("", () -> { return bottomRollerController.setFeedbackDevice(bottomRollerEncoder); });
 
         setRollerPID(0.0, 0.0, 0.0);
 
-        topRollerEncoder.setAverageDepth(4);
-        topRollerEncoder.setMeasurementPeriod(10);
-        bottomRollerEncoder.setAverageDepth(4);
-        bottomRollerEncoder.setMeasurementPeriod(10);
+        configureSpark("", () -> { return topRollerEncoder.setAverageDepth(4); });
+        configureSpark("", () -> { return topRollerEncoder.setMeasurementPeriod(10); });
+        configureSpark("", () -> { return bottomRollerEncoder.setAverageDepth(4); });
+        configureSpark("", () -> { return bottomRollerEncoder.setMeasurementPeriod(10); });
         
         pivotEncoder = pivotMotor.getAbsoluteEncoder(Type.kDutyCycle);
-        pivotEncoder.setInverted(true);
-        pivotEncoder.setPositionConversionFactor(Math.PI * 2);
-        pivotEncoder.setVelocityConversionFactor(Math.PI * 2 / 60);
-        pivotEncoder.setZeroOffset(4.073166 - 0.1570796327);
-        pivotMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10);
+        configureSpark("", () -> { return pivotEncoder.setInverted(true); });
+        configureSpark("", () -> { return pivotEncoder.setPositionConversionFactor(Math.PI * 2); });
+        configureSpark("", () -> { return pivotEncoder.setVelocityConversionFactor(Math.PI * 2 / 60); });
+        configureSpark("", () -> { return pivotEncoder.setZeroOffset(4.073166 - 0.1570796327); });
+        configureSpark("", () -> { return pivotMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10); });
 
         topRollerMotor.setInverted(false);
         bottomRollerMotor.setInverted(true);
 
-        topRollerMotor.setIdleMode(IdleMode.kCoast);
-        bottomRollerMotor.setIdleMode(IdleMode.kCoast);
-        pivotMotor.setIdleMode(IdleMode.kCoast);
+        configureSpark("", () -> { return topRollerMotor.setIdleMode(IdleMode.kCoast); });
+        configureSpark("", () -> { return bottomRollerMotor.setIdleMode(IdleMode.kCoast); });
+        configureSpark("", () -> { return pivotMotor.setIdleMode(IdleMode.kCoast); });
 
-        topRollerMotor.setSmartCurrentLimit(40);
-        bottomRollerMotor.setSmartCurrentLimit(40);
-        pivotMotor.setSmartCurrentLimit(40);
+        configureSpark("", () -> { return topRollerMotor.setSmartCurrentLimit(40); });
+        configureSpark("", () -> { return bottomRollerMotor.setSmartCurrentLimit(40); });
+        configureSpark("", () -> { return pivotMotor.setSmartCurrentLimit(40); });
 
         // absolute encoder is 1:1
-        pivotEncoder.setPositionConversionFactor(2 * Math.PI);
-        pivotEncoder.setVelocityConversionFactor(2 * Math.PI / 60);
+        configureSpark("", () -> { return pivotEncoder.setPositionConversionFactor(2 * Math.PI); });
+        configureSpark("", () -> { return pivotEncoder.setVelocityConversionFactor(2 * Math.PI / 60); });
 
         //TODO: what do?
         pivotMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20);
 
-        topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535);
-        bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535);
-        topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
-        bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
-        topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
-        bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
-        topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
-        bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
-        topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
-        bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
+        configureSpark("", () -> { return topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535); });
+        configureSpark("", () -> { return bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535); });
+        configureSpark("", () -> { return topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535); });
+        configureSpark("", () -> { return bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535); });
+        configureSpark("", () -> { return topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535); });
+        configureSpark("", () -> { return bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535); });
+        configureSpark("", () -> { return topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535); });
+        configureSpark("", () -> { return bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535); });
+        configureSpark("", () -> { return topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535); });
+        configureSpark("", () -> { return bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535); });
 
-        topRollerMotor.setClosedLoopRampRate(0.5);
-        bottomRollerMotor.setClosedLoopRampRate(0.5);
+        configureSpark("", () -> { return topRollerMotor.setClosedLoopRampRate(0.5); });
+        configureSpark("", () -> { return bottomRollerMotor.setClosedLoopRampRate(0.5); });
 
         if(Constants.robotMode == RobotMode.COMPETITION) {
             Timer.delay(0.2);
-            topRollerMotor.burnFlash();
-            bottomRollerMotor.burnFlash();
-            pivotMotor.burnFlash();
+            configureSpark("", () -> { return topRollerMotor.burnFlash(); });
+            configureSpark("", () -> { return bottomRollerMotor.burnFlash(); });
+            configureSpark("", () -> { return pivotMotor.burnFlash(); });
         }
 
     }
@@ -147,12 +147,12 @@ public class ShooterIOSparkMAX implements ShooterIO {
     }
 
     public void setRollerPID (double kP, double kI, double kD) {
-        topRollerController.setP(kP);
-        topRollerController.setI(kI);
-        topRollerController.setD(kD);
-        bottomRollerController.setP(kP);
-        bottomRollerController.setI(kI);
-        bottomRollerController.setD(kD);
+        configureSpark("", () -> { return topRollerController.setP(kP); });
+        configureSpark("", () -> { return topRollerController.setI(kI); });
+        configureSpark("", () -> { return topRollerController.setD(kD); });
+        configureSpark("", () -> { return bottomRollerController.setP(kP); });
+        configureSpark("", () -> { return bottomRollerController.setI(kI); });
+        configureSpark("", () -> { return bottomRollerController.setD(kD); });
     }
 
     public void setTopRollerFeedforward (double kS, double kV) {

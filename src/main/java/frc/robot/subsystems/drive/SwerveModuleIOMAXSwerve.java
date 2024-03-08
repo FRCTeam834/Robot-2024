@@ -1,5 +1,7 @@
 package frc.robot.subsystems.drive;
 
+import java.util.function.Supplier;
+
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
@@ -12,6 +14,7 @@ import com.revrobotics.SparkAbsoluteEncoder.Type;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
 import frc.robot.Constants.RobotMode;
@@ -35,64 +38,64 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
             case 0: {
                 driveSparkMax = new CANSparkFlex(3, MotorType.kBrushless);
                 steerSparkMax = new CANSparkMax(2, MotorType.kBrushless);
-                driveSparkMax.restoreFactoryDefaults();
-                steerSparkMax.restoreFactoryDefaults();
+                configureSpark("", () -> { return driveSparkMax.restoreFactoryDefaults(); });
+                configureSpark("", () -> { return steerSparkMax.restoreFactoryDefaults(); });
                 Timer.delay(0.2);
-                steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10);
+                configureSpark("", () -> { return steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10); });
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
-                steerEncoder.setInverted(true); // MAXSwerve has steer gearing reversed
+                configureSpark("", () -> { return steerEncoder.setInverted(true); }); // MAXSwerve has steer gearing reversed
                 // revs -> radians
-                steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing);
+                configureSpark("", () -> { return steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing); });
                 Timer.delay(0.2);
-                steerEncoder.setZeroOffset(4.63282 - Units.degreesToRadians(90));
+                configureSpark("", () -> { return steerEncoder.setZeroOffset(4.63282 - Units.degreesToRadians(90)); });
                 break;
             }
             /** Front Right */
             case 1: {
                 driveSparkMax = new CANSparkFlex(5, MotorType.kBrushless);
                 steerSparkMax = new CANSparkMax(4, MotorType.kBrushless);
-                driveSparkMax.restoreFactoryDefaults();
-                steerSparkMax.restoreFactoryDefaults();
+                configureSpark("", () -> { return driveSparkMax.restoreFactoryDefaults(); });
+                configureSpark("", () -> { return steerSparkMax.restoreFactoryDefaults(); });
                 Timer.delay(0.2);
-                steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10);
+                configureSpark("", () -> { return steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10); });
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
-                steerEncoder.setInverted(true); // MAXSwerve has steer gearing reversed
+                configureSpark("", () -> { return steerEncoder.setInverted(true); }); // MAXSwerve has steer gearing reversed
                 // revs -> radians
-                steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing);
+                configureSpark("", () -> { return steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing); });
                 Timer.delay(0.2);
-                steerEncoder.setZeroOffset(1.1958 - Units.degreesToRadians(0));
+                configureSpark("", () -> { return steerEncoder.setZeroOffset(1.1958 - Units.degreesToRadians(0)); });
                 break;
             }
             /** Back Left */
             case 2: {
                 driveSparkMax = new CANSparkFlex(7, MotorType.kBrushless);
                 steerSparkMax = new CANSparkMax(6, MotorType.kBrushless);
-                driveSparkMax.restoreFactoryDefaults();
-                steerSparkMax.restoreFactoryDefaults();
+                configureSpark("", () -> { return driveSparkMax.restoreFactoryDefaults(); });
+                configureSpark("", () -> { return steerSparkMax.restoreFactoryDefaults(); });
                 Timer.delay(0.2);
-                steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10);
+                configureSpark("", () -> { return steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10); });
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
-                steerEncoder.setInverted(true); // MAXSwerve has steer gearing reversed
+                configureSpark("", () -> { return steerEncoder.setInverted(true); }); // MAXSwerve has steer gearing reversed
                 // revs -> radians
-                steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing);
+                configureSpark("", () -> { return steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing); });
                 Timer.delay(0.2);
-                steerEncoder.setZeroOffset(2.715878 + Units.degreesToRadians(180));
+                configureSpark("", () -> { return steerEncoder.setZeroOffset(2.715878 + Units.degreesToRadians(180)); });
                 break;
             }
             /** Back Right */
             case 3: {
                 driveSparkMax = new CANSparkFlex(9, MotorType.kBrushless);
                 steerSparkMax = new CANSparkMax(8, MotorType.kBrushless);
-                driveSparkMax.restoreFactoryDefaults();
-                steerSparkMax.restoreFactoryDefaults();
+                configureSpark("", () -> { return driveSparkMax.restoreFactoryDefaults(); });
+                configureSpark("", () -> { return steerSparkMax.restoreFactoryDefaults(); });
                 Timer.delay(0.2);
-                steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10);
+                configureSpark("", () -> { return steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10); });
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
-                steerEncoder.setInverted(true); // MAXSwerve has steer gearing reversed
+                configureSpark("", () -> { return steerEncoder.setInverted(true); }); // MAXSwerve has steer gearing reversed
                 // revs -> radians
-                steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing);
+                configureSpark("", () -> { return steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing); });
                 Timer.delay(0.2);
-                steerEncoder.setZeroOffset(4.708008 + Units.degreesToRadians(90));
+                configureSpark("", () -> { return steerEncoder.setZeroOffset(4.708008 + Units.degreesToRadians(90)); });
                 break;
             }
             default: throw new RuntimeException("Invalid SwerveModuleIOMAXSwerve index!");
@@ -104,35 +107,53 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
         //driveSparkMax.setInverted(false);
         //steerSparkMax.setInverted(false);
 
-        driveSparkMax.setIdleMode(IdleMode.kBrake);
-        steerSparkMax.setIdleMode(IdleMode.kBrake);
-        driveSparkMax.enableVoltageCompensation(12.0);
-        steerSparkMax.enableVoltageCompensation(12.0);
-        driveSparkMax.setSmartCurrentLimit(40);
-        steerSparkMax.setSmartCurrentLimit(20);
+        configureSpark("", () -> { return driveSparkMax.setIdleMode(IdleMode.kBrake); });
+        configureSpark("", () -> { return steerSparkMax.setIdleMode(IdleMode.kBrake); });
+        configureSpark("", () -> { return driveSparkMax.enableVoltageCompensation(12.0); });
+        configureSpark("", () -> { return steerSparkMax.enableVoltageCompensation(12.0); });
+        configureSpark("", () -> { return driveSparkMax.setSmartCurrentLimit(40); });
+        configureSpark("", () -> { return steerSparkMax.setSmartCurrentLimit(20); });
         driveSparkMax.setInverted(false);
 
         // rpm -> m/s
-        driveEncoder.setVelocityConversionFactor(Math.PI * wheelDiameter / (60 * driveEncoderGearing));
+        configureSpark("", () -> { return driveEncoder.setVelocityConversionFactor(Math.PI * wheelDiameter / (60 * driveEncoderGearing)); });
         // revs -> meters
-        driveEncoder.setPositionConversionFactor(Math.PI * wheelDiameter / driveEncoderGearing);
+        configureSpark("", () -> { return driveEncoder.setPositionConversionFactor(Math.PI * wheelDiameter / driveEncoderGearing); });
 
         // https://docs.revrobotics.com/sparkmax/operating-modes/control-interfaces
-        driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20); // motor position frame
-        driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
-        driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
-        driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
-        driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
+        configureSpark("", () -> { return driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20); }); // motor position frame
+        configureSpark("", () -> { return driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535); });
+        configureSpark("", () -> { return driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535); });
+        configureSpark("", () -> { return driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535); });
+        configureSpark("", () -> { return driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535); });
 
-        steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
-        steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
+        configureSpark("", () -> { return steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535); });
+        configureSpark("", () -> { return steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535); });
 
         if (Constants.robotMode == RobotMode.COMPETITION) {
             Timer.delay(0.2);
-            driveSparkMax.burnFlash();
-            steerSparkMax.burnFlash();
+            configureSpark("", () -> { return driveSparkMax.burnFlash(); });
+            configureSpark("", () -> { return steerSparkMax.burnFlash(); });
         }
         Timer.delay(0.5);
+    }
+
+    public static boolean configureSpark(String message, Supplier<REVLibError> config) {
+        REVLibError err = REVLibError.kOk;
+        for (int i = 0; i < 10; i++) {
+            err = config.get();
+            if (err == REVLibError.kOk) {
+                return true;
+            }
+        }
+
+        DriverStation.reportError(String.format(
+            "[MergeError] - CANSparkMax failed to configure setting. MergeMessage: %s. Spark error code: %s \nSee stack trace below.", 
+            message,
+            err.toString()), 
+            true);
+            
+        return false;
     }
 
     public void updateInputs (SwerveModuleIOInputs inputs) {

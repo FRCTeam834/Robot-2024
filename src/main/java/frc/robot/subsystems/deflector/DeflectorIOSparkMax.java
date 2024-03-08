@@ -4,13 +4,18 @@
 
 package frc.robot.subsystems.deflector;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.RobotMode;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
+
+import java.util.function.Supplier;
+
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
@@ -25,22 +30,40 @@ public class DeflectorIOSparkMax implements DeflectorIO {
     deflectorMotor = new CANSparkMax(10, MotorType.kBrushless); //! Add correct ID for the deflector motor
     deflectorEncoder = deflectorMotor.getEncoder();
 
-    deflectorMotor.restoreFactoryDefaults();
-    deflectorMotor.setIdleMode(IdleMode.kCoast);
-    deflectorMotor.setSmartCurrentLimit(20); //! Need correct current limit
+    configureSpark("", () -> { return deflectorMotor.restoreFactoryDefaults(); });
+    configureSpark("", () -> { return deflectorMotor.setIdleMode(IdleMode.kCoast); });
+    configureSpark("", () -> { return deflectorMotor.setSmartCurrentLimit(20); }); //! Need correct current limit
 
-    deflectorMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535);
-    deflectorMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
-    deflectorMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
-    deflectorMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
-    deflectorMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
+    configureSpark("", () -> { return deflectorMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535); });
+    configureSpark("", () -> { return deflectorMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535); });
+    configureSpark("", () -> { return deflectorMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535); });
+    configureSpark("", () -> { return deflectorMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535); });
+    configureSpark("", () -> { return deflectorMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535); });
 
     //! Burn flash needed?
     if (Constants.robotMode == RobotMode.COMPETITION) {
       Timer.delay(0.2);
-      deflectorMotor.burnFlash();
+      configureSpark("", () -> { return deflectorMotor.burnFlash(); });
     }
   }
+
+  public static boolean configureSpark(String message, Supplier<REVLibError> config) {
+        REVLibError err = REVLibError.kOk;
+        for (int i = 0; i < 10; i++) {
+            err = config.get();
+            if (err == REVLibError.kOk) {
+                return true;
+            }
+        }
+
+        DriverStation.reportError(String.format(
+            "[MergeError] - CANSparkMax failed to configure setting. MergeMessage: %s. Spark error code: %s \nSee stack trace below.", 
+            message,
+            err.toString()), 
+            true);
+            
+        return false;
+    }
 
   @Override
   public void updateInputs(DeflectorIOInputs inputs) {
