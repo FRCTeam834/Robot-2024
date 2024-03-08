@@ -2,6 +2,9 @@
   "NetworkTables": {
     "transitory": {
       "SmartDashboard": {
+        "PoseEstimate": {
+          "open": true
+        },
         "PoseEstimator": {
           "open": true
         },
@@ -147,7 +150,7 @@
             0.0,
             0.8500000238418579
           ],
-          "height": -41,
+          "height": 353,
           "series": [
             {
               "color": [
@@ -212,7 +215,7 @@
             0.0,
             0.8500000238418579
           ],
-          "height": -41,
+          "height": 353,
           "series": [
             {
               "color": [
@@ -245,7 +248,7 @@
             0.0,
             0.8500000238418579
           ],
-          "height": -49,
+          "height": 520,
           "series": [
             {
               "color": [
@@ -303,7 +306,10 @@
             }
           ]
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
     },
     "Plot <4>": {
       "plots": [
@@ -372,7 +378,10 @@
             }
           ]
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
     }
   }
 }

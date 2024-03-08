@@ -28,7 +28,7 @@ public class EjectStuckNote extends Command {
   public void initialize() {
     shooter.setDesiredPivotAngle(0.15);
     shooter.setDesiredRollerSpeeds(-1000);
-    intake.setVoltage(12);
+    intake.setVoltage(-12);
     indexer.setVoltage(-12);
   }
 

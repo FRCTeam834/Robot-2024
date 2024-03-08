@@ -24,7 +24,7 @@ public class AutonIntakeAndAim extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new IntakeAndIndex(intake, indexer, shooter, leds),
-      new WiggleIndexer(intake, indexer)
+      new WiggleIndexer(intake, indexer, leds)
     );
   }
 }

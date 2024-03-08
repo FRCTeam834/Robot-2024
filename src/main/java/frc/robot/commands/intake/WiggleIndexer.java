@@ -8,10 +8,13 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.indexer.Indexer;
 import frc.robot.subsystems.intake.Intake;
+import frc.robot.utility.LEDs;
+import frc.robot.utility.LEDs.Colors;
 
 public class WiggleIndexer extends Command {
   private final Intake intake;
   private final Indexer indexer;
+  private final LEDs leds;
   private boolean firstWiggle;
   private Timer wiggleTimer = new Timer();
 
@@ -20,9 +23,10 @@ public class WiggleIndexer extends Command {
 
 
   /** Creates a new WiggleIndexer. */
-  public WiggleIndexer(Intake intake, Indexer indexer) {
+  public WiggleIndexer(Intake intake, Indexer indexer, LEDs leds) {
     this.intake = intake;
     this.indexer = indexer;
+    this.leds = leds;
 
     addRequirements(intake, indexer);
   }
@@ -34,6 +38,7 @@ public class WiggleIndexer extends Command {
     wiggleTimer.reset();
     wiggleTimer.stop();
     intake.setSetpoint(Intake.Setpoint.SLOW);
+    leds.setColorForTime(Colors.CONFETTI, 10);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -43,7 +48,7 @@ public class WiggleIndexer extends Command {
       // Since note is up against shooter
       // if first wiggle push note out faster
       if (firstWiggle) {
-        indexer.setVoltage(-6);
+        indexer.setVoltage(-12);
       } else {
         indexer.setVoltage(-1);
       }
@@ -59,6 +64,7 @@ public class WiggleIndexer extends Command {
   public void end(boolean interrupted) {
     indexer.stop();
     intake.stop();
+    leds.cancelColorForTime();
   }
 
   // Returns true when the command should end.
