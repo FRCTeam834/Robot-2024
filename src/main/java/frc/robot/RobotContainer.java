@@ -121,7 +121,8 @@ public class RobotContainer {
     autoChooser = AutoBuilder.buildAutoChooser();
     autoChooser.setDefaultOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("houdini", new PathPlannerAuto("houdini"));
-    
+    autoChooser.addOption("MID ABC", new PathPlannerAuto("MID ABC"));
+
     SmartDashboard.putData(autoChooser);
     pathPlannerField = new Field2d();
     SmartDashboard.putData("PathTarget", pathPlannerField); 
@@ -193,7 +194,9 @@ public class RobotContainer {
 
     xboxA.whileTrue(new SubwooferShot(shooter, indexer));
     xboxB.whileTrue(new EjectStuckNote(intake, indexer, shooter));
-    xboxX.whileTrue(new ManualFarPost(shooter, indexer));
+    xboxY.whileTrue(new InstantCommand(() -> {
+      shooter.setDesiredPivotAngle(1.1);
+    }));
     //xboxY.whileTrue(new DeflectorToNeutralPosition(deflector));
 
     /** Amp lineup */

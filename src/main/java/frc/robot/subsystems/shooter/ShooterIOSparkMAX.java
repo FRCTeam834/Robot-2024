@@ -1,8 +1,11 @@
 package frc.robot.subsystems.shooter;
 
+import java.util.function.Supplier;
+
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkFlex;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
@@ -12,6 +15,7 @@ import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
 import frc.robot.Constants.RobotMode;
@@ -38,8 +42,8 @@ public class ShooterIOSparkMAX implements ShooterIO {
         CANSparkFlex[] motors = { topRollerMotor, bottomRollerMotor };
 
         for (CANSparkFlex motor : motors) {
-            motor.restoreFactoryDefaults();
-            motor.enableVoltageCompensation(12.0);
+            configureSpark("roller restore factory", () -> { return motor.restoreFactoryDefaults(); });
+            configureSpark("roller enable voltage comp", () -> { return motor.enableVoltageCompensation(12.0); });
         }
 
         pivotMotor.restoreFactoryDefaults();
@@ -107,6 +111,24 @@ public class ShooterIOSparkMAX implements ShooterIO {
             pivotMotor.burnFlash();
         }
 
+    }
+
+    public static boolean configureSpark(String message, Supplier<REVLibError> config) {
+        REVLibError err = REVLibError.kOk;
+        for (int i = 0; i < 10; i++) {
+            err = config.get();
+            if (err == REVLibError.kOk) {
+                return true;
+            }
+        }
+
+        DriverStation.reportError(String.format(
+            "[MergeError] - CANSparkMax failed to configure setting. MergeMessage: %s. Spark error code: %s \nSee stack trace below.", 
+            message,
+            err.toString()), 
+            true);
+            
+        return false;
     }
 
     @Override

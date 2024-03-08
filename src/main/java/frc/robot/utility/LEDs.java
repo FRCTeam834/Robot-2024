@@ -19,7 +19,7 @@ public class LEDs extends SubsystemBase {
   private double timedSeconds = 0.0;
 
   public static enum Colors {
-    BLUE(-0.15),
+    BLUE(-0.41),
     STROBEWHITE(-0.05);
 
     public final double signal;
@@ -31,12 +31,14 @@ public class LEDs extends SubsystemBase {
 
   public LEDs() {
     blinkin = new Spark(LED_PWM_PORT);
+    setLEDColor(Colors.BLUE);
   }
 
   public void setColorForTime (Colors color, double seconds) {
     timer.reset();
     timer.start();
     timedSeconds = seconds;
+    timedColor = color;
     setLEDColor(color);
   }
 
@@ -64,6 +66,7 @@ public class LEDs extends SubsystemBase {
   public void periodic() {
     if (timedColor != null && timer.hasElapsed(timedSeconds)) {
       timedColor = null;
+      timer.reset();
       timer.stop();
       setLEDColor(defaultColor);
     }

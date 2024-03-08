@@ -79,7 +79,7 @@ public class Shooter extends SubsystemBase {
   private static InterpolatingDoubleTreeMap shotSpeedTable = new InterpolatingDoubleTreeMap();
   private static InterpolatingDoubleTreeMap shotSpeedToleranceTable = new InterpolatingDoubleTreeMap();
   private static double intakePivotAngle = Units.degreesToRadians(0.95);
-  private static double idleSpeed = 1000;
+  private static double idleSpeed = 0;
 
   /** Initialize values for shot table */
   static {

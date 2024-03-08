@@ -12,9 +12,21 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "SubwooferShot"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "MID ABC P1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SubwooferShot"
           }
         },
         {
@@ -24,9 +36,21 @@
           }
         },
         {
+          "type": "named",
+          "data": {
+            "name": "SubwooferShot"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "MID ABC P3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SubwooferShot"
           }
         }
       ]
