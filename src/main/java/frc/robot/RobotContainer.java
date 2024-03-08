@@ -33,12 +33,13 @@ import frc.robot.commands.archive.ArchiveShootWhenReady;
 import frc.robot.commands.climber.ClimbWithJoysticks;
 import frc.robot.commands.deflector.DeflectorToNeutralPosition;
 import frc.robot.commands.deflector.DeflectorToScoringPosition;
-import frc.robot.commands.intake.AutonIntakeAndAim;
+import frc.robot.commands.intake.AutonIntake;
 import frc.robot.commands.intake.EjectStuckNote;
 import frc.robot.commands.intake.IntakeAndIndex;
 import frc.robot.commands.intake.IntakeSequence;
 import frc.robot.commands.outtake.AmpShot;
 import frc.robot.commands.outtake.AutonIndexerFeed;
+import frc.robot.commands.outtake.AutonShootWhenReady;
 import frc.robot.commands.outtake.AutonShot5;
 import frc.robot.commands.outtake.AutonShot5Point5;
 import frc.robot.commands.outtake.DumbShooter;
@@ -109,19 +110,22 @@ public class RobotContainer {
     */
 
     NamedCommands.registerCommand("SubwooferShot", new SubwooferShot(shooter, indexer));
-    NamedCommands.registerCommand("AutonIntakeAndAim", new AutonIntakeAndAim(intake, indexer, shooter, poseEstimator, leds));
+    NamedCommands.registerCommand("AutonIntake", new AutonIntake(intake, indexer, shooter, poseEstimator, leds));
     NamedCommands.registerCommand("IndexerFeed", new AutonIndexerFeed(indexer));
     NamedCommands.registerCommand("DeflectorOut", new DeflectorToScoringPosition(deflector));
     NamedCommands.registerCommand("AmpShot", new AmpShot(shooter, indexer));
+    NamedCommands.registerCommand("AutonShootWhenReady", new AutonShootWhenReady(swerve, shooter, indexer, intake, poseEstimator));
     NamedCommands.registerCommand("AutonShot5", new AutonShot5(shooter, indexer));
     NamedCommands.registerCommand("AutonShot5Point5", new AutonShot5Point5(shooter, indexer));
 
     swerve.configureAutoBuilder(poseEstimator);
-    // autoChooser = new SendableChooser<>();
-    autoChooser = AutoBuilder.buildAutoChooser();
+    autoChooser = new SendableChooser<>();
+    // autoChooser = AutoBuilder.buildAutoChooser();
     autoChooser.setDefaultOption("Do Nothing", new InstantCommand());
     autoChooser.addOption("houdini", new PathPlannerAuto("houdini"));
     autoChooser.addOption("MID ABC", new PathPlannerAuto("MID ABC"));
+    autoChooser.addOption("MID AB", new PathPlannerAuto("MID AB"));
+    autoChooser.addOption("MID BC", new PathPlannerAuto("MID BC"));
 
     SmartDashboard.putData(autoChooser);
     pathPlannerField = new Field2d();
@@ -194,9 +198,12 @@ public class RobotContainer {
 
     xboxA.whileTrue(new SubwooferShot(shooter, indexer));
     xboxB.whileTrue(new EjectStuckNote(intake, indexer, shooter));
-    xboxY.whileTrue(new InstantCommand(() -> {
-      shooter.setDesiredPivotAngle(1.1);
-    }));
+    xboxY.whileTrue(new ParallelCommandGroup(
+      new InstantCommand(() -> {
+        shooter.setDesiredPivotAngle(1.1);
+      }),
+      new DeflectorToScoringPosition(deflector)
+    ));
     //xboxY.whileTrue(new DeflectorToNeutralPosition(deflector));
 
     /** Amp lineup */

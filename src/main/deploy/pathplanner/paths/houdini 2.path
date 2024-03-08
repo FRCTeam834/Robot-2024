@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.94649899620084,
-        "y": 2.356642625503519
+        "x": 2.9628965230152686,
+        "y": 3.1378111506223014
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.8551847590053425,
-        "y": 0.8472227620611829
+        "x": 4.392991114685933,
+        "y": 1.3513509064055167
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "houdiniShot2"
     },
     {
       "anchor": {
@@ -68,24 +68,7 @@
             {
               "type": "named",
               "data": {
-                "name": "AutonIntakeAndAim"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "New Event Marker",
-      "waypointRelativePos": 1.5,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "AutonShot5"
+                "name": "AutonIntake"
               }
             }
           ]
@@ -94,20 +77,20 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.5,
-    "maxAcceleration": 4.5,
+    "maxVelocity": 5.0,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -3.2704879231834716,
+    "rotation": -3.269999999999982,
     "rotateFast": true
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": -61.113418233089284,
+    "rotation": -40.629999999999995,
     "velocity": 0
   },
   "useDefaultConstraints": true

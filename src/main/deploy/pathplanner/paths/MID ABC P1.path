@@ -57,7 +57,7 @@
             {
               "type": "named",
               "data": {
-                "name": "AutonIntakeAndAim"
+                "name": "AutonIntake"
               }
             }
           ]
@@ -66,8 +66,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 2.5,
-    "maxAcceleration": 2.5,
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },

@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7523718013035084,
-      "y": 4.52825959032701
+      "x": 1.2635531613655822,
+      "y": 5.562594074262223
     },
-    "rotation": -61.11341823308925
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -20,31 +20,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "houdini"
+            "pathName": "MID ABC P1"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AutonShootWhenReady"
+            "name": "SubwooferShot"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "houdini 2"
+            "pathName": "MID ABC P3"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AutonShootWhenReady"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 5.0
+            "name": "SubwooferShot"
           }
         }
       ]

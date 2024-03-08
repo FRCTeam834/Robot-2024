@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.6160371039603297,
-      "y": 6.680400169815762
+      "x": 1.2635531613655822,
+      "y": 5.562594074262223
     },
-    "rotation": 59.82647997035563
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -20,7 +20,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "TestPath"
+            "pathName": "MID ABC P1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "SubwooferShot"
           }
         }
       ]

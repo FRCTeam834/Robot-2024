@@ -17,9 +17,9 @@ import frc.robot.utility.PoseEstimator;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutonIntakeAndAim extends SequentialCommandGroup {
+public class AutonIntake extends SequentialCommandGroup {
   /** Creates a new AutonReadyShooter. */
-  public AutonIntakeAndAim(Intake intake, Indexer indexer, Shooter shooter, PoseEstimator poseEstimator, LEDs leds) {
+  public AutonIntake(Intake intake, Indexer indexer, Shooter shooter, PoseEstimator poseEstimator, LEDs leds) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
