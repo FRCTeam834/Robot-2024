@@ -1,8 +1,12 @@
 package frc.robot.subsystems.intake;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.REVLibError;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+
+import java.util.function.Supplier;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
@@ -16,17 +20,35 @@ public class IntakeIOSparkMAX implements IntakeIO {
     public IntakeIOSparkMAX() {
         rollerMotor = new CANSparkMax(16, MotorType.kBrushless);
 
-        rollerMotor.restoreFactoryDefaults();
-        rollerMotor.setIdleMode(IdleMode.kCoast);
-        rollerMotor.enableVoltageCompensation(12.0);
-        rollerMotor.setSmartCurrentLimit(40);
+        configureSpark("", () -> { return rollerMotor.restoreFactoryDefaults(); });
+        configureSpark("", () -> { return rollerMotor.setIdleMode(IdleMode.kCoast); });
+        configureSpark("", () -> { return rollerMotor.enableVoltageCompensation(12.0); });
+        configureSpark("", () -> { return rollerMotor.setSmartCurrentLimit(40); });
 
         rollerMotor.setInverted(true);
 
         if(Constants.robotMode == RobotMode.COMPETITION) {
             Timer.delay(0.2);
-            rollerMotor.burnFlash();
+            configureSpark("", () -> { return rollerMotor.burnFlash(); });
         }
+    }
+
+    public static boolean configureSpark(String message, Supplier<REVLibError> config) {
+        REVLibError err = REVLibError.kOk;
+        for (int i = 0; i < 10; i++) {
+            err = config.get();
+            if (err == REVLibError.kOk) {
+                return true;
+            }
+        }
+
+        DriverStation.reportError(String.format(
+            "[MergeError] - CANSparkMax failed to configure setting. MergeMessage: %s. Spark error code: %s \nSee stack trace below.", 
+            message,
+            err.toString()), 
+            true);
+            
+        return false;
     }
 
     @Override

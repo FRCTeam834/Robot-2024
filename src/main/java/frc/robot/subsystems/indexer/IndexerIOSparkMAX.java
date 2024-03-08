@@ -1,10 +1,15 @@
 package frc.robot.subsystems.indexer;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.REVLibError;
+
+import java.util.function.Supplier;
+
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants;
 import frc.robot.Constants.RobotMode;
@@ -21,16 +26,34 @@ public class IndexerIOSparkMAX implements IndexerIO {
         frontBeamBreak = new DigitalInput(9);
         backBeamBreak = new DigitalInput(8);
 
-        motor.restoreFactoryDefaults();
-        motor.setIdleMode(IdleMode.kBrake);
+        configureSpark("", () -> { return motor.restoreFactoryDefaults(); });
+        configureSpark("", () -> { return motor.setIdleMode(IdleMode.kBrake); });
+        configureSpark("", () -> { return motor.enableVoltageCompensation(12.0); });
         motor.setInverted(false);
-        motor.enableVoltageCompensation(12.0);
-        motor.setSmartCurrentLimit(40);
+        configureSpark("", () -> { return motor.setSmartCurrentLimit(40); });
 
         if(Constants.robotMode == RobotMode.COMPETITION) {
             Timer.delay(0.2);
-            motor.burnFlash();
+            configureSpark("", () -> { return motor.burnFlash(); });
         }
+    }
+
+    public static boolean configureSpark(String message, Supplier<REVLibError> config) {
+        REVLibError err = REVLibError.kOk;
+        for (int i = 0; i < 10; i++) {
+            err = config.get();
+            if (err == REVLibError.kOk) {
+                return true;
+            }
+        }
+
+        DriverStation.reportError(String.format(
+            "[MergeError] - CANSparkMax failed to configure setting. MergeMessage: %s. Spark error code: %s \nSee stack trace below.", 
+            message,
+            err.toString()), 
+            true);
+            
+        return false;
     }
 
     @Override

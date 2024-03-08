@@ -1,10 +1,14 @@
 package frc.robot.subsystems.climber;
 
+import java.util.function.Supplier;
+
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
 
 import frc.robot.Constants;
@@ -22,24 +26,41 @@ public class ClimberIOSparkMax implements ClimberIO {
         encoderRight = rightArmMotor.getEncoder();
         encoderLeft = leftArmMotor.getEncoder();
 
-        rightArmMotor.restoreFactoryDefaults();
-        leftArmMotor.restoreFactoryDefaults();
-        rightArmMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
-        leftArmMotor.setIdleMode(CANSparkMax.IdleMode.kBrake);
+        configureSpark("", () -> { return rightArmMotor.restoreFactoryDefaults(); });
+        configureSpark("", () -> { return leftArmMotor.restoreFactoryDefaults(); });
+        configureSpark("", () -> { return rightArmMotor.setIdleMode(CANSparkMax.IdleMode.kBrake); });
+        configureSpark("", () -> { return leftArmMotor.setIdleMode(CANSparkMax.IdleMode.kBrake); });
         rightArmMotor.setInverted(false); //check before running
         leftArmMotor.setInverted(false); //check before running
-        rightArmMotor.enableVoltageCompensation(12);
-        leftArmMotor.enableVoltageCompensation(12);
-        rightArmMotor.setSmartCurrentLimit(40);
-        leftArmMotor.setSmartCurrentLimit(40);
+        configureSpark("", () -> { return rightArmMotor.enableVoltageCompensation(12); });
+        configureSpark("", () -> { return leftArmMotor.enableVoltageCompensation(12); });
+        configureSpark("", () -> { return rightArmMotor.setSmartCurrentLimit(40); });
+        configureSpark("", () -> { return leftArmMotor.setSmartCurrentLimit(40); });
 
         if(Constants.robotMode == RobotMode.COMPETITION) {
             Timer.delay(0.2);
-            rightArmMotor.burnFlash();
-            leftArmMotor.burnFlash();
+            configureSpark("", () -> { return rightArmMotor.burnFlash(); });
+            configureSpark("", () -> { return leftArmMotor.burnFlash(); });
         }
     }
 
+    public static boolean configureSpark(String message, Supplier<REVLibError> config) {
+        REVLibError err = REVLibError.kOk;
+        for (int i = 0; i < 10; i++) {
+            err = config.get();
+            if (err == REVLibError.kOk) {
+                return true;
+            }
+        }
+
+        DriverStation.reportError(String.format(
+            "[MergeError] - CANSparkMax failed to configure setting. MergeMessage: %s. Spark error code: %s \nSee stack trace below.", 
+            message,
+            err.toString()), 
+            true);
+            
+        return false;
+    }
 
     public void updateInputs(ClimberIOInputs inputs) {
         inputs.rightSwerveVelocity = encoderRight.getVelocity();
