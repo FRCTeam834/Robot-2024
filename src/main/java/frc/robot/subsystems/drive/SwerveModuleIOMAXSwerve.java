@@ -156,14 +156,43 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
         return false;
     }
 
-    public void updateInputs (SwerveModuleIOInputs inputs) {
-        if (driveSparkMax.getLastError() == REVLibError.kOk) {
-            inputs.drivePosition = driveEncoder.getPosition();
-            inputs.driveVelocity = driveEncoder.getVelocity();
+    public static boolean sparkGet(String message, Supplier<REVLibError> config) {
+        REVLibError err = REVLibError.kOk;
+        for (int i = 0; i < 5; i++) {
+            err = config.get();
+            if (err == REVLibError.kOk) {
+                return true;
+            }
         }
-        if (steerSparkMax.getLastError() == REVLibError.kOk) {
+
+        DriverStation.reportError(String.format(
+            "[MergeError] - CANSparkMax failed to configure setting. MergeMessage: %s. Spark error code: %s \nSee stack trace below.", 
+            message,
+            err.toString()), 
+            true);
+            
+        return false;
+    }
+
+    public void updateInputs (SwerveModuleIOInputs inputs) {
+        double lastPosition = inputs.drivePosition;
+        inputs.drivePosition = driveEncoder.getPosition();
+        if (driveSparkMax.getLastError() != REVLibError.kOk) {
+            inputs.drivePosition = lastPosition;
+        }
+
+
+        double lastVelocity = inputs.driveVelocity;
+        inputs.driveVelocity = driveEncoder.getVelocity();
+        if (driveSparkMax.getLastError() != REVLibError.kOk) {
+            inputs.driveVelocity = lastVelocity;
+        }
+
+        double lastSteerAngle = inputs.steerAngle;
+        inputs.steerAngle = MathUtil.angleModulus(steerEncoder.getPosition());
+        if (steerSparkMax.getLastError() != REVLibError.kOk) {
             // Normalize [-pi, pi]
-            inputs.steerAngle = MathUtil.angleModulus(steerEncoder.getPosition());
+            inputs.steerAngle = lastSteerAngle;
         }
     }
 
