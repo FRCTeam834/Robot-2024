@@ -112,9 +112,11 @@ public class Shooter extends SubsystemBase {
 
     /** key: <horizontal distance m>, value: <pivot angle tolerance rad> */
     shotAngleToleranceTable.put(0.0, Units.degreesToRadians(2));
-    shotAngleToleranceTable.put(5.0, Units.degreesToRadians(1));
+    shotAngleToleranceTable.put(3.0, Units.degreesToRadians(1));
+    shotAngleToleranceTable.put(5.0, Units.degreesToRadians(0.75));
      /** key: <horizontal distance m>, value: <tolerance rpm> */
     shotSpeedToleranceTable.put(0.0, 100.0);
+    shotSpeedToleranceTable.put(3.0, 100.0);
     shotSpeedToleranceTable.put(5.0, 50.0);
   }
 

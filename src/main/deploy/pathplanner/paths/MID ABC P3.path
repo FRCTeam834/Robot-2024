@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.3681501500302689,
-        "y": 4.601018199951658
+        "x": 1.3166633613457033,
+        "y": 3.9439680302848155
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "midabcshot"
     },
     {
       "anchor": {
-        "x": 2.555112586530221,
-        "y": 4.028209679829981
+        "x": 2.690272142110121,
+        "y": 3.778418754939527
       },
       "prevControl": {
-        "x": 1.7047126041167227,
-        "y": 3.923110270622187
+        "x": 1.6872382973710198,
+        "y": 3.48627297491843
       },
       "nextControl": {
-        "x": 2.9218607661322653,
-        "y": 4.073535429831545
+        "x": 3.045067589440309,
+        "y": 3.8817572347444362
       },
       "isLocked": false,
       "linkedName": null
@@ -44,7 +44,13 @@
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": 5.0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {

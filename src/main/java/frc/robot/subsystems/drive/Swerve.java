@@ -95,7 +95,7 @@ public class Swerve extends SubsystemBase {
   }
 
   public Rotation2d getYaw () {
-    return new Rotation2d(gyroInputs.yaw);
+    return Rotation2d.fromDegrees(gyroInputs.yaw);
   }
 
   public void resetYaw(double angle){

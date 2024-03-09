@@ -36,7 +36,7 @@ public class IntakeAndIndex extends Command {
     stopTimer.stop();
     slowIndexerTimer.reset();
     slowIndexerTimer.stop();
-    shooter.setDesiredPivotAngle(0.9);
+    shooter.setDesiredPivotAngle(0.95);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -49,8 +49,8 @@ public class IntakeAndIndex extends Command {
       indexer.setSetpoint(Indexer.Setpoint.FAST);
     } else if (indexer.noteDetectedIntakeSide()) {
       leds.setColorForTime(Colors.STROBEBLUE, 1.0);
-      // intake.setSetpoint(Intake.Setpoint.SLOW);
-      //indexer.setSetpoint(Indexer.Setpoint.SLOW);
+      intake.setSetpoint(Intake.Setpoint.SLOW);
+      indexer.setSetpoint(Indexer.Setpoint.SLOW);
       shooter.setDesiredPivotAngle(0.6);
       stopTimer.start();
     }
@@ -67,6 +67,6 @@ public class IntakeAndIndex extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return stopTimer.hasElapsed(0.0) && indexer.noteDetectedShooterSide();
+    return indexer.noteDetectedShooterSide();
   }
 }

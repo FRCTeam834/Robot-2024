@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5479490217589893,
-        "y": 7.032208094485915
+        "x": 1.2587578200067437,
+        "y": 7.3328590785295455
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "midabcshot"
     },
     {
       "anchor": {
-        "x": 2.620785669783097,
-        "y": 7.000809326448642
+        "x": 2.79739226145119,
+        "y": 7.118618839847407
       },
       "prevControl": {
-        "x": 2.1790233932326504,
-        "y": 6.93113266765877
+        "x": 2.159192602848116,
+        "y": 7.254628603156261
       },
       "nextControl": {
-        "x": 2.8725462800211257,
-        "y": 7.040518099848812
+        "x": 3.3914220141607547,
+        "y": 6.992022335171597
       },
       "isLocked": false,
       "linkedName": null
@@ -47,7 +47,7 @@
   "rotationTargets": [
     {
       "waypointRelativePos": 1.05,
-      "rotationDegrees": 0.0,
+      "rotationDegrees": -14.2617239760799,
       "rotateFast": false
     }
   ],

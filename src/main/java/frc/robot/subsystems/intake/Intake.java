@@ -12,7 +12,7 @@ public class Intake extends SubsystemBase {
 
   /** Stores setpoint "speeds" (voltages) for intake */
   public static enum Setpoint {
-    FAST(4.0),
+    FAST(12.0),
     SLOW(4.0),
     SLOWREVERSE(-3.0),
     STOP(0.0);

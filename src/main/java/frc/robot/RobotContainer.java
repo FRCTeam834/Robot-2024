@@ -186,13 +186,6 @@ public class RobotContainer {
       ));
     }));
 
-    rightJoystick3.whileTrue(new DrivePrepareShoot(
-      swerve, shooter, indexer, poseEstimator,
-      OI::getRightJoystickY,
-      OI::getRightJoystickX,
-      OI::getLeftJoystickX
-    ));
-
     rightJoystick1.whileTrue(new DriveShootWhenReady(
       swerve, shooter, indexer, poseEstimator,
       OI::getRightJoystickY,

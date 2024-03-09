@@ -75,7 +75,7 @@ public class PoseEstimator extends SubsystemBase {
      * 
       */
     public void resetPose(Pose2d pose){
-        swerve.resetYaw(pose.getRotation().getDegrees());
+        // swerve.resetYaw(pose.getRotation().getDegrees());
         poseEstimator.resetPosition(swerve.getYaw(), swerve.getModulePositions(), pose); 
     }
 

@@ -16,15 +16,15 @@
     },
     {
       "anchor": {
-        "x": 2.729224912779601,
+        "x": 2.82,
         "y": 5.562594074262223
       },
       "prevControl": {
-        "x": 2.5470101045254188,
+        "x": 2.6377851917458175,
         "y": 5.574885621253724
       },
       "nextControl": {
-        "x": 2.9045123807922586,
+        "x": 2.9952874680126573,
         "y": 5.55076982040085
       },
       "isLocked": false,
@@ -41,7 +41,7 @@
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "midabcshot"
     }
   ],
   "rotationTargets": [],
