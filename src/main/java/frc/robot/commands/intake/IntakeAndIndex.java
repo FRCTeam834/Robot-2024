@@ -44,10 +44,11 @@ public class IntakeAndIndex extends Command {
   public void execute() {
     // NO note detected
     if (!indexer.noteDetectedIntakeSide() && !indexer.noteDetectedShooterSide()) {
+      leds.setColorForTime(Colors.RED, 10.0);
       intake.setSetpoint(Intake.Setpoint.FAST);
       indexer.setSetpoint(Indexer.Setpoint.FAST);
     } else if (indexer.noteDetectedIntakeSide()) {
-      leds.setColorForTime(Colors.STROBERED, 1.0);
+      leds.setColorForTime(Colors.STROBEBLUE, 1.0);
       // intake.setSetpoint(Intake.Setpoint.SLOW);
       //indexer.setSetpoint(Indexer.Setpoint.SLOW);
       shooter.setDesiredPivotAngle(0.6);
@@ -58,6 +59,7 @@ public class IntakeAndIndex extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    leds.cancelColorForTime();
     intake.stop();
     indexer.stop();
   }

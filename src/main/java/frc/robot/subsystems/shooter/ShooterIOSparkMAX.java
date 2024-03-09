@@ -90,16 +90,16 @@ public class ShooterIOSparkMAX implements ShooterIO {
         //TODO: what do?
         pivotMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20);
 
-        configureSpark("", () -> { return topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535); });
-        configureSpark("", () -> { return bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535); });
-        configureSpark("", () -> { return topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535); });
-        configureSpark("", () -> { return bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535); });
-        configureSpark("", () -> { return topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535); });
-        configureSpark("", () -> { return bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535); });
-        configureSpark("", () -> { return topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535); });
-        configureSpark("", () -> { return bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535); });
-        configureSpark("", () -> { return topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535); });
-        configureSpark("", () -> { return bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535); });
+        configureSpark("", () -> { return topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 500); });
+        configureSpark("", () -> { return bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 500); });
+        configureSpark("", () -> { return topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 500); });
+        configureSpark("", () -> { return bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 500); });
+        configureSpark("", () -> { return topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 500); });
+        configureSpark("", () -> { return bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 500); });
+        configureSpark("", () -> { return topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 500); });
+        configureSpark("", () -> { return bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 500); });
+        configureSpark("", () -> { return topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 500); });
+        configureSpark("", () -> { return bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 500); });
 
         configureSpark("", () -> { return topRollerMotor.setClosedLoopRampRate(0.5); });
         configureSpark("", () -> { return bottomRollerMotor.setClosedLoopRampRate(0.5); });

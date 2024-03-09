@@ -25,11 +25,11 @@ public class IntakeIOSparkMAX implements IntakeIO {
         configureSpark("", () -> { return rollerMotor.setIdleMode(IdleMode.kCoast); });
         configureSpark("", () -> { return rollerMotor.enableVoltageCompensation(12.0); });
         configureSpark("", () -> { return rollerMotor.setSmartCurrentLimit(40); });
-        configureSpark("", () -> { return rollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535); });
-        configureSpark("", () -> { return rollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535); });
-        configureSpark("", () -> { return rollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535); });
-        configureSpark("", () -> { return rollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535); });
-        configureSpark("", () -> { return rollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535); });
+        configureSpark("", () -> { return rollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 500); });
+        configureSpark("", () -> { return rollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 500); });
+        configureSpark("", () -> { return rollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 500); });
+        configureSpark("", () -> { return rollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 500); });
+        configureSpark("", () -> { return rollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 500); });
 
         rollerMotor.setInverted(true);
 

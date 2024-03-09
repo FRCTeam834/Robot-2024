@@ -9,7 +9,7 @@ public class GyroIOPigeon2 implements GyroIO {
 
     public GyroIOPigeon2 () {
         pigeon = new Pigeon2(18);
-        pigeon.setYaw(0.0);
+        // pigeon.setYaw(0.0);
     }
 
     public void updateInputs (GyroIOInputs inputs) {
@@ -17,6 +17,6 @@ public class GyroIOPigeon2 implements GyroIO {
     }
 
     public void resetYaw(double angle){
-        pigeon.setYaw(angle);
+        // pigeon.setYaw(angle);
     }
 }

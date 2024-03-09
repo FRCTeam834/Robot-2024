@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.RobotMode;
 import frc.robot.subsystems.drive.GyroIO.GyroIOInputs;
 import frc.robot.utility.PoseEstimator;
@@ -117,7 +118,7 @@ public class Swerve extends SubsystemBase {
     commandedForward = forward;
     commandedStrafe = strafe;
     commandedOmega = omega;
-    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(forward, -strafe, -omega, getYaw());
+    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(forward, -strafe, -omega, RobotContainer.poseEstimator.getEstimatedPose().getRotation());
     setDesiredSpeeds(speeds);
   }
 
@@ -233,11 +234,12 @@ public class Swerve extends SubsystemBase {
 
   @Override
   public void initSendable (SendableBuilder builder) {
-    if (Constants.robotMode != RobotMode.DEVELOPMENT) return;
-
     builder.setSmartDashboardType("Swerve");
 
     builder.addDoubleProperty("GyroYaw", this::getYawDegrees, null);
+
+    if (Constants.robotMode != RobotMode.DEVELOPMENT) return;
+
     builder.addDoubleProperty("cf", () -> { return commandedForward; }, null);
     builder.addDoubleProperty("cs", () -> { return commandedStrafe; }, null);
     builder.addDoubleProperty("co", () -> { return commandedOmega; }, null);

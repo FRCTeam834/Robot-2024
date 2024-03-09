@@ -38,16 +38,16 @@ public class ClimberIOSparkMax implements ClimberIO {
         configureSpark("", () -> { return rightArmMotor.setSmartCurrentLimit(40); });
         configureSpark("", () -> { return leftArmMotor.setSmartCurrentLimit(40); });
 
-        configureSpark("", () -> { return rightArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535); });
-        configureSpark("", () -> { return leftArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535); });
-        configureSpark("", () -> { return rightArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535); });
-        configureSpark("", () -> { return leftArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535); });
-        configureSpark("", () -> { return rightArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535); });
-        configureSpark("", () -> { return leftArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535); });
-        configureSpark("", () -> { return rightArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535); });
-        configureSpark("", () -> { return leftArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535); });
-        configureSpark("", () -> { return rightArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535); });
-        configureSpark("", () -> { return leftArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535); });
+        configureSpark("", () -> { return rightArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 500); });
+        configureSpark("", () -> { return leftArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 500); });
+        configureSpark("", () -> { return rightArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 500); });
+        configureSpark("", () -> { return leftArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 500); });
+        configureSpark("", () -> { return rightArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 500); });
+        configureSpark("", () -> { return leftArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 500); });
+        configureSpark("", () -> { return rightArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 500); });
+        configureSpark("", () -> { return leftArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 500); });
+        configureSpark("", () -> { return rightArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 500); });
+        configureSpark("", () -> { return leftArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 500); });
 
         if(Constants.robotMode == RobotMode.COMPETITION) {
             Timer.delay(0.25);

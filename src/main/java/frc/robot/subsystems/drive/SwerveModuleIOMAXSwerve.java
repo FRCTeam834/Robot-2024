@@ -122,13 +122,13 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
 
         // https://docs.revrobotics.com/sparkmax/operating-modes/control-interfaces
         configureSpark("", () -> { return driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 20); }); // motor position frame
-        configureSpark("", () -> { return driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535); });
-        configureSpark("", () -> { return driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535); });
-        configureSpark("", () -> { return driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535); });
-        configureSpark("", () -> { return driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535); });
+        configureSpark("", () -> { return driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 500); });
+        configureSpark("", () -> { return driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 500); });
+        configureSpark("", () -> { return driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 500); });
+        configureSpark("", () -> { return driveSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 500); });
 
-        configureSpark("", () -> { return steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535); });
-        configureSpark("", () -> { return steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535); });
+        configureSpark("", () -> { return steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 500); });
+        configureSpark("", () -> { return steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 500); });
 
         if (Constants.robotMode == RobotMode.COMPETITION) {
             Timer.delay(0.25);

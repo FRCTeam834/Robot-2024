@@ -58,14 +58,14 @@ public class PoseEstimator extends SubsystemBase {
     }
 
     public Pose2d getEstimatedPose () {
-        if (visionOnly) {
-            return vision.getVisionPose();
-        } 
+        //if (visionOnly) {
+        //    return vision.getVisionPose();
+        //} 
         return poseEstimator.getEstimatedPosition();
     }
 
     public void toggleVisionOnly(){
-        visionOnly = !visionOnly;
+        //visionOnly = !visionOnly;
     }
 
     /**
@@ -76,7 +76,7 @@ public class PoseEstimator extends SubsystemBase {
       */
     public void resetPose(Pose2d pose){
         swerve.resetYaw(pose.getRotation().getDegrees());
-        poseEstimator.resetPosition(pose.getRotation(), swerve.getModulePositions(), pose); 
+        poseEstimator.resetPosition(swerve.getYaw(), swerve.getModulePositions(), pose); 
     }
 
     public Translation2d getSpeakerLocation () {
@@ -137,6 +137,7 @@ public class PoseEstimator extends SubsystemBase {
 
         AprilTagIOInputs[] visionInputs = vision.getInputs();
         for (int i = 0; i < visionInputs.length; i++) {
+            if (DriverStation.isAutonomous() || DriverStation.isAutonomousEnabled()) return;
             if (visionInputs[i].poseEstimate == null) continue;
             //System.out.println("x: " + visionInputs[i].poseEstimate.toPose2d().getX() + " y: " + visionInputs[i].poseEstimate.toPose2d().getY());
             poseEstimator.addVisionMeasurement(

@@ -38,7 +38,8 @@ public class WiggleIndexer extends Command {
     wiggleTimer.reset();
     wiggleTimer.stop();
     intake.setSetpoint(Intake.Setpoint.SLOW);
-    leds.setColorForTime(Colors.CONFETTI, 10);
+    leds.setColorForTime(Colors.STROBEBLUE, 1.0);
+    //leds.setColorForTime(Colors.CONFETTI, 10);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -64,7 +65,7 @@ public class WiggleIndexer extends Command {
   public void end(boolean interrupted) {
     indexer.stop();
     intake.stop();
-    leds.cancelColorForTime();
+    //leds.cancelColorForTime();
   }
 
   // Returns true when the command should end.

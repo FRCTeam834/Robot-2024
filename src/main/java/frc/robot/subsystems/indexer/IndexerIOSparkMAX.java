@@ -32,11 +32,11 @@ public class IndexerIOSparkMAX implements IndexerIO {
         configureSpark("", () -> { return motor.enableVoltageCompensation(12.0); });
         motor.setInverted(false);
         configureSpark("", () -> { return motor.setSmartCurrentLimit(40); });
-        configureSpark("", () -> { return motor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535); });
-        configureSpark("", () -> { return motor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535); });
-        configureSpark("", () -> { return motor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535); });
-        configureSpark("", () -> { return motor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535); });
-        configureSpark("", () -> { return motor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535); });
+        configureSpark("", () -> { return motor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 500); });
+        configureSpark("", () -> { return motor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 500); });
+        configureSpark("", () -> { return motor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 500); });
+        configureSpark("", () -> { return motor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 500); });
+        configureSpark("", () -> { return motor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 500); });
 
         if(Constants.robotMode == RobotMode.COMPETITION) {
             Timer.delay(0.25);

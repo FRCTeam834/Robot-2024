@@ -21,6 +21,8 @@ public class LEDs extends SubsystemBase {
   public static enum Colors {
     BLUE(-0.41),
     CONFETTI(-0.87),
+    RED(0.61),
+    STROBEBLUE(-0.09),
     STROBERED(-0.11);
 
     public final double signal;

@@ -11,6 +11,7 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -71,20 +72,20 @@ import frc.robot.utility.PoseEstimator;
  */
 public class RobotContainer {
   /** Initialize subsystems */
-  Vision vision = new Vision(Constants.aprilTagCameras, Constants.noteDetectionCamera);
-  Swerve swerve = new Swerve(
+  public static Vision vision = new Vision(Constants.aprilTagCameras, Constants.noteDetectionCamera);
+  public static Swerve swerve = new Swerve(
     new SwerveModuleIOMAXSwerve(0),
     new SwerveModuleIOMAXSwerve(1),
     new SwerveModuleIOMAXSwerve(2),
     new SwerveModuleIOMAXSwerve(3),
     new GyroIOPigeon2()
   );
-  PoseEstimator poseEstimator = new PoseEstimator(swerve, vision);
-  Shooter shooter = new Shooter(new ShooterIOSparkMAX());
-  Indexer indexer = new Indexer(new IndexerIOSparkMAX());
-  Intake intake = new Intake(new IntakeIOSparkMAX());
-  Deflector deflector = new Deflector(new DeflectorIOSparkMax());
-  Climber climber = new Climber(new ClimberIOSparkMax());
+  public static PoseEstimator poseEstimator = new PoseEstimator(swerve, vision);
+  public static Shooter shooter = new Shooter(new ShooterIOSparkMAX());
+  public static Indexer indexer = new Indexer(new IndexerIOSparkMAX());
+  public static Intake intake = new Intake(new IntakeIOSparkMAX());
+  public static Deflector deflector = new Deflector(new DeflectorIOSparkMax());
+  public static Climber climber = new Climber(new ClimberIOSparkMax());
   public LEDs leds = new LEDs();
 
   private final SendableChooser<Command> autoChooser;
@@ -178,7 +179,12 @@ public class RobotContainer {
      // ));
     //}
 
-    rightJoystick10.onTrue(new InstantCommand(() -> { swerve.resetYaw(0); }));
+    rightJoystick10.onTrue(new InstantCommand(() -> { 
+      poseEstimator.resetPose(new Pose2d(
+        poseEstimator.getEstimatedPose().getTranslation(),
+        new Rotation2d()
+      ));
+    }));
 
     rightJoystick3.whileTrue(new DrivePrepareShoot(
       swerve, shooter, indexer, poseEstimator,
@@ -194,7 +200,7 @@ public class RobotContainer {
       OI::getLeftJoystickX
     ));
 
-    leftJoystick3.whileTrue(new IntakeSequence(intake, indexer, shooter, leds, leftJoystick3));
+    //leftJoystick3.whileTrue(new IntakeSequence(intake, indexer, shooter, leds, leftJoystick3));
 
     xboxA.whileTrue(new SubwooferShot(shooter, indexer));
     xboxB.whileTrue(new EjectStuckNote(intake, indexer, shooter));
@@ -204,7 +210,7 @@ public class RobotContainer {
       }),
       new DeflectorToScoringPosition(deflector)
     ));
-    xboxX.onTrue(new InstantCommand (() -> { poseEstimator.toggleVisionOnly(); }));
+    xboxX.onTrue(new IntakeSequence(intake, indexer, shooter, leds, xboxX));
     //xboxY.whileTrue(new DeflectorToNeutralPosition(deflector));
 
     /** Amp lineup */

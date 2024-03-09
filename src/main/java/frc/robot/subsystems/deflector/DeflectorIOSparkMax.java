@@ -34,11 +34,11 @@ public class DeflectorIOSparkMax implements DeflectorIO {
     configureSpark("", () -> { return deflectorMotor.setIdleMode(IdleMode.kCoast); });
     configureSpark("", () -> { return deflectorMotor.setSmartCurrentLimit(20); }); //! Need correct current limit
 
-    configureSpark("", () -> { return deflectorMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535); });
-    configureSpark("", () -> { return deflectorMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535); });
-    configureSpark("", () -> { return deflectorMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535); });
-    configureSpark("", () -> { return deflectorMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535); });
-    configureSpark("", () -> { return deflectorMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535); });
+    configureSpark("", () -> { return deflectorMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 500); });
+    configureSpark("", () -> { return deflectorMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 500); });
+    configureSpark("", () -> { return deflectorMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 500); });
+    configureSpark("", () -> { return deflectorMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 500); });
+    configureSpark("", () -> { return deflectorMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 500); });
 
     //! Burn flash needed?
     if (Constants.robotMode == RobotMode.COMPETITION) {
