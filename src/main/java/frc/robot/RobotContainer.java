@@ -204,6 +204,7 @@ public class RobotContainer {
       }),
       new DeflectorToScoringPosition(deflector)
     ));
+    xboxX.onTrue(new InstantCommand (() -> { poseEstimator.toggleVisionOnly(); }));
     //xboxY.whileTrue(new DeflectorToNeutralPosition(deflector));
 
     /** Amp lineup */

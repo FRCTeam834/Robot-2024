@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.vision;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -35,6 +36,10 @@ public class Vision extends SubsystemBase {
 
   public AprilTagIOInputs[] getInputs () {
     return aprilInputs;
+  }
+
+  public Pose2d getVisionPose (){
+    return aprilInputs[0].poseEstimate.toPose2d();
   }
 
   public Double getRotationToNode () {

@@ -36,6 +36,8 @@ public class PoseEstimator extends SubsystemBase {
     private static final double visionTHETAstddev = 0.05;
 
     private Pose2d visionEstimate = new Pose2d();
+    private boolean visionOnly = false;
+
 
     public PoseEstimator (Swerve swerve, Vision vision) {
         this.swerve = swerve;
@@ -48,6 +50,7 @@ public class PoseEstimator extends SubsystemBase {
             VecBuilder.fill(0.05, 0.05, 0.01),
             VecBuilder.fill(0.075, 0.075, 5.0)
         );
+        
         SmartDashboard.putData("PoseEstimate", poseEstimateField);
          //SmartDashboard.putData("OdometryEstimate", odometryField);
          // SmartDashboard.putData("VisionEstimate", visionField);
@@ -55,7 +58,14 @@ public class PoseEstimator extends SubsystemBase {
     }
 
     public Pose2d getEstimatedPose () {
+        if (visionOnly) {
+            return vision.getVisionPose();
+        } 
         return poseEstimator.getEstimatedPosition();
+    }
+
+    public void toggleVisionOnly(){
+        visionOnly = !visionOnly;
     }
 
     /**
@@ -154,6 +164,7 @@ public class PoseEstimator extends SubsystemBase {
 
     builder.addDoubleProperty("ErrorToSpeaker", this::getRotationToSpeaker, null);
     builder.addDoubleProperty("DistanceToSpeaker", this::getDistanceToSpeaker, null);
+    builder.addBooleanProperty("Vision Only", () -> {return visionOnly;}, null);
 
     if (Constants.robotMode != RobotMode.DEVELOPMENT) return;
   }
