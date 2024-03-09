@@ -59,7 +59,7 @@ public class AprilTagIOPhotonVision implements AprilTagIO {
         // Estimated pose is outside of the field
         if (isPoseInsane(estimatedPose)) return;
 
-        double distanceSum = 0.0;
+        /*double distanceSum = 0.0;
         for (int i = 0; i < result.targets.size(); i++) {
             var target = result.targets.get(i);
             if (target.getPoseAmbiguity() > 0.2) return;
@@ -67,14 +67,14 @@ public class AprilTagIOPhotonVision implements AprilTagIO {
                 .getBestCameraToTarget()
                 .getTranslation()
                 .getDistance(new Translation3d(0, 0, 0));
-        }
+        }*/
 
         // Average distance to tags
-        double averageDistance = distanceSum / result.targets.size();
+        //double averageDistance = distanceSum / result.targets.size();
 
         inputs.poseEstimate = estimatedPose;
         inputs.lastTimestamp = result.getTimestampSeconds();
-        inputs.averageDistance = averageDistance;
+        //inputs.averageDistance = averageDistance;
     }
 
     /**

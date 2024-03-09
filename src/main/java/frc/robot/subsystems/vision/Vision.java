@@ -57,15 +57,15 @@ public class Vision extends SubsystemBase {
 
   @Override
   public void initSendable (SendableBuilder builder) {
-    if (Constants.robotMode != RobotMode.DEVELOPMENT) return;
-
     builder.setSmartDashboardType("Vision");
-    builder.addDoubleProperty("AngleToNote", this::getRotationToNoteTelemetry, null);
-
     /** idk if this will work :skull: */
     builder.addBooleanProperty("Camera " + polychromeCamera.getName(), polychromeCamera::isConnected, null);
     for (int i = 0; i < cameras.length; i++) {
       builder.addBooleanProperty("Camera" + cameras[i].getName(), cameras[i]::isConnected, null);
     }
+
+    if (Constants.robotMode != RobotMode.DEVELOPMENT) return;
+
+    builder.addDoubleProperty("AngleToNote", this::getRotationToNoteTelemetry, null);
   }
 }

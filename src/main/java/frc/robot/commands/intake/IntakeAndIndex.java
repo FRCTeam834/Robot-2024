@@ -47,7 +47,7 @@ public class IntakeAndIndex extends Command {
       intake.setSetpoint(Intake.Setpoint.FAST);
       indexer.setSetpoint(Indexer.Setpoint.FAST);
     } else if (indexer.noteDetectedIntakeSide()) {
-      leds.setColorForTime(Colors.STROBEWHITE, 1.0);
+      leds.setColorForTime(Colors.STROBERED, 1.0);
       // intake.setSetpoint(Intake.Setpoint.SLOW);
       //indexer.setSetpoint(Indexer.Setpoint.SLOW);
       shooter.setDesiredPivotAngle(0.6);

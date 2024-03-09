@@ -10,6 +10,7 @@ import java.util.function.Supplier;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
 import frc.robot.Constants;
 import frc.robot.Constants.RobotMode;
@@ -24,6 +25,11 @@ public class IntakeIOSparkMAX implements IntakeIO {
         configureSpark("", () -> { return rollerMotor.setIdleMode(IdleMode.kCoast); });
         configureSpark("", () -> { return rollerMotor.enableVoltageCompensation(12.0); });
         configureSpark("", () -> { return rollerMotor.setSmartCurrentLimit(40); });
+        configureSpark("", () -> { return rollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535); });
+        configureSpark("", () -> { return rollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535); });
+        configureSpark("", () -> { return rollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535); });
+        configureSpark("", () -> { return rollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535); });
+        configureSpark("", () -> { return rollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535); });
 
         rollerMotor.setInverted(true);
 

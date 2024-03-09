@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -31,6 +32,11 @@ public class IndexerIOSparkMAX implements IndexerIO {
         configureSpark("", () -> { return motor.enableVoltageCompensation(12.0); });
         motor.setInverted(false);
         configureSpark("", () -> { return motor.setSmartCurrentLimit(40); });
+        configureSpark("", () -> { return motor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535); });
+        configureSpark("", () -> { return motor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535); });
+        configureSpark("", () -> { return motor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535); });
+        configureSpark("", () -> { return motor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535); });
+        configureSpark("", () -> { return motor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535); });
 
         if(Constants.robotMode == RobotMode.COMPETITION) {
             Timer.delay(0.2);

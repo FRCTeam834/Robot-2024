@@ -3,6 +3,7 @@ package frc.robot.subsystems.climber;
 import java.util.function.Supplier;
 
 import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
@@ -36,6 +37,17 @@ public class ClimberIOSparkMax implements ClimberIO {
         configureSpark("", () -> { return leftArmMotor.enableVoltageCompensation(12); });
         configureSpark("", () -> { return rightArmMotor.setSmartCurrentLimit(40); });
         configureSpark("", () -> { return leftArmMotor.setSmartCurrentLimit(40); });
+
+        configureSpark("", () -> { return rightArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535); });
+        configureSpark("", () -> { return leftArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535); });
+        configureSpark("", () -> { return rightArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535); });
+        configureSpark("", () -> { return leftArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535); });
+        configureSpark("", () -> { return rightArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535); });
+        configureSpark("", () -> { return leftArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535); });
+        configureSpark("", () -> { return rightArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535); });
+        configureSpark("", () -> { return leftArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535); });
+        configureSpark("", () -> { return rightArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535); });
+        configureSpark("", () -> { return leftArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535); });
 
         if(Constants.robotMode == RobotMode.COMPETITION) {
             Timer.delay(0.2);

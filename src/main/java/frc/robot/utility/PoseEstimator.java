@@ -33,7 +33,7 @@ public class PoseEstimator extends SubsystemBase {
     //private final Field2d visionField = new Field2d();
 
     private static final double visionXYstddev = 0.01;
-    private static final double visionTHETAstddev = 834;
+    private static final double visionTHETAstddev = 0.05;
 
     private Pose2d visionEstimate = new Pose2d();
 
@@ -45,8 +45,8 @@ public class PoseEstimator extends SubsystemBase {
             swerve.getYaw(),
             swerve.getModulePositions(),
             new Pose2d(),
-            VecBuilder.fill(0.05, 0.05, 0.001),
-            VecBuilder.fill(visionXYstddev, visionXYstddev, visionTHETAstddev)
+            VecBuilder.fill(0.05, 0.05, 0.01),
+            VecBuilder.fill(0.075, 0.075, 5.0)
         );
         SmartDashboard.putData("PoseEstimate", poseEstimateField);
          //SmartDashboard.putData("OdometryEstimate", odometryField);
@@ -133,28 +133,28 @@ public class PoseEstimator extends SubsystemBase {
                 visionInputs[i].poseEstimate.toPose2d(),
                 visionInputs[i].lastTimestamp,
                 VecBuilder.fill(
-                    visionXYstddev,// * Math.pow(visionInputs[i].averageDistance, 2),
-                    visionXYstddev,// * Math.pow(visionInputs[i].averageDistance, 2),
-                    0.05 // dont care we never trust this
+                    0.075,// * Math.pow(visionInputs[i].averageDistance, 2),
+                    0.075,// * Math.pow(visionInputs[i].averageDistance, 2),
+                    5.0 // dont care we never trust this
                 )
             );
         }
 
-        if (Constants.robotMode == RobotMode.DEVELOPMENT) {
+        //if (Constants.robotMode == RobotMode.DEVELOPMENT) {
             poseEstimateField.setRobotPose(getEstimatedPose());
             //odometryField.setRobotPose(odometryEstimator.getEstimatedPosition());
             //visionField.setRobotPose(visionEstimator.getEstimatedPosition());
             //poseEstimateField.setRobotPose(visionEstimate);
-        }
+        //}
     }
 
     @Override
   public void initSendable (SendableBuilder builder) {
-    if (Constants.robotMode != RobotMode.DEVELOPMENT) return;
-
     builder.setSmartDashboardType("Pose Estimator");
 
     builder.addDoubleProperty("ErrorToSpeaker", this::getRotationToSpeaker, null);
     builder.addDoubleProperty("DistanceToSpeaker", this::getDistanceToSpeaker, null);
+
+    if (Constants.robotMode != RobotMode.DEVELOPMENT) return;
   }
 }
