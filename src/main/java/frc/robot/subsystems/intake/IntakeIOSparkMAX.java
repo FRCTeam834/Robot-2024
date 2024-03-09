@@ -34,8 +34,9 @@ public class IntakeIOSparkMAX implements IntakeIO {
         rollerMotor.setInverted(true);
 
         if(Constants.robotMode == RobotMode.COMPETITION) {
-            Timer.delay(0.2);
+            Timer.delay(0.25);
             configureSpark("", () -> { return rollerMotor.burnFlash(); });
+            Timer.delay(0.25);
         }
     }
 

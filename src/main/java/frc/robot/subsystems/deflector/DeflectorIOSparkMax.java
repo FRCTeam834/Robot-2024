@@ -42,8 +42,9 @@ public class DeflectorIOSparkMax implements DeflectorIO {
 
     //! Burn flash needed?
     if (Constants.robotMode == RobotMode.COMPETITION) {
-      Timer.delay(0.2);
+      Timer.delay(0.25);
       configureSpark("", () -> { return deflectorMotor.burnFlash(); });
+      Timer.delay(0.25);
     }
   }
 

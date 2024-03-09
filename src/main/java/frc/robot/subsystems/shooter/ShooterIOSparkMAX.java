@@ -105,10 +105,13 @@ public class ShooterIOSparkMAX implements ShooterIO {
         configureSpark("", () -> { return bottomRollerMotor.setClosedLoopRampRate(0.5); });
 
         if(Constants.robotMode == RobotMode.COMPETITION) {
-            Timer.delay(0.2);
+            Timer.delay(0.25);
             configureSpark("", () -> { return topRollerMotor.burnFlash(); });
+            Timer.delay(0.25);
             configureSpark("", () -> { return bottomRollerMotor.burnFlash(); });
+            Timer.delay(0.25);
             configureSpark("", () -> { return pivotMotor.burnFlash(); });
+            Timer.delay(0.25);
         }
 
     }

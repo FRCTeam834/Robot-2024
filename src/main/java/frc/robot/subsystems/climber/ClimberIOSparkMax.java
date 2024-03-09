@@ -50,9 +50,11 @@ public class ClimberIOSparkMax implements ClimberIO {
         configureSpark("", () -> { return leftArmMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535); });
 
         if(Constants.robotMode == RobotMode.COMPETITION) {
-            Timer.delay(0.2);
+            Timer.delay(0.25);
             configureSpark("", () -> { return rightArmMotor.burnFlash(); });
+            Timer.delay(0.25);
             configureSpark("", () -> { return leftArmMotor.burnFlash(); });
+            Timer.delay(0.25);
         }
     }
 

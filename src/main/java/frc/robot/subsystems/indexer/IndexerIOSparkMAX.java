@@ -39,8 +39,9 @@ public class IndexerIOSparkMAX implements IndexerIO {
         configureSpark("", () -> { return motor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535); });
 
         if(Constants.robotMode == RobotMode.COMPETITION) {
-            Timer.delay(0.2);
+            Timer.delay(0.25);
             configureSpark("", () -> { return motor.burnFlash(); });
+            Timer.delay(0.25);
         }
     }
 

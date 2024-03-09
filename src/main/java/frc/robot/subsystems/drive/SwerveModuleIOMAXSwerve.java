@@ -131,11 +131,12 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
         configureSpark("", () -> { return steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535); });
 
         if (Constants.robotMode == RobotMode.COMPETITION) {
-            Timer.delay(0.2);
+            Timer.delay(0.25);
             configureSpark("", () -> { return driveSparkMax.burnFlash(); });
+            Timer.delay(0.25);
             configureSpark("", () -> { return steerSparkMax.burnFlash(); });
+            Timer.delay(0.25);
         }
-        Timer.delay(0.5);
     }
 
     public static boolean configureSpark(String message, Supplier<REVLibError> config) {
