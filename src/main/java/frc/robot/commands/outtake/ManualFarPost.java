@@ -30,7 +30,7 @@ public class ManualFarPost extends Command {
   @Override
   public void initialize() {
     shooter.setDesiredPivotAngle(0.45);
-    shooter.setDesiredRollerSpeeds(5500);
+    shooter.setDesiredRollerSpeeds(5000);
     indexer.setSetpoint(Indexer.Setpoint.STOP);
   }
 
