@@ -16,14 +16,14 @@ import frc.robot.subsystems.vision.NoteDetectionIO.NoteDetectionIOInputs;
 
 
 public class Vision extends SubsystemBase {
-  private final NoteDetectionIO polychromeCamera;
+  //private final NoteDetectionIO polychromeCamera;
   private final AprilTagIO[] cameras;
   
   private final AprilTagIOInputs[] aprilInputs;
   private final NoteDetectionIOInputs noteInputs = new NoteDetectionIOInputs();
 
   public Vision(AprilTagIO[] cameras, NoteDetectionIO polychromeCamera) {
-    this.polychromeCamera = polychromeCamera;
+    //this.polychromeCamera = polychromeCamera;
     this.cameras = cameras;
     aprilInputs = new AprilTagIOInputs[cameras.length];
 
@@ -42,15 +42,17 @@ public class Vision extends SubsystemBase {
     return aprilInputs[0].poseEstimate.toPose2d();
   }*/
 
+  /*
   public Double getRotationToNode () {
     return polychromeCamera.getRotationToNote();
-  }
+  }*/
 
+  /*
   public double getRotationToNoteTelemetry () {
     Double rotation = getRotationToNode();
     if (rotation == null) return 0.0;
     return rotation.doubleValue();
-  }
+  }*/
 
   @Override
   public void periodic() {
@@ -69,8 +71,12 @@ public class Vision extends SubsystemBase {
       builder.addBooleanProperty("Camera" + cameras[i].getName(), cameras[i]::isConnected, null);
     }
 
+    builder.addDoubleProperty("Distance", () -> {
+      return getInputs()[0].distance;
+    }, null);
+
     if (Constants.robotMode != RobotMode.DEVELOPMENT) return;
 
-    builder.addDoubleProperty("AngleToNote", this::getRotationToNoteTelemetry, null);
+    // builder.addDoubleProperty("AngleToNote", this::getRotationToNoteTelemetry, null);
   }
 }

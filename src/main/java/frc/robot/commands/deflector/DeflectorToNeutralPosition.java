@@ -53,7 +53,7 @@ public class DeflectorToNeutralPosition extends Command {
      * }
      * 
     */
-    if (timer.get() > 0.3) {
+    if (timer.get() > 0.5) {
       return true;
     }
     return false;

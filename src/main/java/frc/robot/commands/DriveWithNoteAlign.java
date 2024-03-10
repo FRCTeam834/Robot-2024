@@ -50,7 +50,7 @@ public class DriveWithNoteAlign extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    rotationToNote = vision.getRotationToNoteTelemetry();
+    rotationToNote = 0.0; //vision.getRotationToNoteTelemetry();
     if (rotationToNote != 0.0 && Math.abs(omegaSupplier.getAsDouble()) < 0.2) {
       PIDOutput = alignController.calculate(rotationToNote);
 

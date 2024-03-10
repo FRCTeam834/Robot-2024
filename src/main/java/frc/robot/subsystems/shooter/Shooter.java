@@ -84,25 +84,24 @@ public class Shooter extends SubsystemBase {
   /** Initialize values for shot table */
   static {
     /** key: <horizontal distance m>, value: <pivot angle rad> */
-    shotAngleTable.put(0.0, 1.05);
-    shotAngleTable.put(2.0738, 0.96);
-    shotAngleTable.put(2.5252, 0.845);
-    shotAngleTable.put(3.2433, 0.6878);
-    shotAngleTable.put(3.8744, 0.5964);
-    shotAngleTable.put(5.0762, 0.5025);
-    shotAngleTable.put(5.3936, 0.4996);
-    shotAngleTable.put(6.9491, 0.44);
+    shotAngleTable.put(0.0, 0.75);
+    shotAngleTable.put(1.998, 0.743);
+    shotAngleTable.put(2.235, 0.7248);
+    shotAngleTable.put(2.576, 0.6954);
+    shotAngleTable.put(2.872, 0.6313);
+    shotAngleTable.put(3.27, 0.6);
+    shotAngleTable.put(3.508, 0.565);
+    shotAngleTable.put(3.976, 0.523);
+    shotAngleTable.put(100.0, 0.523);
     
     /** key: <horizontal distance m>, value: <rpm> */
     
-    shotSpeedTable.put(0.0, 3500.0);
-    shotSpeedTable.put(2.0738, 3500.0);
-    shotSpeedTable.put(2.5252, 3500.0);
-    shotSpeedTable.put(3.2433, 3815.0);
-    shotSpeedTable.put(3.8744, 4400.0);
-    shotSpeedTable.put(5.0762, 5000.0);
-    shotSpeedTable.put(5.3936, 5000.0);
-    shotAngleTable.put(6.9491, 5500.0);
+    shotSpeedTable.put(0.0, 4000.0);
+    shotSpeedTable.put(1.998, 4000.0);
+    shotSpeedTable.put(2.235, 4000.0);
+    shotSpeedTable.put(3.27, 4200.0);
+    shotSpeedTable.put(3.976, 4600.0);
+    shotSpeedTable.put(100.0, 4600.0);
     
     
 
@@ -112,12 +111,14 @@ public class Shooter extends SubsystemBase {
 
     /** key: <horizontal distance m>, value: <pivot angle tolerance rad> */
     shotAngleToleranceTable.put(0.0, Units.degreesToRadians(2));
-    shotAngleToleranceTable.put(3.0, Units.degreesToRadians(1));
-    shotAngleToleranceTable.put(5.0, Units.degreesToRadians(0.75));
+    shotAngleToleranceTable.put(3.976, Units.degreesToRadians(1));
+    shotAngleToleranceTable.put(5.0, Units.degreesToRadians(1));
+    shotAngleToleranceTable.put(100.0, Units.degreesToRadians(0.75));
      /** key: <horizontal distance m>, value: <tolerance rpm> */
     shotSpeedToleranceTable.put(0.0, 100.0);
-    shotSpeedToleranceTable.put(3.0, 100.0);
-    shotSpeedToleranceTable.put(5.0, 50.0);
+    shotSpeedToleranceTable.put(3.976, 100.0);
+    shotSpeedToleranceTable.put(5.0, 100.0);
+    shotSpeedToleranceTable.put(100.0, 100.0);
   }
 
   public Shooter(ShooterIO io) {

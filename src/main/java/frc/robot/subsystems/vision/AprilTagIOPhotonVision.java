@@ -57,9 +57,9 @@ public class AprilTagIOPhotonVision implements AprilTagIO {
 
         int desiredID = 0;
         if (DriverStation.getAlliance().get() == Alliance.Blue) {
-            desiredID = 4;
-        } else if (DriverStation.getAlliance().get() == Alliance.Red) {
             desiredID = 7;
+        } else if (DriverStation.getAlliance().get() == Alliance.Red) {
+            desiredID = 4;
         }
 
         PhotonTrackedTarget desiredTarget = null;
@@ -73,13 +73,14 @@ public class AprilTagIOPhotonVision implements AprilTagIO {
 
         if (desiredTarget == null) return;
 
-        double yaw = Units.degreesToRadians(desiredTarget.getYaw() - 42.296);
-        double distance = PhotonUtils.calculateDistanceToTargetMeters(
+        double yaw = Units.degreesToRadians(desiredTarget.getYaw() + 5);
+        double distance = Math.abs(calculateDistanceToTargetMeters(
             Units.inchesToMeters(16.125),
             Units.inchesToMeters(51.875 + 4.5),
             Units.degreesToRadians(170),
-            Units.degreesToRadians(desiredTarget.getPitch())
-        );
+            Units.degreesToRadians(desiredTarget.getPitch()),
+            yaw
+        ));
 
         if (distance > 16) return;
 

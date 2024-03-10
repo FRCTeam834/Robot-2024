@@ -39,7 +39,7 @@ public class DriveLockToSpeaker extends Command {
     this.omegaSupplier = omegaSupplier;
     this.speedMultiplier = speedMultipler;
 
-    alignController = new PIDController(1, 0, 0);
+    alignController = new PIDController(2, 0, 0);
     alignController.enableContinuousInput(-Math.PI, Math.PI);
     addRequirements(driveTrain);
   }
@@ -59,7 +59,7 @@ public class DriveLockToSpeaker extends Command {
       error = angleAverage.calculate(error);
     
       PIDOutput = alignController.calculate(error);
-      PIDOutput = -MathUtil.clamp(PIDOutput, -1, 1);
+      PIDOutput = MathUtil.clamp(PIDOutput, -1, 1);
     } else {
       PIDOutput = omegaSupplier.getAsDouble() * Swerve.maxSteerSpeed.get();
     }

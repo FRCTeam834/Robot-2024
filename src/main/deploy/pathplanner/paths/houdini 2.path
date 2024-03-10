@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.9628965230152686,
-        "y": 3.1378111506223014
+        "x": 2.7000103347774913,
+        "y": 3.194127194897333
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.392991114685933,
-        "y": 1.3513509064055167
+        "x": 4.053664129323118,
+        "y": 1.1567318156878326
       },
       "isLocked": false,
       "linkedName": "houdiniShot2"
     },
     {
       "anchor": {
-        "x": 8.48449677919522,
-        "y": 2.0255440748129425
+        "x": 8.172874613839383,
+        "y": 2.4248099741751092
       },
       "prevControl": {
-        "x": 8.410232653372624,
-        "y": 0.6887898100061751
+        "x": 6.3713089703759485,
+        "y": 1.9573767261413535
       },
       "nextControl": {
-        "x": 8.552664127866807,
-        "y": 3.2525563509015516
+        "x": 9.362392344539565,
+        "y": 2.7334416016000214
       },
       "isLocked": false,
       "linkedName": null
@@ -46,17 +46,24 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.75,
-      "rotationDegrees": 50.826342029555626,
-      "rotateFast": false
-    },
-    {
-      "waypointRelativePos": 1.3,
-      "rotationDegrees": 50.83,
-      "rotateFast": false
+      "waypointRelativePos": 1.0,
+      "rotationDegrees": 0.0,
+      "rotateFast": true
     }
   ],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "New Constraints Zone",
+      "minWaypointRelativePos": 0.9,
+      "maxWaypointRelativePos": 1.05,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 2.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    }
+  ],
   "eventMarkers": [
     {
       "name": "New Event Marker",

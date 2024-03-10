@@ -1,6 +1,7 @@
 package frc.robot.subsystems.drive;
 
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
+import com.ctre.phoenix6.configs.Pigeon2FeaturesConfigs;
 import com.ctre.phoenix6.hardware.Pigeon2;
 import com.kauailabs.navx.frc.AHRS;
 
@@ -14,13 +15,15 @@ public class GyroIOPigeon2 implements GyroIO {
     public GyroIOPigeon2 () {
         //navX.reset();
         pigeon = new Pigeon2(18);
-        pigeon.getConfigurator().apply(new Pigeon2Configuration());
-        pigeon.getConfigurator().setYaw(0.0);
+        //Pigeon2Configuration config = new Pigeon2Configuration();
+        //config.withPigeon2Features(new Pigeon2FeaturesConfigs().withDisableNoMotionCalibration(true));
+        //pigeon.getConfigurator().apply(config);
+        //pigeon.getConfigurator().setYaw(0.0);
     }
 
     public void updateInputs (GyroIOInputs inputs) {
         //inputs.yaw = -navX.getYaw();
-        pigeon.getYaw().refresh();
+        //pigeon.getYaw().refresh();
         inputs.yaw = Units.degreesToRadians(pigeon.getYaw().getValue());
     }
 

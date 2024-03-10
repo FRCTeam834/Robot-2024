@@ -74,7 +74,7 @@ public class Swerve extends SubsystemBase {
     maxSteerSpeed.initDefault(Units.degreesToRadians(270));
     translationP.initDefault(2);
     translationD.initDefault(0);
-    rotationP.initDefault(1);
+    rotationP.initDefault(1.5);
     rotationD.initDefault(0);
   }
 
@@ -95,7 +95,7 @@ public class Swerve extends SubsystemBase {
   }
 
   public Rotation2d getYaw () {
-    return Rotation2d.fromDegrees(gyroInputs.yaw);
+    return new Rotation2d(gyroInputs.yaw);
   }
 
   public void resetYaw(double angle){

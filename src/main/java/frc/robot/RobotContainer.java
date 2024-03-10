@@ -29,7 +29,6 @@ import frc.robot.commands.DriveLockToSpeaker;
 import frc.robot.commands.DriveShootWhenReady;
 import frc.robot.commands.DriveWithNoteAlign;
 import frc.robot.commands.DriveWithSpeeds;
-import frc.robot.commands.archive.ArchiveShootWhenReady;
 import frc.robot.commands.climber.ClimbWithJoysticks;
 import frc.robot.commands.deflector.DeflectorToNeutralPosition;
 import frc.robot.commands.deflector.DeflectorToScoringPosition;
@@ -42,6 +41,7 @@ import frc.robot.commands.outtake.AutonIndexerFeed;
 import frc.robot.commands.outtake.AutonShootWhenReady;
 import frc.robot.commands.outtake.AutonShot5;
 import frc.robot.commands.outtake.AutonShot5Point5;
+import frc.robot.commands.outtake.AutonThievery;
 import frc.robot.commands.outtake.DumbShooter;
 import frc.robot.commands.outtake.IndexerFeed;
 import frc.robot.commands.outtake.ManualFarPost;
@@ -55,6 +55,7 @@ import frc.robot.subsystems.drive.Swerve;
 import frc.robot.subsystems.drive.SwerveModuleIOMAXSwerve;
 import frc.robot.subsystems.indexer.Indexer;
 import frc.robot.subsystems.indexer.IndexerIOSparkMAX;
+import frc.robot.subsystems.indexer.Indexer.Setpoint;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeIOSparkMAX;
 import frc.robot.subsystems.shooter.Shooter;
@@ -117,6 +118,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("AutonShootWhenReady", new AutonShootWhenReady(swerve, shooter, indexer, intake, vision, leds));
     NamedCommands.registerCommand("AutonShot5", new AutonShot5(shooter, indexer));
     NamedCommands.registerCommand("AutonShot5Point5", new AutonShot5Point5(shooter, indexer));
+    NamedCommands.registerCommand("AutonThievery", new AutonThievery(shooter, indexer, intake));
 
     swerve.configureAutoBuilder(poseEstimator);
     autoChooser = new SendableChooser<>();
@@ -157,6 +159,7 @@ public class RobotContainer {
   JoystickButton xboxB = new JoystickButton(OI.xbox, 2);
   JoystickButton xboxX = new JoystickButton(OI.xbox, 3);
   JoystickButton xboxY = new JoystickButton(OI.xbox, 4);
+  JoystickButton xboxRB = new JoystickButton(OI.xbox, 6);
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -171,11 +174,11 @@ public class RobotContainer {
 
     // For tuning ONLY
     //if (Constants.robotMode == RobotMode.DEVELOPMENT) {
-     // shooter.setDefaultCommand(new DumbShooter(
-     //   shooter,
-     //   OI::getXboxRightJoystickY,
-     //   OI::getXboxLeftJoystickY
-     // ));
+    //  shooter.setDefaultCommand(new DumbShooter(
+    //    shooter,
+    //    OI::getXboxRightJoystickY,
+    //    OI::getXboxLeftJoystickY
+    //  ));
     //}
 
     rightJoystick10.onTrue(new InstantCommand(() -> { 
@@ -204,6 +207,9 @@ public class RobotContainer {
       new DeflectorToScoringPosition(deflector)
     ));
     xboxX.onTrue(new IntakeSequence(intake, indexer, shooter, leds, xboxX));
+    xboxRB.whileTrue(new InstantCommand(() -> {
+      indexer.setSetpoint(Indexer.Setpoint.FEED);
+    }));
     //xboxY.whileTrue(new DeflectorToNeutralPosition(deflector));
 
     /** Amp lineup */

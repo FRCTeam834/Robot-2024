@@ -49,25 +49,25 @@ public class ShootWhenReady extends Command {
   public void execute() {
     // Shooter is at setpoint angle and speeds
     if (vision.getInputs()[0].hasTarget == false) {
-      leds.setColorForTime(Colors.STROBERED, 0.1);
+      leds.setColorForTime(Colors.STROBERED, 0.5);
       return;
     }  else {
-      leds.setColorForTime(Colors.CONFETTI, 0.1);
+      leds.setColorForTime(Colors.CONFETTI, 0.5);
     }
     double angle = angleAverage.calculate(vision.getInputs()[0].yawToSpeaker);
     double distance = distanceAverage.calculate(vision.getInputs()[0].distance);
 
     if (!shooter.atSetpoint(distance)) {
-      confidenceTicks = Math.min(confidenceTicks, confidenceTicks + 1);
+      //confidenceTicks = Math.min(confidenceTicks, confidenceTicks + 1);
       return;
     };
     // Robot is pointed at speaker
     if (Math.abs(angle) > Units.degreesToRadians(2)) {
-      confidenceTicks = Math.min(confidenceTicks, confidenceTicks + 1);
+      //confidenceTicks = Math.min(confidenceTicks, confidenceTicks + 1);
       return;
     }
     // confidence ticks make sure we are within tolerance for some time and not by chance
-    if (--confidenceTicks > 0) return;
+    //if (--confidenceTicks > 0) return;
 
     indexer.setSetpoint(Indexer.Setpoint.FEED);
   }
