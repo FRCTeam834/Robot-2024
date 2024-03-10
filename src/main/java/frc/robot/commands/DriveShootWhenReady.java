@@ -12,6 +12,8 @@ import frc.robot.commands.outtake.ShootWhenReady;
 import frc.robot.subsystems.drive.Swerve;
 import frc.robot.subsystems.indexer.Indexer;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.vision.Vision;
+import frc.robot.utility.LEDs;
 import frc.robot.utility.PoseEstimator;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -23,9 +25,9 @@ public class DriveShootWhenReady extends ParallelCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new LockOnSpeaker(shooter, indexer, poseEstimator),
-      new ShootWhenReady(indexer, shooter, poseEstimator),
-      new DriveLockToSpeaker(driveTrain, poseEstimator, vxSupplier, vySupplier, omegaSupplier, 0.1)
+      new LockOnSpeaker(shooter, indexer, vision),
+      new ShootWhenReady(indexer, shooter, vision, leds),
+      new DriveLockToSpeaker(driveTrain, vision, vxSupplier, vySupplier, omegaSupplier, 0.1)
     );
   }
 }

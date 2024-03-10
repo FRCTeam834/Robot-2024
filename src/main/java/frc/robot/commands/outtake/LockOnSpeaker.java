@@ -4,9 +4,11 @@
 
 package frc.robot.commands.outtake;
 
+import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.indexer.Indexer;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.vision.Vision;
 import frc.robot.utility.PoseEstimator;
 
 /**
@@ -19,6 +21,8 @@ public class LockOnSpeaker extends Command {
   private final Shooter shooter;
   private final Indexer indexer;
   private final Vision vision;
+  private final LinearFilter angleAverage = LinearFilter.movingAverage(3);
+  private final LinearFilter distanceAverage = LinearFilter.movingAverage(3);
 
   private static final double lookAheadTime = 0.1;
 
@@ -31,14 +35,17 @@ public class LockOnSpeaker extends Command {
   }
 
   @Override
-  public void initialize() {}
+  public void initialize() {
+    angleAverage.reset();
+    distanceAverage.reset();
+  }
 
   @Override
   public void execute() {
     //System.out.println("distance: " + poseEstimator.calculateDistanceToSpeakerInTime(lookAheadTime));
     // Look ahead a little so shooter isn't lagging behind
     // look ahead time should be about the response time of the system
-    double distance = vision.getInputs()[0].distance;
+    double distance = distanceAverage.calculate(vision.getInputs()[0].distance);
     shooter.setDesiredPivotAngle(shooter.getPivotAngleForDistance(distance));
     shooter.setDesiredRollerSpeeds(shooter.getShooterSpeedForDistance(distance));
   }

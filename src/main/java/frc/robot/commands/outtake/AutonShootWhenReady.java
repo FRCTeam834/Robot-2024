@@ -11,6 +11,8 @@ import frc.robot.subsystems.drive.Swerve;
 import frc.robot.subsystems.indexer.Indexer;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.vision.Vision;
+import frc.robot.utility.LEDs;
 import frc.robot.utility.PoseEstimator;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -18,12 +20,12 @@ import frc.robot.utility.PoseEstimator;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutonShootWhenReady extends ParallelRaceGroup {
   /** Creates a new AutonShootWhenReady. */
-  public AutonShootWhenReady(Swerve swerve, Shooter shooter, Indexer indexer, Intake intake, PoseEstimator poseEstimator) {
+  public AutonShootWhenReady(Swerve swerve, Shooter shooter, Indexer indexer, Intake intake, Vision vision, LEDs leds) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new ShootWhenReady(indexer, shooter, poseEstimator),
-      new DriveLockToSpeaker(swerve, poseEstimator, () -> { return 0; }, () -> { return 0; }, () -> { return 0; }, 0)
+      new ShootWhenReady(indexer, shooter, vision, leds),
+      new DriveLockToSpeaker(swerve, vision, () -> { return 0; }, () -> { return 0; }, () -> { return 0; }, 0)
     );
   }
 }

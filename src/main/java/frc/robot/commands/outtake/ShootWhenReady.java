@@ -4,6 +4,7 @@
 
 package frc.robot.commands.outtake;
 
+import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.indexer.Indexer;
@@ -23,6 +24,8 @@ public class ShootWhenReady extends Command {
   private final Vision vision;
   private final LEDs leds;
   private int confidenceTicks;
+  private final LinearFilter angleAverage = LinearFilter.movingAverage(3);
+  private final LinearFilter distanceAverage = LinearFilter.movingAverage(3);
 
   public ShootWhenReady(Indexer indexer, Shooter shooter, Vision vision, LEDs leds) {
     this.indexer = indexer;
@@ -37,6 +40,8 @@ public class ShootWhenReady extends Command {
   public void initialize() {
     confidenceTicks = 3;
     indexer.setSetpoint(Indexer.Setpoint.STOP);
+    angleAverage.reset();
+    distanceAverage.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -49,12 +54,15 @@ public class ShootWhenReady extends Command {
     }  else {
       leds.setColorForTime(Colors.CONFETTI, 0.1);
     }
-    if (!shooter.atSetpoint(vision.getInputs()[0].distance)) {
+    double angle = angleAverage.calculate(vision.getInputs()[0].yawToSpeaker);
+    double distance = distanceAverage.calculate(vision.getInputs()[0].distance);
+
+    if (!shooter.atSetpoint(distance)) {
       confidenceTicks = Math.min(confidenceTicks, confidenceTicks + 1);
       return;
     };
     // Robot is pointed at speaker
-    if (Math.abs(vision.getInputs()[0].yawToSpeaker) > Units.degreesToRadians(2)) {
+    if (Math.abs(angle) > Units.degreesToRadians(2)) {
       confidenceTicks = Math.min(confidenceTicks, confidenceTicks + 1);
       return;
     }

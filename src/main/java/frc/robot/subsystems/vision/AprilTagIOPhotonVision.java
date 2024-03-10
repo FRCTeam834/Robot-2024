@@ -51,29 +51,34 @@ public class AprilTagIOPhotonVision implements AprilTagIO {
     public void updateInputs(AprilTagIOInputs inputs) {
         inputs.hasTarget = false;
 
-        var result = camera.getLatestResult();
-        
-        PhotonTrackedTarget target = result.getBestTarget();
-
-        if (target == null) return;
-
         if (!DriverStation.getAlliance().isPresent()) return;
 
-        int tagID = 0;
+        var result = camera.getLatestResult();
+
+        int desiredID = 0;
         if (DriverStation.getAlliance().get() == Alliance.Blue) {
-            tagID = 4;
+            desiredID = 4;
         } else if (DriverStation.getAlliance().get() == Alliance.Red) {
-            tagID = 7;
+            desiredID = 7;
         }
 
-        if (target.getFiducialId() != tagID) return;
+        PhotonTrackedTarget desiredTarget = null;
 
-        double yaw = Units.degreesToRadians(target.getYaw() - 42.296);
+        for (int i = 0; i < result.targets.size(); i++) {
+            if (result.targets.get(i).getFiducialId() == desiredID) {
+                desiredTarget = result.targets.get(i);
+                break;
+            }
+        }
+
+        if (desiredTarget == null) return;
+
+        double yaw = Units.degreesToRadians(desiredTarget.getYaw() - 42.296);
         double distance = PhotonUtils.calculateDistanceToTargetMeters(
             Units.inchesToMeters(16.125),
             Units.inchesToMeters(51.875 + 4.5),
             Units.degreesToRadians(170),
-            0
+            Units.degreesToRadians(desiredTarget.getPitch())
         );
 
         if (distance > 16) return;
@@ -114,6 +119,17 @@ public class AprilTagIOPhotonVision implements AprilTagIO {
         /*inputs.poseEstimate = estimatedPose;
         inputs.lastTimestamp = result.getTimestampSeconds();*/
         //inputs.averageDistance = averageDistance;
+    }
+
+    public static double calculateDistanceToTargetMeters (
+        double cameraHeightMeters,
+        double targetHeightMeters,
+        double cameraPitchRadians,
+        double targetPitchRadians,
+        double targetYawRadians
+    ) {
+        return (targetHeightMeters - cameraHeightMeters)
+        / (Math.tan(cameraPitchRadians + targetPitchRadians) * Math.cos(targetYawRadians));
     }
 
     /**

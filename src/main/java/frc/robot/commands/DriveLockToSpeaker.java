@@ -39,7 +39,7 @@ public class DriveLockToSpeaker extends Command {
     this.omegaSupplier = omegaSupplier;
     this.speedMultiplier = speedMultipler;
 
-    alignController = new PIDController(1, 0, 0.1);
+    alignController = new PIDController(1, 0, 0);
     alignController.enableContinuousInput(-Math.PI, Math.PI);
     addRequirements(driveTrain);
   }
@@ -53,15 +53,21 @@ public class DriveLockToSpeaker extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    boolean hasTarget = vision.getInputs()[0].hasTarget;
+    if (hasTarget) {
       double error = vision.getInputs()[0].yawToSpeaker;
       error = angleAverage.calculate(error);
     
       PIDOutput = alignController.calculate(error);
+      PIDOutput = -MathUtil.clamp(PIDOutput, -1, 1);
+    } else {
+      PIDOutput = omegaSupplier.getAsDouble() * Swerve.maxSteerSpeed.get();
+    }
 
       driveTrain.drive(
       vxSupplier.getAsDouble() * Swerve.maxTranslationSpeed.get() * speedMultiplier, 
       vySupplier.getAsDouble() * Swerve.maxTranslationSpeed.get() * speedMultiplier, 
-      -MathUtil.clamp(PIDOutput, -1, 1));
+      PIDOutput);
   }
 
   // Called once the command ends or is interrupted.

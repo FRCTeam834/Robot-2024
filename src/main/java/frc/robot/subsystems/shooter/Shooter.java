@@ -250,7 +250,7 @@ public class Shooter extends SubsystemBase {
 
   @Override
   public void initSendable (SendableBuilder builder) {
-    if (Constants.robotMode != RobotMode.DEVELOPMENT) return;
+    /// if (Constants.robotMode != RobotMode.DEVELOPMENT) return;
 
     builder.setSmartDashboardType("Shooter");
 

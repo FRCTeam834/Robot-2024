@@ -26,7 +26,6 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.RobotMode;
 import frc.robot.commands.DriveLockToSpeaker;
-import frc.robot.commands.DrivePrepareShoot;
 import frc.robot.commands.DriveShootWhenReady;
 import frc.robot.commands.DriveWithNoteAlign;
 import frc.robot.commands.DriveWithSpeeds;
@@ -115,7 +114,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("IndexerFeed", new AutonIndexerFeed(indexer));
     NamedCommands.registerCommand("DeflectorOut", new DeflectorToScoringPosition(deflector));
     NamedCommands.registerCommand("AmpShot", new AmpShot(shooter, indexer));
-    NamedCommands.registerCommand("AutonShootWhenReady", new AutonShootWhenReady(swerve, shooter, indexer, intake, poseEstimator));
+    NamedCommands.registerCommand("AutonShootWhenReady", new AutonShootWhenReady(swerve, shooter, indexer, intake, vision, leds));
     NamedCommands.registerCommand("AutonShot5", new AutonShot5(shooter, indexer));
     NamedCommands.registerCommand("AutonShot5Point5", new AutonShot5Point5(shooter, indexer));
 
@@ -187,10 +186,11 @@ public class RobotContainer {
     }));
 
     rightJoystick1.whileTrue(new DriveShootWhenReady(
-      swerve, shooter, indexer, poseEstimator,
+      swerve, shooter, indexer, vision,
       OI::getRightJoystickY,
       OI::getRightJoystickX,
-      OI::getLeftJoystickX
+      OI::getLeftJoystickX,
+      leds
     ));
 
     //leftJoystick3.whileTrue(new IntakeSequence(intake, indexer, shooter, leds, leftJoystick3));
