@@ -13,18 +13,19 @@ import frc.robot.utility.PoseEstimator;
  * Makes shooter continously go to setpoint for speaker shot
  * Useful to reduce wait time before shooting
  */
+
 public class LockOnSpeaker extends Command {
   /** Creates a new LockOnSpeaker. */
   private final Shooter shooter;
   private final Indexer indexer;
-  private final PoseEstimator poseEstimator;
+  private final Vision vision;
 
   private static final double lookAheadTime = 0.1;
 
-  public LockOnSpeaker(Shooter shooter, Indexer indexer, PoseEstimator poseEstimator) {
+  public LockOnSpeaker(Shooter shooter, Indexer indexer, Vision vision) {
     this.shooter = shooter;
     this.indexer = indexer;
-    this.poseEstimator = poseEstimator;
+    this.vision = vision;
 
     addRequirements(shooter);
   }
@@ -34,10 +35,10 @@ public class LockOnSpeaker extends Command {
 
   @Override
   public void execute() {
-    System.out.println("distance: " + poseEstimator.calculateDistanceToSpeakerInTime(lookAheadTime));
+    //System.out.println("distance: " + poseEstimator.calculateDistanceToSpeakerInTime(lookAheadTime));
     // Look ahead a little so shooter isn't lagging behind
     // look ahead time should be about the response time of the system
-    double distance = poseEstimator.calculateDistanceToSpeakerInTime(lookAheadTime);
+    double distance = vision.getInputs()[0].distance;
     shooter.setDesiredPivotAngle(shooter.getPivotAngleForDistance(distance));
     shooter.setDesiredRollerSpeeds(shooter.getShooterSpeedForDistance(distance));
   }

@@ -8,7 +8,10 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.indexer.Indexer;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.vision.Vision;
+import frc.robot.utility.LEDs;
 import frc.robot.utility.PoseEstimator;
+import frc.robot.utility.LEDs.Colors;
 
 /**
  * Indexer feeds note into shooter once tolerances are met
@@ -17,13 +20,15 @@ import frc.robot.utility.PoseEstimator;
 public class ShootWhenReady extends Command {
   private final Shooter shooter;
   private final Indexer indexer;
-  private final PoseEstimator poseEstimator;
+  private final Vision vision;
+  private final LEDs leds;
   private int confidenceTicks;
 
-  public ShootWhenReady(Indexer indexer, Shooter shooter, PoseEstimator poseEstimator) {
+  public ShootWhenReady(Indexer indexer, Shooter shooter, Vision vision, LEDs leds) {
     this.indexer = indexer;
     this.shooter = shooter;
-    this.poseEstimator = poseEstimator;
+    this.vision = vision;
+    this.leds = leds;
     addRequirements(indexer);
   }
 
@@ -38,13 +43,19 @@ public class ShootWhenReady extends Command {
   @Override
   public void execute() {
     // Shooter is at setpoint angle and speeds
-    if (!shooter.atSetpoint(poseEstimator.getDistanceToSpeaker())) {
+    if (vision.getInputs()[0].hasTarget == false) {
+      leds.setColorForTime(Colors.STROBERED, 0.1);
+      return;
+    }  else {
+      leds.setColorForTime(Colors.CONFETTI, 0.1);
+    }
+    if (!shooter.atSetpoint(vision.getInputs()[0].distance)) {
       confidenceTicks = Math.min(confidenceTicks, confidenceTicks + 1);
       return;
     };
     // Robot is pointed at speaker
-    if (Math.abs(poseEstimator.getRotationToSpeaker()) > Units.degreesToRadians(2)) {
-      //confidenceTicks = Math.min(confidenceTicks, confidenceTicks + 1);
+    if (Math.abs(vision.getInputs()[0].yawToSpeaker) > Units.degreesToRadians(2)) {
+      confidenceTicks = Math.min(confidenceTicks, confidenceTicks + 1);
       return;
     }
     // confidence ticks make sure we are within tolerance for some time and not by chance

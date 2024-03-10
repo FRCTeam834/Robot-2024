@@ -21,7 +21,7 @@ import frc.robot.utility.PoseEstimator;
 
 public class DriveLockToSpeaker extends Command {
   private final Swerve driveTrain;
-  private final PoseEstimator poseEstimator;
+  private final Vision vision;
   private final DoubleSupplier vxSupplier;
   private final DoubleSupplier vySupplier;
   private final DoubleSupplier omegaSupplier;
@@ -31,9 +31,9 @@ public class DriveLockToSpeaker extends Command {
   private double speedMultiplier;
   private final LinearFilter angleAverage = LinearFilter.movingAverage(3);
   
-  public DriveLockToSpeaker(Swerve driveTrain, PoseEstimator poseEstimator, DoubleSupplier vxSupplier, DoubleSupplier vySupplier, DoubleSupplier omegaSupplier, double speedMultipler) {
+  public DriveLockToSpeaker(Swerve driveTrain, Vision vision, DoubleSupplier vxSupplier, DoubleSupplier vySupplier, DoubleSupplier omegaSupplier, double speedMultipler) {
     this.driveTrain = driveTrain;
-    this.poseEstimator = poseEstimator;
+    this.vision = vision;
     this.vxSupplier = vxSupplier;
     this.vySupplier = vySupplier;
     this.omegaSupplier = omegaSupplier;
@@ -53,7 +53,7 @@ public class DriveLockToSpeaker extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      double error = poseEstimator.getRotationToSpeaker();
+      double error = vision.getInputs()[0].yawToSpeaker;
       error = angleAverage.calculate(error);
     
       PIDOutput = alignController.calculate(error);

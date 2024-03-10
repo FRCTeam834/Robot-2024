@@ -38,9 +38,9 @@ public class Vision extends SubsystemBase {
     return aprilInputs;
   }
 
-  public Pose2d getVisionPose (){
+  /*public Pose2d getVisionPose (){
     return aprilInputs[0].poseEstimate.toPose2d();
-  }
+  }*/
 
   public Double getRotationToNode () {
     return polychromeCamera.getRotationToNote();
@@ -54,7 +54,7 @@ public class Vision extends SubsystemBase {
 
   @Override
   public void periodic() {
-    polychromeCamera.updateInputs(noteInputs);
+    // polychromeCamera.updateInputs(noteInputs);
     for (int i = 0; i < cameras.length; i++) {
       cameras[i].updateInputs(aprilInputs[i]);
     }
@@ -64,7 +64,7 @@ public class Vision extends SubsystemBase {
   public void initSendable (SendableBuilder builder) {
     builder.setSmartDashboardType("Vision");
     /** idk if this will work :skull: */
-    builder.addBooleanProperty("Camera " + polychromeCamera.getName(), polychromeCamera::isConnected, null);
+    // builder.addBooleanProperty("Camera " + polychromeCamera.getName(), polychromeCamera::isConnected, null);
     for (int i = 0; i < cameras.length; i++) {
       builder.addBooleanProperty("Camera" + cameras[i].getName(), cameras[i]::isConnected, null);
     }

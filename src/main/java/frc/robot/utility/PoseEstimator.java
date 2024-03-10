@@ -93,6 +93,7 @@ public class PoseEstimator extends SubsystemBase {
         return speakerLocation;
     }
 
+    /*
     public double getRotationToSpeaker () {
         Translation2d speakerLocation = getSpeakerLocation();
         
@@ -102,10 +103,10 @@ public class PoseEstimator extends SubsystemBase {
         double error = MathUtil.angleModulus(currentAngle - desiredRotationRad);
 
         return error;
-    }
+    }*/
 
     
-    public double calculateDistanceToSpeakerInTime (double time) {
+    /*public double calculateDistanceToSpeakerInTime (double time) {
         Translation2d speakerLocation = getSpeakerLocation();
         Pose2d currentPose = getEstimatedPose();
         Transform2d adjustForFuture = new Transform2d();
@@ -122,20 +123,20 @@ public class PoseEstimator extends SubsystemBase {
         return Math.sqrt(
             Math.pow(currentPose.getX() - speakerLocation.getX(), 2) +
             Math.pow(currentPose.getY() - speakerLocation.getY(), 2));
-    }
+    }*/
     
 
     
-    public double getDistanceToSpeaker () {
+    /*public double getDistanceToSpeaker () {
         return calculateDistanceToSpeakerInTime(0.0);
-    }
+    }*/
     
 
     @Override
     public void periodic () {
         poseEstimator.updateWithTime(Timer.getFPGATimestamp(), swerve.getYaw(), swerve.getModulePositions());
 
-        AprilTagIOInputs[] visionInputs = vision.getInputs();
+        /*AprilTagIOInputs[] visionInputs = vision.getInputs();
         for (int i = 0; i < visionInputs.length; i++) {
             if (DriverStation.isAutonomous() || DriverStation.isAutonomousEnabled()) return;
             if (visionInputs[i].poseEstimate == null) continue;
@@ -149,7 +150,7 @@ public class PoseEstimator extends SubsystemBase {
                     5.0 // dont care we never trust this
                 )
             );
-        }
+        }*/
 
         //if (Constants.robotMode == RobotMode.DEVELOPMENT) {
             poseEstimateField.setRobotPose(getEstimatedPose());
@@ -163,9 +164,9 @@ public class PoseEstimator extends SubsystemBase {
   public void initSendable (SendableBuilder builder) {
     builder.setSmartDashboardType("Pose Estimator");
 
-    builder.addDoubleProperty("ErrorToSpeaker", this::getRotationToSpeaker, null);
-    builder.addDoubleProperty("DistanceToSpeaker", this::getDistanceToSpeaker, null);
-    builder.addBooleanProperty("Vision Only", () -> {return visionOnly;}, null);
+    //builder.addDoubleProperty("ErrorToSpeaker", this::getRotationToSpeaker, null);
+    //builder.addDoubleProperty("DistanceToSpeaker", this::getDistanceToSpeaker, null);
+    //builder.addBooleanProperty("Vision Only", () -> {return visionOnly;}, null);
 
     if (Constants.robotMode != RobotMode.DEVELOPMENT) return;
   }

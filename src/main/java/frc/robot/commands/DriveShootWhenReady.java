@@ -19,7 +19,7 @@ import frc.robot.utility.PoseEstimator;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class DriveShootWhenReady extends ParallelCommandGroup {
   /** Creates a new DrivePrepareShoot. */
-  public DriveShootWhenReady(Swerve driveTrain, Shooter shooter, Indexer indexer, PoseEstimator poseEstimator, DoubleSupplier vxSupplier, DoubleSupplier vySupplier, DoubleSupplier omegaSupplier) {
+  public DriveShootWhenReady(Swerve driveTrain, Shooter shooter, Indexer indexer, Vision vision, DoubleSupplier vxSupplier, DoubleSupplier vySupplier, DoubleSupplier omegaSupplier, LEDs leds) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
