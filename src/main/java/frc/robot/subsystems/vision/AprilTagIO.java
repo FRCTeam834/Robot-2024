@@ -9,6 +9,7 @@ public interface AprilTagIO {
         // public boolean isMultiTag = false;
         // public double averageDistance = 0;
         public double yawToSpeaker = 0.0;
+        public double pitchToTag = 0.0;
         public double distance = 0;
         public boolean hasTarget = false;
     }
