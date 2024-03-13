@@ -1,5 +1,8 @@
 {
   "NetworkTables": {
+    "Transitory Values": {
+      "open": false
+    },
     "transitory": {
       "SmartDashboard": {
         "PoseEstimate": {
@@ -382,6 +385,19 @@
       "window": {
         "visible": false
       }
+    },
+    "Plot <5>": {
+      "plots": [
+        {
+          "backgroundColor": [
+            0.0,
+            0.0,
+            0.0,
+            0.8500000238418579
+          ],
+          "height": 522
+        }
+      ]
     }
   }
 }

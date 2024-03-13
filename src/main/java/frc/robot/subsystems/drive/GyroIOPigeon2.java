@@ -15,10 +15,15 @@ public class GyroIOPigeon2 implements GyroIO {
     public GyroIOPigeon2 () {
         //navX.reset();
         pigeon = new Pigeon2(18);
-        //Pigeon2Configuration config = new Pigeon2Configuration();
-        //config.withPigeon2Features(new Pigeon2FeaturesConfigs().withDisableNoMotionCalibration(true));
-        //pigeon.getConfigurator().apply(config);
-        //pigeon.getConfigurator().setYaw(0.0);
+        Pigeon2Configuration config = new Pigeon2Configuration();
+
+        config.Pigeon2Features.DisableNoMotionCalibration = true;
+        config.Pigeon2Features.DisableTemperatureCompensation = false;
+        config.Pigeon2Features.EnableCompass = false;
+
+        pigeon.getConfigurator().apply(config);
+        
+        pigeon.getConfigurator().setYaw(0.0);
     }
 
     public void updateInputs (GyroIOInputs inputs) {

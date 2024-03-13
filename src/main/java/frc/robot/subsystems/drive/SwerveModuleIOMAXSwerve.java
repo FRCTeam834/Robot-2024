@@ -47,7 +47,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 // revs -> radians
                 configureSpark("", () -> { return steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing); });
                 Timer.delay(0.2);
-                configureSpark("", () -> { return steerEncoder.setZeroOffset(4.63282 - Units.degreesToRadians(90)); });
+                configureSpark("", () -> { return steerEncoder.setZeroOffset(4.6345182 - Units.degreesToRadians(90)); });
                 break;
             }
             /** Front Right */
@@ -63,7 +63,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 // revs -> radians
                 configureSpark("", () -> { return steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing); });
                 Timer.delay(0.2);
-                configureSpark("", () -> { return steerEncoder.setZeroOffset(1.1958 - Units.degreesToRadians(0)); });
+                configureSpark("", () -> { return steerEncoder.setZeroOffset(1.1953152 - Units.degreesToRadians(0)); });
                 break;
             }
             /** Back Left */
@@ -79,7 +79,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 // revs -> radians
                 configureSpark("", () -> { return steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing); });
                 Timer.delay(0.2);
-                configureSpark("", () -> { return steerEncoder.setZeroOffset(2.715878 + Units.degreesToRadians(180)); });
+                configureSpark("", () -> { return steerEncoder.setZeroOffset(2.7099678 + Units.degreesToRadians(180)); });
                 break;
             }
             /** Back Right */
@@ -95,7 +95,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 // revs -> radians
                 configureSpark("", () -> { return steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing); });
                 Timer.delay(0.2);
-                configureSpark("", () -> { return steerEncoder.setZeroOffset(4.708008 + Units.degreesToRadians(90)); });
+                configureSpark("", () -> { return steerEncoder.setZeroOffset(4.7144107 + Units.degreesToRadians(90)); });
                 break;
             }
             default: throw new RuntimeException("Invalid SwerveModuleIOMAXSwerve index!");

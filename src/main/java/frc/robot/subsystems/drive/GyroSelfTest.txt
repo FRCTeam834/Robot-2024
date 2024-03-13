@@ -1,0 +1,59 @@
+Pigeon 2 Self Test Response
+
+Pigeon 2 (Device ID 18)
+This device is on the roboRIO's native CAN Bus
+Firmware Version: 24.1.0.0 (Phoenix 6)
+
+Led State
+   LED   On Color   Off Color   On Time   Off Time
+ - LED 1 - Orange - Off - 0.288000 s - 0.288000 s
+ - LED 2 - Orange - Off - 0.288000 s - 0.288000 s
+Animation of LED
+
+Yaw Pitch Roll
+   Signal   Value
+ - Yaw - 3.111877 deg
+ - Pitch - 0.747070 deg
+ - Roll - -1.538086 deg
+
+3 Dimensional Vectors
+   Signal   X   Y   Z
+ - Gravity Vector - -0.013611 - -0.032716 - 0.992645
+ - Accumulated Gyro - 62.973633 deg - 98.217773 deg - -8.261719 deg
+ - Magnetic Field - 0.000000 uT - 0.000000 uT - 0.000000 uT
+ - Raw Magnetometer Value - -1.200000 uT - -16.800000 uT - -80.400000 uT
+ - Device Angular Rate - -0.060976 dps - -0.060976 dps - 0.121951 dps
+ - World Angular Rate - 0.078125 dps - -0.101562 dps - 0.128906 dps
+ - Acceleration - -0.017822 g - -0.044434 g - 1.019287 g
+
+Quaternion
+   Axis   Component
+ - W - 0.588695
+ - X - -0.015139
+ - Y - -0.009156
+ - Z - 0.806007
+
+Faults
+   Fault   Currently Faulted   Sticky Faulted
+ - Hardware - False - False
+ - Undervoltage - False - False
+ - Boot During Enable - False - False
+ - Accelerometer Fault - False - False
+ - Gyro Fault - False - False
+ - Magnetometer Fault - False - False
+ - Boot into Motion - False - False
+ - Motion Stack Data Late - False - True
+ - Motion Stack Late - False - False
+ - Accelerometer Saturated - False - False
+ - Gyroscope Saturated - False - False
+ - Magnetometer Saturated - False - False
+
+Details
+   Signal   Value
+ - FrcLock - Frc_Locked
+ - Pro Licensed - Not Licensed
+ - Season Pass Licensed - Not Licensed
+ - Robot Enable - Disabled
+Press "Blink" to clear sticky faults
+Phoenix Version: 24.2.0
+Build: Feb  7 2024 18:49:57
