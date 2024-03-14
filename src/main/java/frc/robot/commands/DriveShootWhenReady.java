@@ -7,6 +7,7 @@ package frc.robot.commands;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.robot.commands.outtake.LockOnAprilTag;
 import frc.robot.commands.outtake.LockOnSpeaker;
 import frc.robot.commands.outtake.ShootWhenReady;
 import frc.robot.subsystems.drive.Swerve;
@@ -25,7 +26,8 @@ public class DriveShootWhenReady extends ParallelCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new LockOnSpeaker(shooter, indexer, vision),
+      //new LockOnSpeaker(shooter, indexer, vision),
+      new LockOnAprilTag(shooter, indexer, vision),
       new ShootWhenReady(indexer, shooter, vision, leds),
       new DriveLockToSpeaker(driveTrain, vision, vxSupplier, vySupplier, omegaSupplier, 0.1)
     );

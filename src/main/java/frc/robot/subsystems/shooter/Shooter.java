@@ -160,6 +160,7 @@ public class Shooter extends SubsystemBase {
       io.setPivotVoltage(
         pivotFeedforward.calculate(pivotPID.getSetpoint().position, pivotPID.getSetpoint().velocity) +
         pivotPID.calculate(inputs.pivotAngle));
+      pivotPID.reset(getCurrentPivotAngle());
     }
     if (!shooterStopped) {
       io.setTopRollerSpeeds(desiredTopRollerSpeeds);

@@ -206,10 +206,10 @@ public class RobotContainer {
       }),
       new DeflectorToScoringPosition(deflector)
     ));
-    xboxX.onTrue(new IntakeSequence(intake, indexer, shooter, leds, xboxX));
     xboxRB.whileTrue(new InstantCommand(() -> {
       indexer.setSetpoint(Indexer.Setpoint.FEED);
     }));
+    xboxX.onTrue(new IntakeSequence(intake, indexer, shooter, leds, xboxX));
     //xboxY.whileTrue(new DeflectorToNeutralPosition(deflector));
 
     /** Amp lineup */
