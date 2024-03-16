@@ -29,7 +29,7 @@ public class SubwooferShot extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setDesiredPivotAngle(1);
+    shooter.setDesiredPivotAngle(0.97);
     shooter.setDesiredRollerSpeeds(4000);
     indexer.setSetpoint(Indexer.Setpoint.STOP);
   }

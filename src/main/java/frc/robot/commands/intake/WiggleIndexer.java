@@ -38,7 +38,7 @@ public class WiggleIndexer extends Command {
     wiggleTimer.reset();
     wiggleTimer.stop();
     intake.setSetpoint(Intake.Setpoint.SLOW);
-    leds.setColorForTime(Colors.STROBEBLUE, 1.0);
+    leds.setColorForTime(Colors.RED, 2.0);
     //leds.setColorForTime(Colors.CONFETTI, 10);
   }
 
@@ -72,6 +72,6 @@ public class WiggleIndexer extends Command {
   @Override
   public boolean isFinished() {
     // End when note 
-    return wiggleTimer.hasElapsed(wiggleTime) && indexer.noteDetectedShooterSide();
+    return (wiggleTimer.hasElapsed(wiggleTime) && indexer.noteDetectedShooterSide()) || !indexer.hasNote();
   }
 }

@@ -55,7 +55,7 @@ public class DriveLockToSpeaker extends Command {
   public void execute() {
     boolean hasTarget = vision.getInputs()[0].hasTarget;
     if (hasTarget) {
-      double error = vision.getInputs()[0].yawToSpeaker;
+      double error = -vision.getInputs()[0].yawToSpeaker;
       error = angleAverage.calculate(error);
     
       PIDOutput = alignController.calculate(error);

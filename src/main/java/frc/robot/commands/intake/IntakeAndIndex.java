@@ -51,7 +51,7 @@ public class IntakeAndIndex extends Command {
       leds.setColorForTime(Colors.STROBEBLUE, 1.0);
       intake.setSetpoint(Intake.Setpoint.SLOW);
       indexer.setSetpoint(Indexer.Setpoint.SLOW);
-      shooter.setDesiredPivotAngle(0.6);
+      shooter.setDesiredPivotAngle(0.2);
       stopTimer.start();
     }
   }

@@ -74,7 +74,7 @@ public class Swerve extends SubsystemBase {
     maxSteerSpeed.initDefault(Units.degreesToRadians(270));
     translationP.initDefault(2);
     translationD.initDefault(0);
-    rotationP.initDefault(1.5);
+    rotationP.initDefault(2.5);
     rotationD.initDefault(0);
   }
 

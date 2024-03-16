@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7523718013035084,
-      "y": 4.52825959032701
+      "x": 0.7294015605842922,
+      "y": 4.501535313503197
     },
-    "rotation": -61.11341823308925
+    "rotation": -59.93141717813755
   },
   "command": {
     "type": "sequential",
@@ -26,25 +26,13 @@
         {
           "type": "named",
           "data": {
-            "name": "AutonShootWhenReady"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "houdini 2"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutonShootWhenReady"
+            "name": "AutonShot5"
           }
         },
         {
           "type": "wait",
           "data": {
-            "waitTime": 5.0
+            "waitTime": 7.0
           }
         }
       ]

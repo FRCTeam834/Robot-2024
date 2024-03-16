@@ -18,7 +18,6 @@ public class AutonShot5 extends Command {
   /** Creates a new SubwooferShot. */
   private final Shooter shooter;
   private final Indexer indexer;
-  private Timer timer = new Timer();
 
   public AutonShot5(Shooter shooter, Indexer indexer) {
     this.shooter = shooter;
@@ -30,9 +29,7 @@ public class AutonShot5 extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    timer.reset();
-    timer.stop();
-    shooter.setDesiredPivotAngle(0.54);
+    shooter.setDesiredPivotAngle(0.49);
     shooter.setDesiredRollerSpeeds(5500);
     indexer.setSetpoint(Indexer.Setpoint.STOP);
   }
@@ -40,11 +37,8 @@ public class AutonShot5 extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    //if (!shooter.atDesiredSetpoint(Units.degreesToRadians(2), 100)) return;
-    //indexer.setSetpoint(Indexer.Setpoint.FEED);
-    if (!indexer.hasNote()) {
-      timer.start();
-    }
+    if (!shooter.atDesiredSetpoint(Units.degreesToRadians(0.8), 100)) return;
+    indexer.setSetpoint(Indexer.Setpoint.FEED);
   }
 
   // Called once the command ends or is interrupted.
@@ -57,6 +51,6 @@ public class AutonShot5 extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return timer.hasElapsed(10);
+    return !indexer.hasNote();
   }
 }

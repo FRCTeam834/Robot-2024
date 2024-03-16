@@ -23,7 +23,7 @@ public class IntakeSequence extends SequentialCommandGroup {
     addCommands(
       new ShooterToIntakeAngle(shooter),
       new IntakeAndIndex(intake, indexer, shooter, leds).onlyWhile(runSupplier::getAsBoolean),
-      new WiggleIndexer(intake, indexer, leds).onlyIf(indexer::noteDetectedIntakeSide)
+      new WiggleIndexer(intake, indexer, leds)
     );
   }
 }

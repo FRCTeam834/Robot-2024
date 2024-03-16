@@ -37,7 +37,7 @@ public class AutonShot2Point5 extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!shooter.atDesiredSetpoint(Units.degreesToRadians(2), 100)) return;
+  if (!shooter.atDesiredSetpoint(Units.degreesToRadians(2), 100)) return;
     indexer.setSetpoint(Indexer.Setpoint.FEED);
   }
 

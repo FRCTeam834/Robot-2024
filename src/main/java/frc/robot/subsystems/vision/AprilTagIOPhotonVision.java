@@ -73,7 +73,7 @@ public class AprilTagIOPhotonVision implements AprilTagIO {
 
         if (desiredTarget == null) return;
 
-        double yaw = Units.degreesToRadians(desiredTarget.getYaw() + 5);
+        double yaw = Units.degreesToRadians(desiredTarget.getYaw()); // +5
         double pitch = Units.degreesToRadians(desiredTarget.getPitch());
         double distance = Math.abs(calculateDistanceToTargetMeters(
             Units.inchesToMeters(16.125),

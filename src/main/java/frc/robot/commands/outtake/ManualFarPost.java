@@ -29,8 +29,8 @@ public class ManualFarPost extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setDesiredPivotAngle(0.45);
-    shooter.setDesiredRollerSpeeds(5000);
+    shooter.setDesiredPivotAngle(0.85);
+    shooter.setDesiredRollerSpeeds(4000);
     indexer.setSetpoint(Indexer.Setpoint.STOP);
   }
 

@@ -160,6 +160,7 @@ public class RobotContainer {
   JoystickButton xboxX = new JoystickButton(OI.xbox, 3);
   JoystickButton xboxY = new JoystickButton(OI.xbox, 4);
   JoystickButton xboxRB = new JoystickButton(OI.xbox, 6);
+  JoystickButton xboxLB = new JoystickButton(OI.xbox, 5);
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -199,16 +200,23 @@ public class RobotContainer {
     //leftJoystick3.whileTrue(new IntakeSequence(intake, indexer, shooter, leds, leftJoystick3));
 
     xboxA.whileTrue(new SubwooferShot(shooter, indexer));
-    xboxB.whileTrue(new EjectStuckNote(intake, indexer, shooter));
+    //xboxB.whileTrue(new EjectStuckNote(intake, indexer, shooter));
+    xboxB.whileTrue(new ManualFarPost(shooter, indexer));
     xboxY.whileTrue(new ParallelCommandGroup(
       new InstantCommand(() -> {
         shooter.setDesiredPivotAngle(1.1);
       }),
       new DeflectorToScoringPosition(deflector)
     ));
-    xboxRB.whileTrue(new InstantCommand(() -> {
-      indexer.setSetpoint(Indexer.Setpoint.FEED);
-    }));
+    xboxRB.whileTrue(new ParallelCommandGroup(
+      new DeflectorToScoringPosition(deflector),
+      new InstantCommand(() -> {
+        shooter.setDesiredPivotAngle(0.8);
+        shooter.setDesiredRollerSpeeds(2450);
+      })
+    ));
+    xboxLB.whileTrue(new DeflectorToNeutralPosition(deflector));
+
     xboxX.onTrue(new IntakeSequence(intake, indexer, shooter, leds, xboxX));
     //xboxY.whileTrue(new DeflectorToNeutralPosition(deflector));
 
@@ -220,7 +228,7 @@ public class RobotContainer {
       0.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
     ));*/
     leftJoystick1.whileTrue(new SequentialCommandGroup(
-      new DeflectorToScoringPosition(deflector),
+      //new DeflectorToScoringPosition(deflector),
       new AmpShot(shooter, indexer)
     ));
     leftJoystick1.onFalse(new DeflectorToNeutralPosition(deflector));

@@ -4,6 +4,7 @@
 
 package frc.robot.commands.outtake;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.indexer.Indexer;
@@ -16,11 +17,14 @@ public class LockOnAprilTag extends Command {
   private final Indexer indexer;
   private final LinearFilter shooterAngleAverage = LinearFilter.movingAverage(3);
   private final LinearFilter distanceAverage = LinearFilter.movingAverage(3);
+  private final PIDController alignController;
 
   public LockOnAprilTag(Shooter shooter, Indexer indexer, Vision vision) {
     this.shooter = shooter;
     this.vision = vision;
     this.indexer = indexer;
+
+    alignController = new PIDController(2, 0, 0);
 
     addRequirements(shooter);
   }
@@ -28,21 +32,23 @@ public class LockOnAprilTag extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    shooter.stop();
     shooterAngleAverage.reset();
     distanceAverage.reset();
+    alignController.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     if (!vision.getInputs()[0].hasTarget) return;
-    double distance = distanceAverage.calculate(vision.getInputs()[0].distance);
+    //double distance = distanceAverage.calculate(vision.getInputs()[0].distance);
     double currentAngle = shooter.getCurrentPivotAngle();
     double error = vision.getInputs()[0].pitchToTag;
 
     error = shooterAngleAverage.calculate(error);
-    shooter.setDesiredPivotAngle(currentAngle + error);
-    shooter.setDesiredRollerSpeeds(shooter.getShooterSpeedForDistance(distance));
+    shooter.setPivotVoltage(-alignController.calculate(error));
+    //shooter.setDesiredRollerSpeeds(shooter.getShooterSpeedForDistance(distance));
   }
 
   // Called once the command ends or is interrupted.

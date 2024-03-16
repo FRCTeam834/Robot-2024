@@ -3,56 +3,61 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.72,
-        "y": 4.52
+        "x": 0.7294015605842922,
+        "y": 4.501535313503197
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.7000103347774913,
-        "y": 0.9932956520717322
+        "x": 2.6616150942225554,
+        "y": 0.845996195809186
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.757166173881576,
-        "y": 0.5453387893727161
+        "x": 7.95,
+        "y": 0.55
       },
       "prevControl": {
-        "x": 8.197743459015497,
-        "y": 0.3455449626348298
+        "x": 7.271199711119328,
+        "y": 0.55
       },
       "nextControl": {
-        "x": 9.302504963254291,
-        "y": 0.7401026427201153
+        "x": 9.464437634473231,
+        "y": 0.55
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.7000103347774913,
-        "y": 3.194127194897333
+        "x": 4.322274293403549,
+        "y": 4.971533200063856
       },
       "prevControl": {
-        "x": 4.511314170908292,
-        "y": 1.1296303494149114
+        "x": 4.938493744671968,
+        "y": 5.128199162250742
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "houdiniShot2"
+      "linkedName": null
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.0,
+      "waypointRelativePos": 0.95,
       "rotationDegrees": 0.0,
-      "rotateFast": true
+      "rotateFast": false
     },
     {
       "waypointRelativePos": 0.15,
       "rotationDegrees": -60.0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 2.0,
+      "rotationDegrees": -7.224315694436932,
       "rotateFast": false
     }
   ],
@@ -71,8 +76,8 @@
   ],
   "eventMarkers": [
     {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0.3,
+      "name": "Intake",
+      "waypointRelativePos": 0.1,
       "command": {
         "type": "parallel",
         "data": {
@@ -89,14 +94,14 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 5.0,
-    "maxAcceleration": 5.0,
+    "maxVelocity": 2.5,
+    "maxAcceleration": 2.5,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -48.01278750418332,
+    "rotation": -6.952957468173784,
     "rotateFast": false
   },
   "reversed": false,
@@ -105,5 +110,5 @@
     "rotation": -60.0,
     "velocity": 0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
