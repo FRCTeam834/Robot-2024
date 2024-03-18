@@ -6,6 +6,7 @@ package frc.robot.commands.outtake;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.LinearFilter;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.indexer.Indexer;
 import frc.robot.subsystems.shooter.Shooter;
@@ -18,6 +19,17 @@ public class LockOnAprilTag extends Command {
   private final LinearFilter shooterAngleAverage = LinearFilter.movingAverage(3);
   private final LinearFilter distanceAverage = LinearFilter.movingAverage(3);
   private final PIDController alignController;
+
+  private static InterpolatingDoubleTreeMap shooterOffsetTable = new InterpolatingDoubleTreeMap();
+
+  static {
+    // (key: distance) (value: offset rad)
+
+    // sample values
+    shooterOffsetTable.put(1.0, 0.5);
+    shooterOffsetTable.put(4.0, 0.1);
+    shooterOffsetTable.put(7.0, 0.05);
+  }
 
   public LockOnAprilTag(Shooter shooter, Indexer indexer, Vision vision) {
     this.shooter = shooter;
@@ -41,14 +53,36 @@ public class LockOnAprilTag extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!vision.getInputs()[0].hasTarget) return;
-    //double distance = distanceAverage.calculate(vision.getInputs()[0].distance);
+    //Low 0.17, High 1.1
     double currentAngle = shooter.getCurrentPivotAngle();
-    double error = vision.getInputs()[0].pitchToTag;
 
+    if (!vision.getInputs()[0].hasTarget) {
+      if (vision.getInputs()[1].hasTarget) {
+        //top cam found tag so move shooter up 
+        if (currentAngle > 1) {
+          shooter.stop();
+          return;
+        }
+        shooter.setPivotVoltage(-5);
+      } else if (vision.getInputs()[2].hasTarget) {
+        //bottom cam found tag so so move shooter down
+        if (currentAngle < 0.18) {
+          shooter.stop();
+          return;
+        }
+        shooter.setPivotVoltage(5);
+      } else {
+        shooter.setDesiredPivotAngle(0.95);
+      }
+      return;
+    }
+
+    double distance = distanceAverage.calculate(vision.getInputs()[0].distance);
+    double error = vision.getInputs()[0].pitchToTag + shooterOffsetTable.get(distance);
     error = shooterAngleAverage.calculate(error);
+
     shooter.setPivotVoltage(-alignController.calculate(error));
-    //shooter.setDesiredRollerSpeeds(shooter.getShooterSpeedForDistance(distance));
+    shooter.setDesiredRollerSpeeds(4000); //for now
   }
 
   // Called once the command ends or is interrupted.
