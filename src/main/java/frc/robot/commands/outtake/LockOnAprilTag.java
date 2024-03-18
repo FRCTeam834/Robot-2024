@@ -63,14 +63,14 @@ public class LockOnAprilTag extends Command {
           shooter.stop();
           return;
         }
-        shooter.setPivotVoltage(-5);
+        shooter.setPivotVoltage(-1);
       } else if (vision.getInputs()[2].hasTarget) {
         //bottom cam found tag so so move shooter down
         if (currentAngle < 0.18) {
           shooter.stop();
           return;
         }
-        shooter.setPivotVoltage(5);
+        shooter.setPivotVoltage(1);
       } else {
         shooter.setDesiredPivotAngle(0.95);
       }
