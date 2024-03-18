@@ -23,12 +23,12 @@ public class LockOnAprilTag extends Command {
   private static InterpolatingDoubleTreeMap shooterOffsetTable = new InterpolatingDoubleTreeMap();
 
   static {
-    // (key: distance) (value: offset rad)
+    // (key: shooter angle rad) (value: offset rad)
 
     // sample values
-    shooterOffsetTable.put(1.0, 0.5);
-    shooterOffsetTable.put(4.0, 0.1);
-    shooterOffsetTable.put(7.0, 0.05);
+    shooterOffsetTable.put(0.2, 0.05);
+    shooterOffsetTable.put(0.5, 0.15);
+    shooterOffsetTable.put(0.9, 0.4);
   }
 
   public LockOnAprilTag(Shooter shooter, Indexer indexer, Vision vision) {
@@ -77,8 +77,7 @@ public class LockOnAprilTag extends Command {
       return;
     }
 
-    double distance = distanceAverage.calculate(vision.getInputs()[0].distance);
-    double error = vision.getInputs()[0].pitchToTag + shooterOffsetTable.get(distance);
+    double error = vision.getInputs()[0].pitchToTag + shooterOffsetTable.get(shooter.getCurrentPivotAngle());
     error = shooterAngleAverage.calculate(error);
 
     shooter.setPivotVoltage(-alignController.calculate(error));
