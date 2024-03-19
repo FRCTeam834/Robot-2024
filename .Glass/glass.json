@@ -48,7 +48,8 @@
   },
   "NetworkTables Settings": {
     "mode": "Client (NT3)",
-    "serverTeam": "10.8.34.2"
+    "serverTeam": "10.8.34.2",
+    "visible": false
   },
   "Plots": {
     "Plot <0>": {
@@ -91,7 +92,10 @@
             }
           ]
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
     },
     "Plot <1>": {
       "plots": [
@@ -309,10 +313,7 @@
             }
           ]
         }
-      ],
-      "window": {
-        "visible": false
-      }
+      ]
     },
     "Plot <4>": {
       "plots": [
@@ -397,7 +398,10 @@
           ],
           "height": 522
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
     }
   }
 }

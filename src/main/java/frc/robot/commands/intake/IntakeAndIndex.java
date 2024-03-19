@@ -17,9 +17,7 @@ public class IntakeAndIndex extends Command {
   private final Indexer indexer;
   private final Shooter shooter;
   private final LEDs leds;
-  private final Timer stopTimer = new Timer();
-  private final Timer slowIndexerTimer = new Timer();
-  
+
   public IntakeAndIndex(Intake intake, Indexer indexer, Shooter shooter, LEDs leds) {
     this.intake = intake;
     this.indexer = indexer;
@@ -32,10 +30,6 @@ public class IntakeAndIndex extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    stopTimer.reset();
-    stopTimer.stop();
-    slowIndexerTimer.reset();
-    slowIndexerTimer.stop();
     shooter.setDesiredPivotAngle(0.92);
   }
 
@@ -51,8 +45,7 @@ public class IntakeAndIndex extends Command {
       leds.setColorForTime(Colors.STROBEBLUE, 1.0);
       intake.setSetpoint(Intake.Setpoint.SLOW);
       indexer.setSetpoint(Indexer.Setpoint.SLOW);
-      shooter.setDesiredPivotAngle(0.2);
-      stopTimer.start();
+      //shooter.setDesiredPivotAngle(0.2);
     }
   }
 
