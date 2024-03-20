@@ -56,6 +56,14 @@ public class OI {
         return rightJoystick.getTrigger();
     }
 
+    public static final boolean isDPadUpPressed() {
+        return xbox.getPOV() == 0;
+    }
+
+    public static final boolean isDPadDownPressed() {
+        return xbox.getPOV() == 180;
+    }
+
     public static final double getXboxLeftJoystickY () {
         double raw = xbox.getLeftY();
         if (Math.abs(raw) < xboxJoystickDeadzone) raw = 0.0;

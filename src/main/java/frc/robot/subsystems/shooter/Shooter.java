@@ -65,7 +65,7 @@ public class Shooter extends SubsystemBase {
     pivotkI.initDefault(0);
     pivotkS.initDefault(0.02);
     pivotkG.initDefault(0.12);
-    pivotkV.initDefault(3);
+    pivotkV.initDefault(1.5);
     /** */
     rollerkP.initDefault(0.0006);
     rollerkD.initDefault(0);

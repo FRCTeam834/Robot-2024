@@ -20,7 +20,7 @@ public class Constants {
 
     public static AprilTagIOPhotonVision[] aprilTagCameras = {
         new AprilTagIOPhotonVision(
-            "LongRangeCamera",
+            "abc",
             new Transform3d(Units.inchesToMeters(-7.25), Units.inchesToMeters(-7.96875), Units.inchesToMeters(16.125),
             new Rotation3d(Units.degreesToRadians(180), Units.degreesToRadians(-10), Units.degreesToRadians(180)))
         )

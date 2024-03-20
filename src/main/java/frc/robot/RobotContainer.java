@@ -42,8 +42,10 @@ import frc.robot.commands.outtake.AutonShootWhenReady;
 import frc.robot.commands.outtake.AutonShot5;
 import frc.robot.commands.outtake.AutonShot5Point5;
 import frc.robot.commands.outtake.AutonThievery;
+import frc.robot.commands.outtake.DPadControlShooter;
 import frc.robot.commands.outtake.DumbShooter;
 import frc.robot.commands.outtake.IndexerFeed;
+import frc.robot.commands.outtake.LockOnAprilTag;
 import frc.robot.commands.outtake.ManualFarPost;
 import frc.robot.commands.outtake.SubwooferShot;
 import frc.robot.subsystems.climber.Climber;
@@ -100,11 +102,13 @@ public class RobotContainer {
       OI::getLeftJoystickX
     ));
 
-    climber.setDefaultCommand(new ClimbWithJoysticks(
-      climber,
-      OI::getXboxRightJoystickY,
-      OI::getXboxLeftJoystickY
-    ));
+    // climber.setDefaultCommand(new ClimbWithJoysticks(
+    //   climber,
+    //   OI::getXboxRightJoystickY,
+    //   OI::getXboxLeftJoystickY
+    // ));
+
+    shooter.setDefaultCommand(new LockOnAprilTag(shooter, indexer, vision));
 
     /**
      * Pathplanner stuff
@@ -174,13 +178,13 @@ public class RobotContainer {
   private void configureBindings() {
 
     // For tuning ONLY
-    //if (Constants.robotMode == RobotMode.DEVELOPMENT) {
-    //  shooter.setDefaultCommand(new DumbShooter(
-    //    shooter,
-    //    OI::getXboxRightJoystickY,
-    //    OI::getXboxLeftJoystickY
-    //  ));
-    //}
+    if (Constants.robotMode == RobotMode.DEVELOPMENT) {
+     shooter.setDefaultCommand(new DumbShooter(
+       shooter,
+       OI::getXboxRightJoystickY,
+       OI::getXboxLeftJoystickY
+     ));
+    }
 
     rightJoystick10.onTrue(new InstantCommand(() -> { 
       poseEstimator.resetPose(new Pose2d(
