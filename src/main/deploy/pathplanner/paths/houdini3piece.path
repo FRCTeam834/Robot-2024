@@ -24,7 +24,7 @@
         "y": 0.55
       },
       "nextControl": {
-        "x": 9.464437634473231,
+        "x": 9.46,
         "y": 0.55
       },
       "isLocked": false,
@@ -32,12 +32,60 @@
     },
     {
       "anchor": {
-        "x": 4.322274293403549,
-        "y": 4.971533200063856
+        "x": 4.32,
+        "y": 4.97
       },
       "prevControl": {
-        "x": 4.938493744671968,
-        "y": 5.128199162250742
+        "x": 5.580987099079849,
+        "y": 4.649250813776791
+      },
+      "nextControl": {
+        "x": 4.077715175632413,
+        "y": 5.031628434031437
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.801592550017777,
+        "y": 3.9477803862343444
+      },
+      "prevControl": {
+        "x": 4.771286576580036,
+        "y": 4.7136034604411226
+      },
+      "nextControl": {
+        "x": 6.831898523455519,
+        "y": 3.18195731202757
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 7.85,
+        "y": 2.34853338225195
+      },
+      "prevControl": {
+        "x": 7.550074189169263,
+        "y": 2.355204813696933
+      },
+      "nextControl": {
+        "x": 9.272965056115297,
+        "y": 2.3168815087630175
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.32,
+        "y": 4.97
+      },
+      "prevControl": {
+        "x": 5.018253485393332,
+        "y": 4.721500430035309
       },
       "nextControl": null,
       "isLocked": false,
@@ -57,23 +105,16 @@
     },
     {
       "waypointRelativePos": 2.0,
-      "rotationDegrees": -7.224315694436932,
+      "rotationDegrees": -7.220000000000027,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 4.0,
+      "rotationDegrees": 0,
       "rotateFast": false
     }
   ],
-  "constraintZones": [
-    {
-      "name": "New Constraints Zone",
-      "minWaypointRelativePos": 0.7,
-      "maxWaypointRelativePos": 1.05,
-      "constraints": {
-        "maxVelocity": 2.0,
-        "maxAcceleration": 2.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0
-      }
-    }
-  ],
+  "constraintZones": [],
   "eventMarkers": [
     {
       "name": "Intake",
@@ -91,11 +132,28 @@
           ]
         }
       }
+    },
+    {
+      "name": "Intake",
+      "waypointRelativePos": 2.7,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "AutonIntake"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 2.5,
-    "maxAcceleration": 2.5,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
