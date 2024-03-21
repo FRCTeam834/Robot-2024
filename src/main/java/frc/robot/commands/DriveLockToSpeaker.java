@@ -12,6 +12,7 @@ import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -39,7 +40,7 @@ public class DriveLockToSpeaker extends Command {
     this.omegaSupplier = omegaSupplier;
     this.speedMultiplier = speedMultipler;
 
-    alignController = new PIDController(2, 0, 0);
+    alignController = new PIDController(5, 0, 0);
     alignController.enableContinuousInput(-Math.PI, Math.PI);
     addRequirements(driveTrain);
   }
@@ -60,14 +61,20 @@ public class DriveLockToSpeaker extends Command {
     
       PIDOutput = alignController.calculate(error);
       PIDOutput = MathUtil.clamp(PIDOutput, -1, 1);
-    } else {
-      PIDOutput = omegaSupplier.getAsDouble() * Swerve.maxSteerSpeed.get();
-    }
-
+      if (Math.abs(error) < Units.degreesToRadians(0.1)) PIDOutput = 0.0;
       driveTrain.drive(
       vxSupplier.getAsDouble() * Swerve.maxTranslationSpeed.get() * speedMultiplier, 
       vySupplier.getAsDouble() * Swerve.maxTranslationSpeed.get() * speedMultiplier, 
       PIDOutput);
+    } else {
+      PIDOutput = omegaSupplier.getAsDouble() * Swerve.maxSteerSpeed.get();
+      driveTrain.drive(
+      vxSupplier.getAsDouble() * Swerve.maxTranslationSpeed.get(), 
+      vySupplier.getAsDouble() * Swerve.maxTranslationSpeed.get(), 
+      PIDOutput);
+    }
+
+      
   }
 
   // Called once the command ends or is interrupted.

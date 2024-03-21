@@ -60,9 +60,9 @@ public class ShooterIOSparkMAX implements ShooterIO {
 
         setRollerPID(0.0, 0.0, 0.0);
 
-        configureSpark("", () -> { return topRollerEncoder.setAverageDepth(16); });
+        configureSpark("", () -> { return topRollerEncoder.setAverageDepth(64); });
         configureSpark("", () -> { return topRollerEncoder.setMeasurementPeriod(1); });
-        configureSpark("", () -> { return bottomRollerEncoder.setAverageDepth(16); });
+        configureSpark("", () -> { return bottomRollerEncoder.setAverageDepth(64); });
         configureSpark("", () -> { return bottomRollerEncoder.setMeasurementPeriod(1); });
         
         pivotEncoder = pivotMotor.getAbsoluteEncoder(Type.kDutyCycle);

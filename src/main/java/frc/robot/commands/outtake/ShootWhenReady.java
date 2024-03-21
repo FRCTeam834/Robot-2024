@@ -47,7 +47,7 @@ public class ShootWhenReady extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // Shooter is at setpoint angle and speeds
+    shooter.setDesiredRollerSpeeds(5500);
     if (vision.getInputs()[0].hasTarget == false) {
       leds.setColorForTime(Colors.STROBERED, 0.5);
       return;
@@ -57,13 +57,17 @@ public class ShootWhenReady extends Command {
     double angle = angleAverage.calculate(vision.getInputs()[0].yawToSpeaker);
     double distance = distanceAverage.calculate(vision.getInputs()[0].distance);
 
-    if (!shooter.atSetpoint(distance)) {
-      //confidenceTicks = Math.min(confidenceTicks, confidenceTicks + 1);
+    if (!vision.getInputs()[0].hasTarget) return;
+    if (Math.abs(vision.getInputs()[0].pitchToTag - Units.degreesToRadians(1)) > Units.degreesToRadians(1)) {
+      System.out.println("pitch to tag");
       return;
-    };
+    }
+    if (!shooter.atDesiredRollerSetpoint(50)) return;
+    
     // Robot is pointed at speaker
     if (Math.abs(angle) > Units.degreesToRadians(2)) {
       //confidenceTicks = Math.min(confidenceTicks, confidenceTicks + 1);
+      System.out.println("yaw to speaker");
       return;
     }
     // confidence ticks make sure we are within tolerance for some time and not by chance

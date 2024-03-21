@@ -26,10 +26,10 @@ public class EjectStuckNote extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setDesiredPivotAngle(0.15);
-    shooter.setDesiredRollerSpeeds(-1000);
+    //shooter.setDesiredPivotAngle(0.15);
+    //shooter.setDesiredRollerSpeeds(-1000);
     intake.setVoltage(-12);
-    indexer.setVoltage(-12);
+    //indexer.setVoltage(-12);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -41,9 +41,9 @@ public class EjectStuckNote extends Command {
   @Override
   public void end(boolean interrupted) {
     intake.stop();
-    indexer.stop();
-    shooter.setDesiredPivotAngle(0.85);
-    shooter.setDesiredRollerSpeeds(0);
+    //indexer.stop();
+    //shooter.setDesiredPivotAngle(0.85);
+    //shooter.setDesiredRollerSpeeds(0);
   }
 
   // Returns true when the command should end.

@@ -7,6 +7,7 @@ package frc.robot.commands.outtake;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.indexer.Indexer;
 import frc.robot.subsystems.shooter.Shooter;
@@ -22,13 +23,11 @@ public class LockOnAprilTag extends Command {
 
   private static InterpolatingDoubleTreeMap shooterOffsetTable = new InterpolatingDoubleTreeMap();
 
-  private double desiredAngle;
-
   static {
     // (key: shooter angle rad) (value: offset rad)
 
     // sample values
-    shooterOffsetTable.put(0.887, 0.05);
+    shooterOffsetTable.put(0.65, Units.degreesToRadians(-0.48));
   }
 
 
@@ -37,8 +36,7 @@ public class LockOnAprilTag extends Command {
     this.vision = vision;
     this.indexer = indexer;
 
-    alignController = new PIDController(5, 0, 0);
-    desiredAngle = shooter.getCurrentPivotAngle();
+    alignController = new PIDController(10, 0, 0);
 
     addRequirements(shooter);
   }
@@ -50,17 +48,22 @@ public class LockOnAprilTag extends Command {
     shooterAngleAverage.reset();
     distanceAverage.reset();
     alignController.reset();
+    shooter.setDesiredPivotAngle(0.7);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println(vision.getInputs()[0].hasTarget);
     if (!vision.getInputs()[0].hasTarget) return;
     double error = vision.getInputs()[0].pitchToTag;
+    error = shooterAngleAverage.calculate(error);
 
-    //error = shooterAngleAverage.calculate(error);
-    shooter.setPivotVoltage(-alignController.calculate(error));
+    double voltage = -alignController.calculate(error);
+    voltage += (Math.signum(voltage) * 0.03);
+
+    System.out.println(error + "V: " + voltage);
+    shooter.setPivotVoltage(voltage);
+    shooter.setDesiredRollerSpeeds(5000);
     //shooter.setDesiredRollerSpeeds(shooter.getShooterSpeedForDistance(distance));
   }
 
@@ -68,8 +71,8 @@ public class LockOnAprilTag extends Command {
   @Override
   public void end(boolean interrupted) {
     if (!indexer.noteDetectedIntakeSide() && !indexer.noteDetectedShooterSide()) {
-      shooter.setDesiredRollerSpeeds(shooter.getIdleShooterSpeed());
-      shooter.setDesiredPivotAngle(0.95);
+      // shooter.setDesiredRollerSpeeds(shooter.getIdleShooterSpeed());
+      // shooter.setDesiredPivotAngle(0.95);
     }
   }
 

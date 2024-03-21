@@ -67,12 +67,12 @@ public class Shooter extends SubsystemBase {
     pivotkG.initDefault(0.12);
     pivotkV.initDefault(1.5);
     /** */
-    rollerkP.initDefault(0.0006);
+    rollerkP.initDefault(0.0009);
     rollerkD.initDefault(0);
     topRollerkS.initDefault(0.145);
-    topRollerkV.initDefault(0.0017);
+    topRollerkV.initDefault(0.00175);
     bottomRollerkS.initDefault(0.145);
-    bottomRollerkV.initDefault(0.0017);
+    bottomRollerkV.initDefault(0.00176);
   }
 
   private static InterpolatingDoubleTreeMap shotAngleTable = new InterpolatingDoubleTreeMap();
@@ -248,6 +248,12 @@ public class Shooter extends SubsystemBase {
       Math.abs(desiredRollerSpeeds - getCurrentTopRollerSpeed()) <= toleranceRPM &&
       Math.abs(desiredRollerSpeeds - getCurrentBottomRollerSpeed()) <= toleranceRPM &&
       Math.abs(desiredAngle - getCurrentPivotAngle()) <= toleranceAngle;
+  }
+
+  public boolean atDesiredRollerSetpoint (double toleranceRPM) {
+    return Math.abs(desiredRollerSpeeds - getCurrentTopRollerSpeed()) <= toleranceRPM &&
+      Math.abs(desiredRollerSpeeds - getCurrentBottomRollerSpeed()) <= toleranceRPM &&
+      Math.abs(getCurrentTopRollerSpeed() - getCurrentBottomRollerSpeed()) <= 20;
   }
 
   @Override

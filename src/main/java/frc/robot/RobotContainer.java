@@ -48,6 +48,7 @@ import frc.robot.commands.outtake.IndexerFeed;
 import frc.robot.commands.outtake.LockOnAprilTag;
 import frc.robot.commands.outtake.ManualFarPost;
 import frc.robot.commands.outtake.SubwooferShot;
+import frc.robot.commands.outtake.alignShooterWithNote;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.climber.ClimberIOSparkMax;
 import frc.robot.subsystems.deflector.Deflector;
@@ -108,7 +109,7 @@ public class RobotContainer {
     //   OI::getXboxLeftJoystickY
     // ));
 
-    shooter.setDefaultCommand(new LockOnAprilTag(shooter, indexer, vision));
+    shooter.setDefaultCommand(new alignShooterWithNote(shooter, indexer, vision));
 
     /**
      * Pathplanner stuff
@@ -178,13 +179,13 @@ public class RobotContainer {
   private void configureBindings() {
 
     // For tuning ONLY
-    if (Constants.robotMode == RobotMode.DEVELOPMENT) {
-     shooter.setDefaultCommand(new DumbShooter(
-       shooter,
-       OI::getXboxRightJoystickY,
-       OI::getXboxLeftJoystickY
-     ));
-    }
+    // if (Constants.robotMode == RobotMode.DEVELOPMENT) {
+    //  shooter.setDefaultCommand(new DumbShooter(
+    //    shooter,
+    //    OI::getXboxRightJoystickY,
+    //    OI::getXboxLeftJoystickY
+    //  ));
+    // }
 
     rightJoystick10.onTrue(new InstantCommand(() -> { 
       poseEstimator.resetPose(new Pose2d(
@@ -204,8 +205,8 @@ public class RobotContainer {
     //leftJoystick3.whileTrue(new IntakeSequence(intake, indexer, shooter, leds, leftJoystick3));
 
     xboxA.whileTrue(new SubwooferShot(shooter, indexer));
-    //xboxB.whileTrue(new EjectStuckNote(intake, indexer, shooter));
-    xboxB.whileTrue(new ManualFarPost(shooter, indexer));
+    xboxB.whileTrue(new EjectStuckNote(intake, indexer, shooter));
+    //xboxB.whileTrue(new ManualFarPost(shooter, indexer));
     xboxY.whileTrue(new ParallelCommandGroup(
       new InstantCommand(() -> {
         shooter.setDesiredPivotAngle(1.1);

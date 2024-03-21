@@ -27,7 +27,7 @@ public class DriveShootWhenReady extends ParallelCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       // new LockOnSpeaker(shooter, indexer, vision),
-      new LockOnAprilTag(shooter, indexer, vision),
+      // new LockOnAprilTag(shooter, indexer, vision),
       new ShootWhenReady(indexer, shooter, vision, leds),
       new DriveLockToSpeaker(driveTrain, vision, vxSupplier, vySupplier, omegaSupplier, 0.1)
     );

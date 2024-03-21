@@ -3,42 +3,10 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7294015605842922,
-        "y": 4.501535313503197
-      },
-      "prevControl": null,
-      "nextControl": {
-        "x": 2.6616150942225554,
-        "y": 0.845996195809186
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 7.95,
-        "y": 0.55
-      },
-      "prevControl": {
-        "x": 7.271199711119328,
-        "y": 0.55
-      },
-      "nextControl": {
-        "x": 9.46,
-        "y": 0.55
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
         "x": 4.32,
         "y": 4.97
       },
-      "prevControl": {
-        "x": 5.580987099079849,
-        "y": 4.649250813776791
-      },
+      "prevControl": null,
       "nextControl": {
         "x": 4.077715175632413,
         "y": 5.031628434031437
@@ -94,22 +62,22 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.95,
+      "waypointRelativePos": 0.0,
       "rotationDegrees": 0.0,
       "rotateFast": false
     },
     {
-      "waypointRelativePos": 0.15,
+      "waypointRelativePos": 0.0,
       "rotationDegrees": -60.0,
       "rotateFast": false
     },
     {
-      "waypointRelativePos": 2.0,
+      "waypointRelativePos": 0.0,
       "rotationDegrees": -7.220000000000027,
       "rotateFast": false
     },
     {
-      "waypointRelativePos": 4.0,
+      "waypointRelativePos": 2.0,
       "rotationDegrees": 0,
       "rotateFast": false
     }
@@ -118,7 +86,7 @@
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 0.1,
+      "waypointRelativePos": 0.0,
       "command": {
         "type": "parallel",
         "data": {
@@ -135,7 +103,7 @@
     },
     {
       "name": "Intake",
-      "waypointRelativePos": 2.7,
+      "waypointRelativePos": 0.7000000000000002,
       "command": {
         "type": "parallel",
         "data": {
@@ -165,7 +133,7 @@
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": -60.0,
+    "rotation": -7.33613411549379,
     "velocity": 0
   },
   "useDefaultConstraints": false
