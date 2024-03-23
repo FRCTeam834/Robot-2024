@@ -48,7 +48,7 @@ import frc.robot.commands.outtake.IndexerFeed;
 import frc.robot.commands.outtake.LockOnAprilTag;
 import frc.robot.commands.outtake.ManualFarPost;
 import frc.robot.commands.outtake.SubwooferShot;
-import frc.robot.commands.outtake.alignShooterWithNote;
+import frc.robot.commands.outtake.alignShooterToTag;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.climber.ClimberIOSparkMax;
 import frc.robot.subsystems.deflector.Deflector;
@@ -109,7 +109,7 @@ public class RobotContainer {
     //   OI::getXboxLeftJoystickY
     // ));
 
-    shooter.setDefaultCommand(new alignShooterWithNote(shooter, indexer, vision));
+    shooter.setDefaultCommand(new alignShooterToTag(shooter, indexer, vision));
 
     /**
      * Pathplanner stuff
@@ -245,7 +245,7 @@ public class RobotContainer {
 
     leftJoystick3.onTrue(new IntakeSequence(intake, indexer, shooter, leds, leftJoystick3));
     
-    new JoystickButton(OI.rightJoystick, 2).whileTrue(new IndexerFeed(indexer));
+    //new JoystickButton(OI.rightJoystick, 2).whileTrue(new IndexerFeed(indexer));
   }
 
   /**

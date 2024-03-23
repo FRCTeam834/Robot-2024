@@ -12,15 +12,15 @@ import frc.robot.subsystems.indexer.Indexer;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.vision.Vision;
 
-public class alignShooterWithNote extends Command {
+public class alignShooterToTag extends Command {
 
   private final Shooter shooter;
   private final Indexer indexer;
   private final Vision vision;
-  private final LinearFilter shooterAngleAverage = LinearFilter.movingAverage(5);
+  private final LinearFilter shooterAngleAverage = LinearFilter.movingAverage(10);
   private final PIDController alignController;
 
-  public alignShooterWithNote(Shooter shooter, Indexer indexer, Vision vision) {
+  public alignShooterToTag(Shooter shooter, Indexer indexer, Vision vision) {
     this.shooter = shooter;
     this.indexer = indexer;
     this.vision = vision;
@@ -35,12 +35,13 @@ public class alignShooterWithNote extends Command {
   public void initialize() {
     shooter.stop();
     shooter.setDesiredPivotAngle(0.7);
+    shooterAngleAverage.reset();
   }
 
   @Override
   public void execute() {
     if (indexer.hasNote() && vision.getInputs()[0].hasTarget) {
-      double error = vision.getInputs()[0].pitchToTag - Units.degreesToRadians(1);
+      double error = vision.getInputs()[0].pitchToTag - Units.degreesToRadians(5);
       error = shooterAngleAverage.calculate(error);
 
 
