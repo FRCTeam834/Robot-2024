@@ -19,4 +19,6 @@ public interface ShooterIO {
     public default void setBottomRollerFeedforward (double kS, double kV) {}
     public default void setTopRollerVoltage(double volts) {}
     public default void setBottomRollerVoltage(double volts) {}
+    public default void setDesiredTopRollerSpeed(double speed) {}
+    public default void setDesiredBottomRollerSpeed(double speed) {}
 }

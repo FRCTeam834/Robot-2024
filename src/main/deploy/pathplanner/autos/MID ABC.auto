@@ -26,19 +26,7 @@
         {
           "type": "named",
           "data": {
-            "name": "SubwooferShot"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "MID ABC P2"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "SubwooferShot"
+            "name": "LongSubwooferShot"
           }
         },
         {
@@ -50,7 +38,19 @@
         {
           "type": "named",
           "data": {
-            "name": "SubwooferShot"
+            "name": "LongSubwooferShot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MID ABC P2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "LongSubwooferShot"
           }
         }
       ]

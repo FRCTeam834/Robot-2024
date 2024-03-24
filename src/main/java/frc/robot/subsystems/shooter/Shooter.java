@@ -52,7 +52,9 @@ public class Shooter extends SubsystemBase {
 
 
   private double desiredAngle = 0.0; // radians
-  private double desiredRollerSpeeds = 0.0;
+  //private double desiredRollerSpeeds = 0.0;
+  private double desiredTopRollerSpeed = 0.0;
+  private double desiredBottomRollerSpeed = 0.0;
 
 
   private double currentDist = 0.0;
@@ -161,7 +163,9 @@ public class Shooter extends SubsystemBase {
         pivotPID.calculate(inputs.pivotAngle));
     }
     if (!shooterStopped) {
-      io.setRollerSpeeds(desiredRollerSpeeds);
+      //io.setRollerSpeeds(desiredRollerSpeeds);
+      io.setDesiredTopRollerSpeed(desiredTopRollerSpeed);
+      io.setDesiredBottomRollerSpeed(desiredBottomRollerSpeed);
     }
   }
 
@@ -169,7 +173,9 @@ public class Shooter extends SubsystemBase {
     pivotPID.reset(inputs.pivotAngle, 0.0);
     pivotStopped = true;
     shooterStopped = true;
-    desiredRollerSpeeds = 0;
+    //desiredRollerSpeeds = 0;
+    desiredBottomRollerSpeed = 0;
+    desiredTopRollerSpeed = 0;
     io.setPivotVoltage(0.0);
     io.setTopRollerVoltage(0.0);
     io.setBottomRollerVoltage(0.0);
@@ -217,7 +223,19 @@ public class Shooter extends SubsystemBase {
    */
   public void setDesiredRollerSpeeds (double speeds) {
     shooterStopped = false;
-    desiredRollerSpeeds = speeds;
+    //desiredRollerSpeeds = speeds;
+    setDesiredTopRollerSpeed(speeds);
+    setDesiredBottomRollerSpeed(speeds);
+  }
+
+  public void setDesiredTopRollerSpeed (double speed) {
+    shooterStopped = false;
+    desiredTopRollerSpeed = speed;
+  }
+
+  public void setDesiredBottomRollerSpeed (double speed) {
+    shooterStopped = false;
+    desiredBottomRollerSpeed = speed;
   }
 
   public double getCurrentPivotAngle () {
@@ -245,14 +263,14 @@ public class Shooter extends SubsystemBase {
 
   public boolean atDesiredSetpoint (double toleranceAngle, double toleranceRPM) {
     return 
-      Math.abs(desiredRollerSpeeds - getCurrentTopRollerSpeed()) <= toleranceRPM &&
-      Math.abs(desiredRollerSpeeds - getCurrentBottomRollerSpeed()) <= toleranceRPM &&
+      Math.abs(desiredTopRollerSpeed - getCurrentTopRollerSpeed()) <= toleranceRPM &&
+      Math.abs(desiredBottomRollerSpeed - getCurrentBottomRollerSpeed()) <= toleranceRPM &&
       Math.abs(desiredAngle - getCurrentPivotAngle()) <= toleranceAngle;
   }
 
   public boolean atDesiredRollerSetpoint (double toleranceRPM) {
-    return Math.abs(desiredRollerSpeeds - getCurrentTopRollerSpeed()) <= toleranceRPM &&
-      Math.abs(desiredRollerSpeeds - getCurrentBottomRollerSpeed()) <= toleranceRPM &&
+    return Math.abs(desiredTopRollerSpeed - getCurrentTopRollerSpeed()) <= toleranceRPM &&
+      Math.abs(desiredBottomRollerSpeed - getCurrentBottomRollerSpeed()) <= toleranceRPM &&
       Math.abs(getCurrentTopRollerSpeed() - getCurrentBottomRollerSpeed()) <= 20;
   }
 
@@ -265,7 +283,7 @@ public class Shooter extends SubsystemBase {
     builder.addDoubleProperty("PivotAngle", this::getCurrentPivotAngle, null);
     builder.addDoubleProperty("TopRollerSpeed", this::getCurrentTopRollerSpeed, null);
     builder.addDoubleProperty("DesiredSpeed", () -> { 
-      return desiredRollerSpeeds; }, null);
+      return desiredTopRollerSpeed; }, null);
     builder.addDoubleProperty("BottomRollerSpeed", this::getCurrentBottomRollerSpeed, null);
     builder.addDoubleProperty("AppliedVoltage", () -> {
       return inputs.pivotAppliedVoltage;

@@ -7,6 +7,7 @@ package frc.robot.commands.outtake;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.indexer.Indexer;
 import frc.robot.subsystems.shooter.Shooter;
@@ -19,6 +20,7 @@ public class alignShooterToTag extends Command {
   private final Vision vision;
   private final LinearFilter shooterAngleAverage = LinearFilter.movingAverage(10);
   private final PIDController alignController;
+  private final Timer timer = new Timer();
 
   public alignShooterToTag(Shooter shooter, Indexer indexer, Vision vision) {
     this.shooter = shooter;
@@ -34,15 +36,24 @@ public class alignShooterToTag extends Command {
   @Override
   public void initialize() {
     shooter.stop();
-    shooter.setDesiredPivotAngle(0.7);
-    shooterAngleAverage.reset();
+    shooter.setDesiredPivotAngle(0.6);
+    timer.reset();
+    timer.stop();
+    //shooterAngleAverage.reset();
   }
 
   @Override
   public void execute() {
-    if (indexer.hasNote() && vision.getInputs()[0].hasTarget) {
-      double error = vision.getInputs()[0].pitchToTag - Units.degreesToRadians(5);
-      error = shooterAngleAverage.calculate(error);
+    if (vision.getInputs()[0].hasTarget) {
+      timer.reset();
+      timer.stop();
+    } else if (!vision.getInputs()[0].hasTarget) {
+      timer.start();
+    }
+
+    if (indexer.hasNote() && !timer.hasElapsed(0.25)) {
+      double error = vision.getInputs()[0].pitchToTag;
+      //error = shooterAngleAverage.calculate(error);
 
 
       double voltage = -alignController.calculate(error);

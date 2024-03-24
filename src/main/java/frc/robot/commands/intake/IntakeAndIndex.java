@@ -32,8 +32,8 @@ public class IntakeAndIndex extends Command {
   @Override
   public void initialize() {
     shooter.setDesiredPivotAngle(0.92);
-    //timer.reset();
-    //timer.stop();
+    timer.reset();
+    timer.stop();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,17 +44,19 @@ public class IntakeAndIndex extends Command {
       leds.setColorForTime(Colors.RED, 10.0);
       intake.setSetpoint(Intake.Setpoint.FAST);
       indexer.setSetpoint(Indexer.Setpoint.FAST);
+      timer.reset();
+      timer.stop();
     } else if (indexer.noteDetectedIntakeSide()) {
-      leds.setColorForTime(Colors.STROBEBLUE, 1.0);
+      leds.setColorForTime(Colors.STROBEBLUE, 2.0);
       intake.setSetpoint(Intake.Setpoint.SLOW);
       indexer.setSetpoint(Indexer.Setpoint.SLOW);
-      //shooter.setDesiredPivotAngle(0.2);
-      //timer.start();
+      shooter.setDesiredPivotAngle(0.2);
+      timer.start();
     }
 
-    //if (timer.hasElapsed(1) && !indexer.noteDetectedShooterSide()) {
-    //  shooter.setDesiredPivotAngle(0.5);
-    //}
+    if (timer.hasElapsed(0.5) && !indexer.noteDetectedShooterSide()) {
+      shooter.setDesiredPivotAngle(0.6);
+    }
   }
 
   // Called once the command ends or is interrupted.

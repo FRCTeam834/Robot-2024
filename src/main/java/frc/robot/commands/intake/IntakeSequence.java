@@ -22,7 +22,7 @@ public class IntakeSequence extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new ShooterToIntakeAngle(shooter),
-      new IntakeAndIndex(intake, indexer, shooter, leds).onlyWhile(runSupplier::getAsBoolean),
+      new IntakeAndIndex(intake, indexer, shooter, leds).onlyWhile(() -> { return runSupplier.getAsBoolean(); }), //&& !indexer.hasNote(); }),
       new WiggleIndexer(intake, indexer, leds)
     );
   }

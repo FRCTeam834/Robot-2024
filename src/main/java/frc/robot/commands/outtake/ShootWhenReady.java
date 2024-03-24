@@ -61,18 +61,18 @@ public class ShootWhenReady extends Command {
   public void execute() {
     shooter.setDesiredRollerSpeeds(5500);
     if (vision.getInputs()[0].hasTarget == false) {
-      leds.setColorForTime(Colors.STROBERED, 0.5);
+      leds.setColorForTime(Colors.STROBERED, 0.06);
       return;
     }  else {
-      leds.setColorForTime(Colors.CONFETTI, 0.5);
+      leds.setColorForTime(Colors.STROBEWHITE, 0.06);
     }
     double angle = angleAverage.calculate(vision.getInputs()[0].yawToSpeaker);
     //double distance = distanceAverage.calculate(vision.getInputs()[0].distance);
-    double pitch = shooterAngleAverage.calculate(vision.getInputs()[0].pitchToTag);
+    double pitch = vision.getInputs()[0].pitchToTag;
 
     if (!vision.getInputs()[0].hasTarget) return;
-    if (Math.abs(pitch - Units.degreesToRadians(5)) > Units.degreesToRadians(1)) {
-      System.out.println(Math.abs(pitch - Units.degreesToRadians(1)));
+    if (Math.abs(pitch) > Units.degreesToRadians(1.25)) {
+      //System.out.println("pitch: " + Math.abs(pitch));
       return;
     }
     if (!shooter.atDesiredRollerSetpoint(50)) return;
@@ -80,7 +80,7 @@ public class ShootWhenReady extends Command {
     // Robot is pointed at speaker
     if (Math.abs(angle) > Units.degreesToRadians(3)) {
       //confidenceTicks = Math.min(confidenceTicks, confidenceTicks + 1);
-      System.out.println(Math.abs(angle));
+      //System.out.println("yaw: " + Math.abs(angle));
       return;
     }
     // confidence ticks make sure we are within tolerance for some time and not by chance

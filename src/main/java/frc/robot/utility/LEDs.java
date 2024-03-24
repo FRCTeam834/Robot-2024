@@ -23,6 +23,7 @@ public class LEDs extends SubsystemBase {
     CONFETTI(-0.87),
     RED(0.61),
     STROBEBLUE(-0.09),
+    STROBEWHITE(-0.05),
     STROBERED(-0.11);
 
     public final double signal;

@@ -12,21 +12,29 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import frc.robot.subsystems.shooter.Shooter;
 
 
 public class AprilTagIOPhotonVision implements AprilTagIO {
     private final PhotonCamera camera;
     private final String name;
+    private final Shooter shooter;
     //private final PhotonPoseEstimator poseEstimator;
 
     public static double fieldLength = Units.inchesToMeters(651.223);
     public static double fieldWidth = Units.inchesToMeters(323.277);
+    public static final LinearFilter pitchAverage = LinearFilter.movingAverage(10);
+    //public static double pitchOffset = Units.degreesToRadians(6.5);
+
+    private static InterpolatingDoubleTreeMap shooterAngleOffsetTable = new InterpolatingDoubleTreeMap();
 
     /**
      * Implements PhotonVision camera
@@ -34,8 +42,19 @@ public class AprilTagIOPhotonVision implements AprilTagIO {
      * @param name Name of the camera.
      * @param robotToCamera Location of the camera on the robot (from center, positive x towards the arm, positive y to the left, and positive angle is counterclockwise.
      */
-    public AprilTagIOPhotonVision(String name, Transform3d robotToCamera) {
+
+    static {
+        // (shooter angle rad, offset rad)
+        shooterAngleOffsetTable.put(2.0, Units.degreesToRadians(6.5));
+        shooterAngleOffsetTable.put(0.65, Units.degreesToRadians(6.5));
+        shooterAngleOffsetTable.put(0.5, Units.degreesToRadians(5.0));
+        shooterAngleOffsetTable.put(0.3, Units.degreesToRadians(4.0));
+        shooterAngleOffsetTable.put(0.0, Units.degreesToRadians(4.0));
+    }
+
+    public AprilTagIOPhotonVision(String name, Transform3d robotToCamera, Shooter shooter) {
         this.name = name;
+        this.shooter = shooter;
 
         camera = new PhotonCamera(name);
         //poseEstimator = new PhotonPoseEstimator(loadFieldLayout(), PhotonPoseEstimator.PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, camera, robotToCamera);
@@ -74,20 +93,20 @@ public class AprilTagIOPhotonVision implements AprilTagIO {
         if (desiredTarget == null) return;
 
         double yaw = Units.degreesToRadians(desiredTarget.getYaw()); // +5
-        double pitch = Units.degreesToRadians(desiredTarget.getPitch());
-        double distance = Math.abs(calculateDistanceToTargetMeters(
-            Units.inchesToMeters(16.125),
-            Units.inchesToMeters(51.875 + 4.5),
-            Units.degreesToRadians(170),
-            Units.degreesToRadians(desiredTarget.getPitch()),
-            yaw
-        ));
+        double pitch = Units.degreesToRadians(desiredTarget.getPitch()) - shooterAngleOffsetTable.get(shooter.getCurrentPivotAngle());
+        //double distance = Math.abs(calculateDistanceToTargetMeters(
+        //    Units.inchesToMeters(16.125),
+        //    Units.inchesToMeters(51.875 + 4.5),
+        //    Units.degreesToRadians(170),
+        //    Units.degreesToRadians(desiredTarget.getPitch()),
+        //    yaw
+        //));
 
-        if (distance > 16) return;
+        //if (distance > 16) return;
 
         inputs.yawToSpeaker = yaw;
-        inputs.pitchToTag = pitch;
-        inputs.distance = distance;
+        inputs.pitchToTag = pitchAverage.calculate(pitch);
+        //inputs.distance = distance;
         inputs.hasTarget = true;
 
         // 1.32

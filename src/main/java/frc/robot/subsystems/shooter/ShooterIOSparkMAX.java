@@ -118,11 +118,12 @@ public class ShooterIOSparkMAX implements ShooterIO {
 
     public static boolean configureSpark(String message, Supplier<REVLibError> config) {
         REVLibError err = REVLibError.kOk;
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 15; i++) {
             err = config.get();
             if (err == REVLibError.kOk) {
                 return true;
             }
+            Timer.delay(0.05);
         }
 
         DriverStation.reportError(String.format(
@@ -147,6 +148,16 @@ public class ShooterIOSparkMAX implements ShooterIO {
     public void setRollerSpeeds (double speeds) {
         topRollerController.setReference(speeds, ControlType.kVelocity, 0, topRollerFeedforward.calculate(speeds));
         bottomRollerController.setReference(speeds, ControlType.kVelocity, 0, bottomRollerFeedforward.calculate(speeds));
+    }
+
+    @Override
+    public void setDesiredTopRollerSpeed (double speed) {
+        topRollerController.setReference(speed, ControlType.kVelocity, 0, topRollerFeedforward.calculate(speed));
+    }
+    
+    @Override
+    public void setDesiredBottomRollerSpeed (double speed) {
+        bottomRollerController.setReference(speed, ControlType.kVelocity, 0, bottomRollerFeedforward.calculate(speed));
     }
 
     public void setRollerPID (double kP, double kI, double kD) {

@@ -12,6 +12,8 @@ import com.pathplanner.lib.util.PathPlannerLogging;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -37,6 +39,7 @@ import frc.robot.commands.intake.EjectStuckNote;
 import frc.robot.commands.intake.IntakeAndIndex;
 import frc.robot.commands.intake.IntakeSequence;
 import frc.robot.commands.outtake.AmpShot;
+import frc.robot.commands.outtake.Auton4NoteShot;
 import frc.robot.commands.outtake.AutonIndexerFeed;
 import frc.robot.commands.outtake.AutonShootWhenReady;
 import frc.robot.commands.outtake.AutonShot5;
@@ -63,6 +66,7 @@ import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.IntakeIOSparkMAX;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.ShooterIOSparkMAX;
+import frc.robot.subsystems.vision.AprilTagIOPhotonVision;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.utility.LEDs;
 import frc.robot.utility.PoseEstimator;
@@ -75,7 +79,26 @@ import frc.robot.utility.PoseEstimator;
  */
 public class RobotContainer {
   /** Initialize subsystems */
-  public static Vision vision = new Vision(Constants.aprilTagCameras, Constants.noteDetectionCamera);
+  public static Shooter shooter = new Shooter(new ShooterIOSparkMAX());
+  public static AprilTagIOPhotonVision[] aprilTagCameras = {
+        new AprilTagIOPhotonVision(
+            "abc",
+            new Transform3d(Units.inchesToMeters(-7.25), Units.inchesToMeters(-7.96875), Units.inchesToMeters(16.125),
+            new Rotation3d(Units.degreesToRadians(180), Units.degreesToRadians(-10), Units.degreesToRadians(180))
+            ), shooter
+        )
+        /*new AprilTagIOPhotonVision(
+            "CameraRight",
+            new Transform3d(Units.inchesToMeters(5), Units.inchesToMeters(9.5), Units.inchesToMeters(15),
+            new Rotation3d(Units.degreesToRadians(180), Units.degreesToRadians(10), Units.degreesToRadians(0)))
+        ),
+        new AprilTagIOPhotonVision(
+            "CameraLeft",
+            new Transform3d(0.0, 0.0, 0.0,
+            new Rotation3d(0.0, 0.0, 0.0))
+        )*/
+    };
+  public static Vision vision = new Vision(aprilTagCameras, Constants.noteDetectionCamera);
   public static Swerve swerve = new Swerve(
     new SwerveModuleIOMAXSwerve(0),
     new SwerveModuleIOMAXSwerve(1),
@@ -84,18 +107,20 @@ public class RobotContainer {
     new GyroIOPigeon2()
   );
   public static PoseEstimator poseEstimator = new PoseEstimator(swerve, vision);
-  public static Shooter shooter = new Shooter(new ShooterIOSparkMAX());
   public static Indexer indexer = new Indexer(new IndexerIOSparkMAX());
   public static Intake intake = new Intake(new IntakeIOSparkMAX());
   public static Deflector deflector = new Deflector(new DeflectorIOSparkMax());
   public static Climber climber = new Climber(new ClimberIOSparkMax());
   public LEDs leds = new LEDs();
 
+  
+
   private final SendableChooser<Command> autoChooser;
   private final Field2d pathPlannerField;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
     swerve.setDefaultCommand(new DriveWithSpeeds(
       swerve,
       OI::getRightJoystickY,
@@ -103,11 +128,11 @@ public class RobotContainer {
       OI::getLeftJoystickX
     ));
 
-    // climber.setDefaultCommand(new ClimbWithJoysticks(
-    //   climber,
-    //   OI::getXboxRightJoystickY,
-    //   OI::getXboxLeftJoystickY
-    // ));
+    climber.setDefaultCommand(new ClimbWithJoysticks(
+       climber,
+       OI::getXboxRightJoystickY,
+       OI::getXboxLeftJoystickY
+     ));
 
     shooter.setDefaultCommand(new alignShooterToTag(shooter, indexer, vision));
 
@@ -116,6 +141,7 @@ public class RobotContainer {
     */
 
     NamedCommands.registerCommand("SubwooferShot", new SubwooferShot(shooter, indexer));
+    NamedCommands.registerCommand("LongSubwooferShot", new Auton4NoteShot(shooter, indexer));
     NamedCommands.registerCommand("AutonIntake", new AutonIntake(intake, indexer, shooter, poseEstimator, leds));
     NamedCommands.registerCommand("IndexerFeed", new AutonIndexerFeed(indexer));
     NamedCommands.registerCommand("DeflectorOut", new DeflectorToScoringPosition(deflector));
@@ -206,18 +232,25 @@ public class RobotContainer {
 
     xboxA.whileTrue(new SubwooferShot(shooter, indexer));
     xboxB.whileTrue(new EjectStuckNote(intake, indexer, shooter));
+    xboxY.whileTrue(new InstantCommand(() -> {
+      indexer.setVoltage(-3);
+    }));
+    xboxY.onFalse(new InstantCommand(() -> {
+      indexer.stop();
+    }));
     //xboxB.whileTrue(new ManualFarPost(shooter, indexer));
-    xboxY.whileTrue(new ParallelCommandGroup(
-      new InstantCommand(() -> {
-        shooter.setDesiredPivotAngle(1.1);
-      }),
-      new DeflectorToScoringPosition(deflector)
-    ));
+    //xboxY.whileTrue(new ParallelCommandGroup(
+    //  new InstantCommand(() -> {
+    //    shooter.setDesiredPivotAngle(1.1);
+    //  }),
+    //  new DeflectorToScoringPosition(deflector)
+    //));
     xboxRB.whileTrue(new ParallelCommandGroup(
       new DeflectorToScoringPosition(deflector),
       new InstantCommand(() -> {
-        shooter.setDesiredPivotAngle(0.8);
-        shooter.setDesiredRollerSpeeds(2450);
+        shooter.setDesiredPivotAngle(0.71); // 0.82
+        shooter.setDesiredTopRollerSpeed(4000); // 2250
+        shooter.setDesiredBottomRollerSpeed(4000); // 2800
       })
     ));
     xboxLB.whileTrue(new DeflectorToNeutralPosition(deflector));

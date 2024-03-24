@@ -141,11 +141,12 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
 
     public static boolean configureSpark(String message, Supplier<REVLibError> config) {
         REVLibError err = REVLibError.kOk;
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 15; i++) {
             err = config.get();
             if (err == REVLibError.kOk) {
                 return true;
             }
+            Timer.delay(0.04);
         }
 
         DriverStation.reportError(String.format(

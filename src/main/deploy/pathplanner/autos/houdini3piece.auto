@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.2635531613655822,
-      "y": 5.562594074262223
+      "x": 0.7294015605842922,
+      "y": 4.501535313503197
     },
-    "rotation": 0
+    "rotation": -59.03350673834914
   },
   "command": {
     "type": "sequential",
@@ -20,25 +20,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "MID ABC P1"
+            "pathName": "houdini"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "LongSubwooferShot"
+            "name": "AutonShot5"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "MID ABC P2"
+            "pathName": "houdini3piece"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "LongSubwooferShot"
+            "name": "AutonShot5"
           }
         }
       ]
