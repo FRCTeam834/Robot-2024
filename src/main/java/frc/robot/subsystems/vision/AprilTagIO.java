@@ -15,6 +15,7 @@ public interface AprilTagIO {
     }
 
     default void updateInputs(AprilTagIOInputs inputs) {}
+    default void resetMovingAverage() {}
 
     default boolean isConnected () { return false; }
 

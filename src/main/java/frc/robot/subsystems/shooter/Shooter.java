@@ -62,7 +62,7 @@ public class Shooter extends SubsystemBase {
   /** Defaults (final values) are initialized here */
   static {
     /** */
-    pivotkP.initDefault(10);
+    pivotkP.initDefault(7);
     pivotkD.initDefault(0);
     pivotkI.initDefault(0);
     pivotkS.initDefault(0.02);
@@ -170,7 +170,7 @@ public class Shooter extends SubsystemBase {
   }
 
   public void stop () {
-    pivotPID.reset(inputs.pivotAngle, 0.0);
+    //pivotPID.reset(inputs.pivotAngle, 0.0);
     pivotStopped = true;
     shooterStopped = true;
     //desiredRollerSpeeds = 0;

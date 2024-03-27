@@ -101,8 +101,8 @@ public class ShooterIOSparkMAX implements ShooterIO {
         configureSpark("", () -> { return topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 500); });
         configureSpark("", () -> { return bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 500); });
 
-        configureSpark("", () -> { return topRollerMotor.setClosedLoopRampRate(0.5); });
-        configureSpark("", () -> { return bottomRollerMotor.setClosedLoopRampRate(0.5); });
+        configureSpark("", () -> { return topRollerMotor.setClosedLoopRampRate(0.2); });
+        configureSpark("", () -> { return bottomRollerMotor.setClosedLoopRampRate(0.2); });
 
         if(Constants.robotMode == RobotMode.COMPETITION) {
             Timer.delay(0.25);

@@ -37,7 +37,7 @@ public class WiggleIndexer extends Command {
     firstWiggle = true;
     wiggleTimer.reset();
     wiggleTimer.stop();
-    intake.setSetpoint(Intake.Setpoint.SLOW);
+    //intake.setSetpoint(Intake.Setpoint.SLOW);
     // leds.setColorForTime(Colors.RED, 2.0);
     //leds.setColorForTime(Colors.CONFETTI, 10);
   }
@@ -52,6 +52,7 @@ public class WiggleIndexer extends Command {
         indexer.setVoltage(-12);
         //leds.setColorForTime(Colors.STROBEBLUE, 1.5);
       } else {
+        intake.stop();
         indexer.setVoltage(-1);
       }
     } else {

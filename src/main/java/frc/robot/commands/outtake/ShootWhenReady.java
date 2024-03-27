@@ -30,12 +30,24 @@ public class ShootWhenReady extends Command {
   private final LinearFilter shooterAngleAverage = LinearFilter.movingAverage(10);
 
   private static final InterpolatingDoubleTreeMap rollerSpeedsTable = new InterpolatingDoubleTreeMap();
+  private static final InterpolatingDoubleTreeMap shotAngleToleranceTable = new InterpolatingDoubleTreeMap();
+  private static final InterpolatingDoubleTreeMap yawAngleToleranceTable = new InterpolatingDoubleTreeMap();
 
   static {
     // (shooter angle rad, shooter rollers rpm)
     rollerSpeedsTable.put(1.0, 4000.0);
     rollerSpeedsTable.put(0.6, 5000.0);
     rollerSpeedsTable.put(0.2, 5500.0);
+
+    // (shooter angle rad, tolerance angle rad)
+    shotAngleToleranceTable.put(1.25, Units.degreesToRadians(3));
+    shotAngleToleranceTable.put(0.7, Units.degreesToRadians(1.25));
+    shotAngleToleranceTable.put(0.0, Units.degreesToRadians(1.25));
+
+    // (shooter angle rad, tolerance angle rad)
+    yawAngleToleranceTable.put(1.25, Units.degreesToRadians(8));
+    yawAngleToleranceTable.put(0.7, Units.degreesToRadians(3));
+    yawAngleToleranceTable.put(0.0, Units.degreesToRadians(3));
   }
 
   public ShootWhenReady(Indexer indexer, Shooter shooter, Vision vision, LEDs leds) {
@@ -93,7 +105,9 @@ public class ShootWhenReady extends Command {
   @Override
   public void end(boolean interrupted) {
     indexer.setSetpoint(Indexer.Setpoint.STOP);
+    vision.resetMovingAverage();
     if (!indexer.noteDetectedIntakeSide()) {
+      shooter.setDesiredRollerSpeeds(0);
       shooter.setDesiredRollerSpeeds(shooter.getIdleShooterSpeed());
     }
   }

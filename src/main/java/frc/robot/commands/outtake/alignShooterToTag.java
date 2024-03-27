@@ -36,7 +36,7 @@ public class alignShooterToTag extends Command {
   @Override
   public void initialize() {
     shooter.stop();
-    shooter.setDesiredPivotAngle(0.6);
+    //shooter.setDesiredPivotAngle(0.6);
     timer.reset();
     timer.stop();
     //shooterAngleAverage.reset();
@@ -49,6 +49,10 @@ public class alignShooterToTag extends Command {
       timer.stop();
     } else if (!vision.getInputs()[0].hasTarget) {
       timer.start();
+      if (indexer.hasNote()) {
+        // idle spin
+        shooter.setDesiredRollerSpeeds(shooter.getIdleShooterSpeed());
+      }
     }
 
     if (indexer.hasNote() && !timer.hasElapsed(0.25)) {
@@ -62,6 +66,7 @@ public class alignShooterToTag extends Command {
     } else if (!indexer.hasNote()) {
       shooter.setDesiredPivotAngle(0.92);
     } else {
+      System.out.println("hello");
       shooter.setDesiredPivotAngle(0.6);
     }
   }

@@ -50,12 +50,12 @@ public class IntakeAndIndex extends Command {
       leds.setColorForTime(Colors.STROBEBLUE, 2.0);
       intake.setSetpoint(Intake.Setpoint.SLOW);
       indexer.setSetpoint(Indexer.Setpoint.SLOW);
-      shooter.setDesiredPivotAngle(0.2);
+      //shooter.setDesiredPivotAngle(0.2);
       timer.start();
     }
 
     if (timer.hasElapsed(0.5) && !indexer.noteDetectedShooterSide()) {
-      shooter.setDesiredPivotAngle(0.6);
+      //shooter.setDesiredPivotAngle(0.6);
     }
   }
 
@@ -63,7 +63,7 @@ public class IntakeAndIndex extends Command {
   @Override
   public void end(boolean interrupted) {
     leds.cancelColorForTime();
-    intake.stop();
+    //intake.stop();
     indexer.stop();
   }
 

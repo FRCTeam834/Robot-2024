@@ -27,7 +27,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
     private final AbsoluteEncoder steerEncoder;
 
     private final double wheelDiameter = Units.inchesToMeters(3.0);
-    private final double driveEncoderGearing = 3.56;
+    private final double driveEncoderGearing = 4.71;
     private final double steerEncoderGearing = 1;
 
     public SwerveModuleIOMAXSwerve (int index) {

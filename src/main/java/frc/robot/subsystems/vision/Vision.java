@@ -38,6 +38,10 @@ public class Vision extends SubsystemBase {
     return aprilInputs;
   }
 
+  public void resetMovingAverage() {
+    cameras[0].resetMovingAverage();
+  }
+
   /*public Pose2d getVisionPose (){
     return aprilInputs[0].poseEstimate.toPose2d();
   }*/
@@ -74,6 +78,8 @@ public class Vision extends SubsystemBase {
     builder.addDoubleProperty("Distance", () -> {
       return getInputs()[0].distance;
     }, null);
+
+    builder.addDoubleProperty("TagPitch", () -> { return getInputs()[0].pitchToTag; }, null);
 
     if (Constants.robotMode != RobotMode.DEVELOPMENT) return;
 
