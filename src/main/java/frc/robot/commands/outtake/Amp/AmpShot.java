@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.outtake;
+package frc.robot.commands.outtake.Amp;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
@@ -21,16 +21,16 @@ public class AmpShot extends Command {
   public AmpShot(Shooter shooter, Indexer indexer) {
     this.shooter = shooter;
     this.indexer = indexer;
-    addRequirements(shooter, indexer);
+    addRequirements(indexer);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setDesiredPivotAngle(0.96); // 0.71
-    shooter.setDesiredTopRollerSpeed(1200); // 4000
-    shooter.setDesiredBottomRollerSpeed(3800); // 4000
+    // shooter.setDesiredPivotAngle(0.96); // 0.71
+    // shooter.setDesiredTopRollerSpeed(1200); // 4000
+    // shooter.setDesiredBottomRollerSpeed(3800); // 4000
     // shooter.setDesiredRollerSpeeds(2450);
     indexer.setSetpoint(Indexer.Setpoint.STOP);
   }

@@ -49,14 +49,13 @@ public class ShootWhenReadyNoYaw extends Command {
   @Override
   public void initialize() {
     confidenceTicks = 3;
-    indexer.setSetpoint(Indexer.Setpoint.STOP);
     distanceAverage.reset();
     shooterAngleAverage.reset();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
+  public void execute() {    
     shooter.setDesiredRollerSpeeds(5500);
     if (vision.getInputs()[0].hasTarget == false) {
       leds.setColorForTime(Colors.STROBERED, 0.06);
@@ -69,7 +68,6 @@ public class ShootWhenReadyNoYaw extends Command {
 
     if (!vision.getInputs()[0].hasTarget) return;
     if (Math.abs(pitch) > Units.degreesToRadians(1.25)) {
-      //System.out.println("pitch: " + Math.abs(pitch));
       return;
     }
     if (!shooter.atDesiredRollerSetpoint(50)) return;

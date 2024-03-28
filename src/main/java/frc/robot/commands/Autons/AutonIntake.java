@@ -1,8 +1,8 @@
+package frc.robot.commands.Autons;
+
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
-package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -12,14 +12,14 @@ import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.utility.LEDs;
 import frc.robot.utility.LEDs.Colors;
 
-public class IntakeAndIndex extends Command {
+public class AutonIntake extends Command {
   private final Intake intake;
   private final Indexer indexer;
   private final Shooter shooter;
   private final LEDs leds;
   private final Timer timer = new Timer();
 
-  public IntakeAndIndex(Intake intake, Indexer indexer, Shooter shooter, LEDs leds) {
+  public AutonIntake(Intake intake, Indexer indexer, Shooter shooter, LEDs leds) {
     this.intake = intake;
     this.indexer = indexer;
     this.shooter = shooter;
@@ -42,21 +42,13 @@ public class IntakeAndIndex extends Command {
   public void execute() {
     // NO note detected
     if (!indexer.noteDetectedIntakeSide() && !indexer.noteDetectedShooterSide()) {
+      timer.start();
       leds.setColorForTime(Colors.RED, 10.0);
       intake.setSetpoint(Intake.Setpoint.FAST);
       indexer.setSetpoint(Indexer.Setpoint.FAST);
-      timer.reset();
-      timer.stop();
     } else if (indexer.noteDetectedIntakeSide()) {
       leds.setColorForTime(Colors.STROBEBLUE, 2.0);
       intake.setSetpoint(Intake.Setpoint.SLOW);
-      //indexer.setSetpoint(Indexer.Setpoint.SLOW);
-      //shooter.setDesiredPivotAngle(0.2);
-      timer.start();
-    }
-
-    if (timer.hasElapsed(0.5) && !indexer.noteDetectedShooterSide()) {
-      //shooter.setDesiredPivotAngle(0.6);
     }
   }
 
@@ -65,12 +57,13 @@ public class IntakeAndIndex extends Command {
   public void end(boolean interrupted) {
     indexer.stop();
     leds.cancelColorForTime();
+    timer.stop();
     //intake.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return indexer.noteDetectedShooterSide();
+    return timer.hasElapsed(5) || indexer.noteDetectedShooterSide();
   }
 }

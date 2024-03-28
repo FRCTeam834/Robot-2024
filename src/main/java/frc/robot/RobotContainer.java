@@ -31,14 +31,15 @@ import frc.robot.commands.DriveLockToSpeaker;
 import frc.robot.commands.DriveShootWhenReady;
 import frc.robot.commands.DriveWithNoteAlign;
 import frc.robot.commands.DriveWithSpeeds;
+import frc.robot.commands.Autons.AutonIntake;
+import frc.robot.commands.Autons.AutonVisionShot;
 import frc.robot.commands.climber.ClimbWithJoysticks;
 import frc.robot.commands.deflector.DeflectorToNeutralPosition;
 import frc.robot.commands.deflector.DeflectorToScoringPosition;
-import frc.robot.commands.intake.AutonIntake;
 import frc.robot.commands.intake.EjectStuckNote;
 import frc.robot.commands.intake.IntakeAndIndex;
 import frc.robot.commands.intake.IntakeSequence;
-import frc.robot.commands.outtake.AmpShot;
+import frc.robot.commands.intake.WiggleIndexer;
 import frc.robot.commands.outtake.Auton4NoteShot;
 import frc.robot.commands.outtake.AutonIndexerFeed;
 import frc.robot.commands.outtake.AutonShootWhenReady;
@@ -50,8 +51,11 @@ import frc.robot.commands.outtake.DumbShooter;
 import frc.robot.commands.outtake.IndexerFeed;
 import frc.robot.commands.outtake.LockOnAprilTag;
 import frc.robot.commands.outtake.ManualFarPost;
+import frc.robot.commands.outtake.ShootWhenReadyNoYaw;
 import frc.robot.commands.outtake.SubwooferShot;
 import frc.robot.commands.outtake.alignShooterToTag;
+import frc.robot.commands.outtake.Amp.AmpShot;
+import frc.robot.commands.outtake.Amp.GetReadyAmpShot;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.climber.ClimberIOSparkMax;
 import frc.robot.subsystems.deflector.Deflector;
@@ -142,14 +146,16 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("SubwooferShot", new SubwooferShot(shooter, indexer));
     NamedCommands.registerCommand("LongSubwooferShot", new Auton4NoteShot(shooter, indexer));
-    NamedCommands.registerCommand("AutonIntake", new AutonIntake(intake, indexer, shooter, poseEstimator, leds));
+    NamedCommands.registerCommand("AutonIntake", new AutonIntake(intake, indexer, shooter, leds));
     NamedCommands.registerCommand("IndexerFeed", new AutonIndexerFeed(indexer));
     NamedCommands.registerCommand("DeflectorOut", new DeflectorToScoringPosition(deflector));
     NamedCommands.registerCommand("AmpShot", new AmpShot(shooter, indexer));
     NamedCommands.registerCommand("AutonShootWhenReady", new AutonShootWhenReady(swerve, shooter, indexer, intake, vision, leds));
+    NamedCommands.registerCommand("WiggleIndexer", new IntakeAndIndex(intake, indexer, shooter, leds));
     NamedCommands.registerCommand("AutonShot5", new AutonShot5(shooter, indexer));
     NamedCommands.registerCommand("AutonShot5Point5", new AutonShot5Point5(shooter, indexer));
     NamedCommands.registerCommand("AutonThievery", new AutonThievery(shooter, indexer, intake));
+    NamedCommands.registerCommand("AutonVisionShot", new AutonVisionShot(shooter, indexer, vision, leds));
 
     swerve.configureAutoBuilder(poseEstimator);
     autoChooser = new SendableChooser<>();
@@ -159,6 +165,7 @@ public class RobotContainer {
     autoChooser.addOption("MID ABC", new PathPlannerAuto("MID ABC"));
     autoChooser.addOption("MID AB", new PathPlannerAuto("MID AB"));
     autoChooser.addOption("MID BC", new PathPlannerAuto("MID BC"));
+    autoChooser.addOption("Vision MID ABC", new PathPlannerAuto("Vision MID ABC"));
 
     SmartDashboard.putData(autoChooser);
     pathPlannerField = new Field2d();
@@ -245,14 +252,7 @@ public class RobotContainer {
     //  }),
     //  new DeflectorToScoringPosition(deflector)
     //));
-    xboxRB.whileTrue(new ParallelCommandGroup(
-      new DeflectorToScoringPosition(deflector),
-      new InstantCommand(() -> {
-        shooter.setDesiredPivotAngle(0.71); // 0.82
-        shooter.setDesiredTopRollerSpeed(4000); // 2250
-        shooter.setDesiredBottomRollerSpeed(4000); // 2800
-      })
-    ));
+    xboxRB.whileTrue(new GetReadyAmpShot(shooter));
     xboxLB.whileTrue(new DeflectorToNeutralPosition(deflector));
 
     xboxX.onTrue(new IntakeSequence(intake, indexer, shooter, leds, xboxX));

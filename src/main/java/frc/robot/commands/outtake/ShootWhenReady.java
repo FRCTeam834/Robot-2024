@@ -35,12 +35,13 @@ public class ShootWhenReady extends Command {
 
   static {
     // (shooter angle rad, shooter rollers rpm)
-    rollerSpeedsTable.put(1.0, 4000.0);
-    rollerSpeedsTable.put(0.6, 5000.0);
-    rollerSpeedsTable.put(0.2, 5500.0);
+    rollerSpeedsTable.put(1.2, 4500.0);
+    rollerSpeedsTable.put(0.8, 4500.0);
+    rollerSpeedsTable.put(0.5, 5500.0);
+    rollerSpeedsTable.put(0.0, 5500.0);
 
     // (shooter angle rad, tolerance angle rad)
-    shotAngleToleranceTable.put(1.25, Units.degreesToRadians(3));
+    shotAngleToleranceTable.put(1.25, Units.degreesToRadians(2));
     shotAngleToleranceTable.put(0.7, Units.degreesToRadians(1.25));
     shotAngleToleranceTable.put(0.0, Units.degreesToRadians(1.25));
 
@@ -83,7 +84,7 @@ public class ShootWhenReady extends Command {
     double pitch = vision.getInputs()[0].pitchToTag;
 
     if (!vision.getInputs()[0].hasTarget) return;
-    if (Math.abs(pitch) > Units.degreesToRadians(1.25)) {
+    if (Math.abs(pitch) > shotAngleToleranceTable.get(shooter.getCurrentPivotAngle())) {
       //System.out.println("pitch: " + Math.abs(pitch));
       return;
     }

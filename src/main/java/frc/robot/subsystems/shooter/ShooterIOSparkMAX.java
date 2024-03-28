@@ -77,7 +77,7 @@ public class ShooterIOSparkMAX implements ShooterIO {
 
         configureSpark("", () -> { return topRollerMotor.setIdleMode(IdleMode.kCoast); });
         configureSpark("", () -> { return bottomRollerMotor.setIdleMode(IdleMode.kCoast); });
-        configureSpark("", () -> { return pivotMotor.setIdleMode(IdleMode.kCoast); });
+        configureSpark("", () -> { return pivotMotor.setIdleMode(IdleMode.kBrake); });
 
         configureSpark("", () -> { return topRollerMotor.setSmartCurrentLimit(40); });
         configureSpark("", () -> { return bottomRollerMotor.setSmartCurrentLimit(40); });
@@ -183,6 +183,11 @@ public class ShooterIOSparkMAX implements ShooterIO {
 
     public void setBottomRollerVoltage(double volts) {
         bottomRollerMotor.setVoltage(volts);
+    }
+
+    @Override
+    public void coastMotors() {
+        pivotMotor.setIdleMode(IdleMode.kCoast);
     }
 
     @Override

@@ -29,7 +29,7 @@ public class Auton4NoteShot extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setDesiredPivotAngle(0.97);
+    shooter.setDesiredPivotAngle(1.1);
     shooter.setDesiredRollerSpeeds(4000);
     indexer.setSetpoint(Indexer.Setpoint.STOP);
   }
@@ -37,7 +37,7 @@ public class Auton4NoteShot extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!shooter.atDesiredSetpoint(Units.degreesToRadians(1), 150)) return;
+    if (!shooter.atDesiredSetpoint(Units.degreesToRadians(3), 150)) return;
     indexer.setSetpoint(Indexer.Setpoint.FEED);
   }
 

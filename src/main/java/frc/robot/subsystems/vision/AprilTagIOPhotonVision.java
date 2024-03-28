@@ -45,11 +45,11 @@ public class AprilTagIOPhotonVision implements AprilTagIO {
 
     static {
         // (shooter angle rad, offset rad)
-        shooterAngleOffsetTable.put(2.0, Units.degreesToRadians(6.5));
-        shooterAngleOffsetTable.put(0.65, Units.degreesToRadians(6.5));
-        shooterAngleOffsetTable.put(0.5, Units.degreesToRadians(5.0));
-        shooterAngleOffsetTable.put(0.3, Units.degreesToRadians(4.0));
-        shooterAngleOffsetTable.put(0.0, Units.degreesToRadians(4.0));
+        shooterAngleOffsetTable.put(2.0, Units.degreesToRadians(5.0));
+        shooterAngleOffsetTable.put(0.65, Units.degreesToRadians(5.0));
+        shooterAngleOffsetTable.put(0.5, Units.degreesToRadians(4.0));
+        shooterAngleOffsetTable.put(0.3, Units.degreesToRadians(2.0));
+        shooterAngleOffsetTable.put(0.0, Units.degreesToRadians(2.0));
     }
 
     public AprilTagIOPhotonVision(String name, Transform3d robotToCamera, Shooter shooter) {
@@ -105,7 +105,7 @@ public class AprilTagIOPhotonVision implements AprilTagIO {
         //if (distance > 16) return;
 
         inputs.yawToSpeaker = yaw;
-        inputs.pitchToTag = pitch;//pitchAverage.calculate(pitch);
+        inputs.pitchToTag = pitchAverage.calculate(pitch);
         //inputs.distance = distance;
         inputs.hasTarget = true;
 

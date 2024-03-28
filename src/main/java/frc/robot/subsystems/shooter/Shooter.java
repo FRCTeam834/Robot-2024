@@ -62,7 +62,7 @@ public class Shooter extends SubsystemBase {
   /** Defaults (final values) are initialized here */
   static {
     /** */
-    pivotkP.initDefault(7);
+    pivotkP.initDefault(5);
     pivotkD.initDefault(0);
     pivotkI.initDefault(0);
     pivotkS.initDefault(0.02);
@@ -154,6 +154,7 @@ public class Shooter extends SubsystemBase {
     
     if (DriverStation.isDisabled()) {
       stop();
+      io.coastMotors();
       return;
     }
 

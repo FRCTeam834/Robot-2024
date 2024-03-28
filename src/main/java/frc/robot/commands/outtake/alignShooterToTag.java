@@ -27,7 +27,7 @@ public class alignShooterToTag extends Command {
     this.indexer = indexer;
     this.vision = vision;
 
-    alignController = new PIDController(10, 0, 0);
+    alignController = new PIDController(6, 0, 0);
 
     addRequirements(shooter);
   }
@@ -49,10 +49,10 @@ public class alignShooterToTag extends Command {
       timer.stop();
     } else if (!vision.getInputs()[0].hasTarget) {
       timer.start();
-      if (indexer.hasNote()) {
+      //if (indexer.hasNote()) {
         // idle spin
-        shooter.setDesiredRollerSpeeds(shooter.getIdleShooterSpeed());
-      }
+        //shooter.setDesiredRollerSpeeds(shooter.getIdleShooterSpeed());
+      //}
     }
 
     if (indexer.hasNote() && !timer.hasElapsed(0.25)) {
@@ -61,12 +61,11 @@ public class alignShooterToTag extends Command {
 
 
       double voltage = -alignController.calculate(error);
-      voltage += (Math.signum(voltage) * 0.02);
+      voltage += (Math.signum(voltage) * 0.05);
       shooter.setPivotVoltage(voltage);
     } else if (!indexer.hasNote()) {
       shooter.setDesiredPivotAngle(0.92);
     } else {
-      System.out.println("hello");
       shooter.setDesiredPivotAngle(0.6);
     }
   }
