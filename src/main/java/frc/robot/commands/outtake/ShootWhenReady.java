@@ -85,15 +85,18 @@ public class ShootWhenReady extends Command {
 
     if (!vision.getInputs()[0].hasTarget) return;
     if (Math.abs(pitch) > shotAngleToleranceTable.get(shooter.getCurrentPivotAngle())) {
-      //System.out.println("pitch: " + Math.abs(pitch));
+      System.out.println("pitch: " + Math.abs(pitch));
       return;
     }
-    if (!shooter.atDesiredRollerSetpoint(50)) return;
+    if (!shooter.atDesiredRollerSetpoint(50)) {
+      System.out.println("roller tolerance");
+      return;
+    };
     
     // Robot is pointed at speaker
     if (Math.abs(angle) > Units.degreesToRadians(3)) {
       //confidenceTicks = Math.min(confidenceTicks, confidenceTicks + 1);
-      //System.out.println("yaw: " + Math.abs(angle));
+      System.out.println("yaw: " + Math.abs(angle));
       return;
     }
     // confidence ticks make sure we are within tolerance for some time and not by chance

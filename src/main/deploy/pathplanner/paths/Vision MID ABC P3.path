@@ -3,34 +3,58 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.65,
-        "y": 4.2
+        "x": 2.5,
+        "y": 4.5
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.8391222700594871,
-        "y": 4.888572719019697
+        "x": 1.189620589164843,
+        "y": 5.277533622751724
       },
       "isLocked": false,
       "linkedName": "p2end"
     },
     {
       "anchor": {
-        "x": 2.7584394907817105,
-        "y": 6.8946404084978985
+        "x": 2.8,
+        "y": 6.93
       },
       "prevControl": {
-        "x": 1.2684960126741138,
-        "y": 6.427207160464143
+        "x": 0.9278451126876816,
+        "y": 6.183083307642443
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "New Event Marker",
+      "waypointRelativePos": 0.6,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "AutonIntake"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,

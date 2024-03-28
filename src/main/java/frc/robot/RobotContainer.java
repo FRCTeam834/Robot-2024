@@ -31,7 +31,8 @@ import frc.robot.commands.DriveLockToSpeaker;
 import frc.robot.commands.DriveShootWhenReady;
 import frc.robot.commands.DriveWithNoteAlign;
 import frc.robot.commands.DriveWithSpeeds;
-import frc.robot.commands.Autons.AutonIntake;
+import frc.robot.commands.Autons.AutonIntakeAndWiggle;
+import frc.robot.commands.Autons.AutonIntakeVisionShot;
 import frc.robot.commands.Autons.AutonVisionShot;
 import frc.robot.commands.climber.ClimbWithJoysticks;
 import frc.robot.commands.deflector.DeflectorToNeutralPosition;
@@ -48,6 +49,7 @@ import frc.robot.commands.outtake.AutonShot5Point5;
 import frc.robot.commands.outtake.AutonThievery;
 import frc.robot.commands.outtake.DPadControlShooter;
 import frc.robot.commands.outtake.DumbShooter;
+import frc.robot.commands.outtake.FeedShot;
 import frc.robot.commands.outtake.IndexerFeed;
 import frc.robot.commands.outtake.LockOnAprilTag;
 import frc.robot.commands.outtake.ManualFarPost;
@@ -146,11 +148,12 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("SubwooferShot", new SubwooferShot(shooter, indexer));
     NamedCommands.registerCommand("LongSubwooferShot", new Auton4NoteShot(shooter, indexer));
-    NamedCommands.registerCommand("AutonIntake", new AutonIntake(intake, indexer, shooter, leds));
+    NamedCommands.registerCommand("AutonIntake", new AutonIntakeAndWiggle(shooter, indexer, intake, leds));
     NamedCommands.registerCommand("IndexerFeed", new AutonIndexerFeed(indexer));
     NamedCommands.registerCommand("DeflectorOut", new DeflectorToScoringPosition(deflector));
     NamedCommands.registerCommand("AmpShot", new AmpShot(shooter, indexer));
     NamedCommands.registerCommand("AutonShootWhenReady", new AutonShootWhenReady(swerve, shooter, indexer, intake, vision, leds));
+    NamedCommands.registerCommand("AutonIntakeVisionShot", new AutonIntakeVisionShot(shooter, indexer, intake, vision, leds));
     NamedCommands.registerCommand("WiggleIndexer", new IntakeAndIndex(intake, indexer, shooter, leds));
     NamedCommands.registerCommand("AutonShot5", new AutonShot5(shooter, indexer));
     NamedCommands.registerCommand("AutonShot5Point5", new AutonShot5Point5(shooter, indexer));
@@ -253,8 +256,9 @@ public class RobotContainer {
     //  new DeflectorToScoringPosition(deflector)
     //));
     xboxRB.whileTrue(new GetReadyAmpShot(shooter));
-    xboxLB.whileTrue(new DeflectorToNeutralPosition(deflector));
+    //xboxLB.whileTrue(new DeflectorToNeutralPosition(deflector));
 
+    xboxLB.onTrue(new FeedShot(shooter, indexer));
     xboxX.onTrue(new IntakeSequence(intake, indexer, shooter, leds, xboxX));
     //xboxY.whileTrue(new DeflectorToNeutralPosition(deflector));
 

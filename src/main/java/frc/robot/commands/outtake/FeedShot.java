@@ -37,7 +37,7 @@ public class FeedShot extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (!shooter.atDesiredSetpoint(Units.degreesToRadians(2), 50)) return;
+    if (!shooter.atDesiredSetpoint(Units.degreesToRadians(5), 150)) return;
     indexer.setSetpoint(Indexer.Setpoint.FEED);
   }
 

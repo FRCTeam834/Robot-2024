@@ -19,7 +19,7 @@ public class WiggleIndexer extends Command {
   private Timer wiggleTimer = new Timer();
 
   //
-  private final double wiggleTime = 2;
+  private final double wiggleTime = 0.5;
 
 
   /** Creates a new WiggleIndexer. */

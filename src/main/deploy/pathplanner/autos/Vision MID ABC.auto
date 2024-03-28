@@ -18,91 +18,39 @@
           }
         },
         {
-          "type": "deadline",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutonIntake"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "Vision MID ABC P1"
-                      }
-                    },
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 2.0
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
+            "pathName": "Vision MID ABC P1"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AutonVisionShot"
+            "name": "AutonIntakeVisionShot"
           }
         },
         {
-          "type": "race",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Vision MID ABC P2"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutonIntake"
-                }
-              }
-            ]
+            "pathName": "Vision MID ABC P2"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AutonVisionShot"
+            "name": "AutonIntakeVisionShot"
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "Vision MID ABC P3"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "AutonIntake"
-                }
-              }
-            ]
+            "pathName": "Vision MID ABC P3"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AutonVisionShot"
+            "name": "AutonIntakeVisionShot"
           }
         }
       ]

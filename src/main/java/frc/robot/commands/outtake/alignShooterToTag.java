@@ -27,7 +27,7 @@ public class alignShooterToTag extends Command {
     this.indexer = indexer;
     this.vision = vision;
 
-    alignController = new PIDController(6, 0, 0);
+    alignController = new PIDController(10, 0, 0); // last kp 6
 
     addRequirements(shooter);
   }

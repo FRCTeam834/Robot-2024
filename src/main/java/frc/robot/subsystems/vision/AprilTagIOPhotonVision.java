@@ -47,9 +47,9 @@ public class AprilTagIOPhotonVision implements AprilTagIO {
         // (shooter angle rad, offset rad)
         shooterAngleOffsetTable.put(2.0, Units.degreesToRadians(5.0));
         shooterAngleOffsetTable.put(0.65, Units.degreesToRadians(5.0));
-        shooterAngleOffsetTable.put(0.5, Units.degreesToRadians(4.0));
-        shooterAngleOffsetTable.put(0.3, Units.degreesToRadians(2.0));
-        shooterAngleOffsetTable.put(0.0, Units.degreesToRadians(2.0));
+        shooterAngleOffsetTable.put(0.5, Units.degreesToRadians(4.0)); 
+        shooterAngleOffsetTable.put(0.3, Units.degreesToRadians(2.5)); // 2.0 
+        shooterAngleOffsetTable.put(0.0, Units.degreesToRadians(2.5)); // 2.0
     }
 
     public AprilTagIOPhotonVision(String name, Transform3d robotToCamera, Shooter shooter) {
