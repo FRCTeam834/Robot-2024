@@ -1,0 +1,61 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.26,
+      "y": 5.562594074262223
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "LongSubwooferShot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "teller"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutonIntakeVisionShot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "teller 2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutonVisionShot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "teller 3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutonVisionShot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

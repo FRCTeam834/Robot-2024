@@ -1,0 +1,49 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.7294015605842922,
+      "y": 4.501535313503197
+    },
+    "rotation": -59.03350673834914
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "SubwooferShot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "houdini"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutonVisionShot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "houdini3piece"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutonVisionShot"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

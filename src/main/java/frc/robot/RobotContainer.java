@@ -159,6 +159,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("AutonShot5Point5", new AutonShot5Point5(shooter, indexer));
     NamedCommands.registerCommand("AutonThievery", new AutonThievery(shooter, indexer, intake));
     NamedCommands.registerCommand("AutonVisionShot", new AutonVisionShot(shooter, indexer, vision, leds));
+    NamedCommands.registerCommand("AlignShooterToTag", new alignShooterToTag(shooter, indexer, vision));
 
     swerve.configureAutoBuilder(poseEstimator);
     autoChooser = new SendableChooser<>();

@@ -3,58 +3,63 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.572939832908433,
-        "y": 4.699978865610992
+        "x": 3.6473060102308814,
+        "y": 2.5961819519415075
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.92659362745406,
-        "y": 2.662583486401492
+        "x": 6.5006635512832815,
+        "y": 0.8656418287858497
       },
       "isLocked": false,
-      "linkedName": "houdiniShot2"
+      "linkedName": "copperfieldShot2"
     },
     {
       "anchor": {
-        "x": 8.172874613839383,
-        "y": 2.4248099741751092
+        "x": 8.047480566965064,
+        "y": 2.4270372312846793
       },
       "prevControl": {
-        "x": 6.3713089703759485,
-        "y": 1.9573767261413535
+        "x": 7.650990109200258,
+        "y": 2.4855555924274917
       },
       "nextControl": {
-        "x": 9.362392344539565,
-        "y": 2.7334416016000214
+        "x": 8.41820204725188,
+        "y": 2.3723221352666797
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.170477427550348,
-        "y": 4.849619948350218
+        "x": 3.6473060102308814,
+        "y": 2.5961819519415075
       },
       "prevControl": {
-        "x": 6.517381860386496,
-        "y": 3.4862729749184296
+        "x": 5.914064710469474,
+        "y": 0.7918568795069243
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "copperfieldShot2"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.0,
-      "rotationDegrees": 0.0,
-      "rotateFast": true
+      "waypointRelativePos": 0.75,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 1.05,
+      "rotationDegrees": 0,
+      "rotateFast": false
     }
   ],
   "constraintZones": [
     {
       "name": "New Constraints Zone",
-      "minWaypointRelativePos": 0.9,
+      "minWaypointRelativePos": 0.7,
       "maxWaypointRelativePos": 1.05,
       "constraints": {
         "maxVelocity": 2.0,
@@ -66,8 +71,8 @@
   ],
   "eventMarkers": [
     {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0.15,
+      "name": "Intake",
+      "waypointRelativePos": 0.5,
       "command": {
         "type": "parallel",
         "data": {
@@ -91,13 +96,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -3.269999999999982,
-    "rotateFast": true
+    "rotation": -35.39999999999998,
+    "rotateFast": false
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": -40.629999999999995,
+    "rotation": -60.0,
     "velocity": 0
   },
   "useDefaultConstraints": false

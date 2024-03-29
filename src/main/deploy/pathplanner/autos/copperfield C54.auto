@@ -1,0 +1,61 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.137482101355193,
+      "y": 4.7781999966002076
+    },
+    "rotation": -34.26766550735155
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "SubwooferShot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "copperfield"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutonIntakeAndAim"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "copperfield P2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutonIntakeAndAim"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "copperfield P3"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutonIntakeAndAim"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

@@ -3,59 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.572939832908433,
-        "y": 4.699978865610992
+        "x": 1.137482101355193,
+        "y": 4.7781999966002076
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.92659362745406,
-        "y": 2.662583486401492
-      },
-      "isLocked": false,
-      "linkedName": "houdiniShot2"
-    },
-    {
-      "anchor": {
-        "x": 8.172874613839383,
-        "y": 2.4248099741751092
-      },
-      "prevControl": {
-        "x": 6.3713089703759485,
-        "y": 1.9573767261413535
-      },
-      "nextControl": {
-        "x": 9.362392344539565,
-        "y": 2.7334416016000214
+        "x": 2.5664299904238317,
+        "y": 4.272396613309926
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 4.170477427550348,
-        "y": 4.849619948350218
+        "x": 2.5943216535211433,
+        "y": 4.257437770983744
       },
       "prevControl": {
-        "x": 6.517381860386496,
-        "y": 3.4862729749184296
+        "x": 1.4396024592638577,
+        "y": 4.672568269498033
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "copperfieldShot1"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1.0,
-      "rotationDegrees": 0.0,
-      "rotateFast": true
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [
     {
       "name": "New Constraints Zone",
-      "minWaypointRelativePos": 0.9,
-      "maxWaypointRelativePos": 1.05,
+      "minWaypointRelativePos": 0.35,
+      "maxWaypointRelativePos": 0.55,
       "constraints": {
         "maxVelocity": 2.0,
         "maxAcceleration": 2.0,
@@ -66,8 +44,8 @@
   ],
   "eventMarkers": [
     {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0.15,
+      "name": "Intake",
+      "waypointRelativePos": 0.2,
       "command": {
         "type": "parallel",
         "data": {
@@ -91,13 +69,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -3.269999999999982,
-    "rotateFast": true
+    "rotation": -24.531570818240997,
+    "rotateFast": false
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": -40.629999999999995,
+    "rotation": -34.28956937678546,
     "velocity": 0
   },
   "useDefaultConstraints": false
