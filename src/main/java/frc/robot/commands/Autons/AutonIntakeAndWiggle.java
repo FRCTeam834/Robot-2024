@@ -31,7 +31,7 @@ public class AutonIntakeAndWiggle extends SequentialCommandGroup {
     this.intake = intake;
 
     addCommands(new IntakeAndIndex(intake, indexer, shooter, leds),
-                new WiggleIndexer(intake, indexer, leds));
+                new AutonWiggleIndexer(intake, indexer));
 
   }
 }
