@@ -30,7 +30,7 @@ public class Auton4NoteShot extends Command {
   @Override
   public void initialize() {
     shooter.setDesiredPivotAngle(1.1);
-    shooter.setDesiredRollerSpeeds(4000);
+    shooter.setDesiredRollerSpeeds(4500); // 4000
     indexer.setSetpoint(Indexer.Setpoint.STOP);
   }
 

@@ -170,6 +170,12 @@ public class RobotContainer {
     autoChooser.addOption("MID AB", new PathPlannerAuto("MID AB"));
     autoChooser.addOption("MID BC", new PathPlannerAuto("MID BC"));
     autoChooser.addOption("Vision MID ABC", new PathPlannerAuto("Vision MID ABC"));
+    autoChooser.addOption("Vision houdini3piece", new PathPlannerAuto("vision houdini3piece"));
+    autoChooser.addOption("Copperfield", new PathPlannerAuto("copperfield C54"));
+    autoChooser.addOption("Yu", new PathPlannerAuto("Yu"));
+    autoChooser.addOption("Teller", new PathPlannerAuto("teller B34"));
+
+
 
     SmartDashboard.putData(autoChooser);
     pathPlannerField = new Field2d();
@@ -241,7 +247,7 @@ public class RobotContainer {
 
     //leftJoystick3.whileTrue(new IntakeSequence(intake, indexer, shooter, leds, leftJoystick3));
 
-    xboxA.whileTrue(new SubwooferShot(shooter, indexer));
+    xboxA.whileTrue(new Auton4NoteShot(shooter, indexer));
     xboxB.whileTrue(new EjectStuckNote(intake, indexer, shooter));
     xboxY.whileTrue(new InstantCommand(() -> {
       indexer.setVoltage(-3);
@@ -274,7 +280,7 @@ public class RobotContainer {
       //new DeflectorToScoringPosition(deflector),
       new AmpShot(shooter, indexer)
     ));
-    leftJoystick1.onFalse(new DeflectorToNeutralPosition(deflector));
+    // leftJoystick1.onFalse(new DeflectorToNeutralPosition(deflector));
 
     /*
     new JoystickButton(OI.leftJoystick, 7).onTrue(new DeflectorToNeutralPosition(deflector));

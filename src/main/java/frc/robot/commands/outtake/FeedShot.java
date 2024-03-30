@@ -29,8 +29,8 @@ public class FeedShot extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setDesiredPivotAngle(0.78);
-    shooter.setDesiredRollerSpeeds(5500);
+    shooter.setDesiredPivotAngle(0.78); // .78
+    shooter.setDesiredRollerSpeeds(4500); // 5500
     indexer.setSetpoint(Indexer.Setpoint.STOP);
   }
 

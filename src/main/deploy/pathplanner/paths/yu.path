@@ -3,61 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.76,
-        "y": 5.562594074262223
+        "x": 0.7294015605842922,
+        "y": 4.501535313503197
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2307326395823281,
-        "y": 5.441531086624513
-      },
-      "isLocked": false,
-      "linkedName": "p1end"
-    },
-    {
-      "anchor": {
-        "x": 2.75,
-        "y": 4.1
-      },
-      "prevControl": {
-        "x": 2.455482109926014,
-        "y": 4.2251367748760025
-      },
-      "nextControl": {
-        "x": 2.8420368406481202,
-        "y": 4.060894757851249
+        "x": 3.2778345454909745,
+        "y": 1.3159940823698442
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.583152022769052,
-        "y": 4.294542966310132
+        "x": 8.583588464886855,
+        "y": 0.37599830924852673
       },
       "prevControl": {
-        "x": 2.533152022769052,
-        "y": 4.294542966310132
+        "x": 5.178714886691861,
+        "y": 0.48044228403978334
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "p2end"
+      "linkedName": "yuS1"
     }
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.6,
-      "rotationDegrees": -23.910000000000025,
+      "waypointRelativePos": 0.8,
+      "rotationDegrees": 0,
       "rotateFast": false
     }
   ],
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0.7,
+      "name": "Intake",
+      "waypointRelativePos": 0.05,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
             {
@@ -72,18 +56,21 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0,
-    "rotation": -30.0,
+    "velocity": 0.0,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": null,
-  "previewStartingState": null,
+  "previewStartingState": {
+    "rotation": -60.0,
+    "velocity": 0
+  },
   "useDefaultConstraints": false
 }

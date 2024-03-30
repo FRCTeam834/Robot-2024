@@ -20,7 +20,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "houdini"
+            "pathName": "yu"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "yu p2"
           }
         },
         {
@@ -32,13 +38,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "houdini3piece"
+            "pathName": "yu p3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "yu p4"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "AutonVisionShot"
+            "name": "AutonIntakeVisionShot"
           }
         }
       ]
