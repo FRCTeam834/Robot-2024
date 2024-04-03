@@ -76,7 +76,9 @@ public class SwerveModule extends SubsystemBase {
 
         // Scale by cosine of angle error, to reduce movement in perpendicular
         // direction of desired while steering catches up
-        optimizedState.speedMetersPerSecond *= Math.cos(steerController.getPositionError());
+        optimizedState.speedMetersPerSecond *= optimizedState.angle.minus(getAngle()).getCos();
+        
+        
 
         io.setDriveVoltage(
             driveFeedforward.calculate(optimizedState.speedMetersPerSecond) +

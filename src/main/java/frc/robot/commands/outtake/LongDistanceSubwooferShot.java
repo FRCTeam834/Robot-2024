@@ -14,12 +14,12 @@ import frc.robot.subsystems.shooter.Shooter;
  * Hardcoded shot from subwoofer
  * Can be used if vision or IR sensors are broken
  */
-public class Auton4NoteShot extends Command {
+public class LongDistanceSubwooferShot extends Command {
   /** Creates a new SubwooferShot. */
   private final Shooter shooter;
   private final Indexer indexer;
 
-  public Auton4NoteShot(Shooter shooter, Indexer indexer) {
+  public LongDistanceSubwooferShot(Shooter shooter, Indexer indexer) {
     this.shooter = shooter;
     this.indexer = indexer;
     addRequirements(shooter, indexer);

@@ -41,7 +41,7 @@ import frc.robot.commands.intake.EjectStuckNote;
 import frc.robot.commands.intake.IntakeAndIndex;
 import frc.robot.commands.intake.IntakeSequence;
 import frc.robot.commands.intake.WiggleIndexer;
-import frc.robot.commands.outtake.Auton4NoteShot;
+import frc.robot.commands.outtake.LongDistanceSubwooferShot;
 import frc.robot.commands.outtake.AutonIndexerFeed;
 import frc.robot.commands.outtake.AutonShootWhenReady;
 import frc.robot.commands.outtake.AutonShot5;
@@ -147,7 +147,7 @@ public class RobotContainer {
     */
 
     NamedCommands.registerCommand("SubwooferShot", new SubwooferShot(shooter, indexer));
-    NamedCommands.registerCommand("LongSubwooferShot", new Auton4NoteShot(shooter, indexer));
+    NamedCommands.registerCommand("LongSubwooferShot", new LongDistanceSubwooferShot(shooter, indexer));
     NamedCommands.registerCommand("AutonIntake", new AutonIntakeAndWiggle(shooter, indexer, intake, leds));
     NamedCommands.registerCommand("IndexerFeed", new AutonIndexerFeed(indexer));
     NamedCommands.registerCommand("DeflectorOut", new DeflectorToScoringPosition(deflector));
@@ -247,7 +247,7 @@ public class RobotContainer {
 
     //leftJoystick3.whileTrue(new IntakeSequence(intake, indexer, shooter, leds, leftJoystick3));
 
-    xboxA.whileTrue(new Auton4NoteShot(shooter, indexer));
+    xboxA.whileTrue(new LongDistanceSubwooferShot(shooter, indexer));
     xboxB.whileTrue(new EjectStuckNote(intake, indexer, shooter));
     xboxY.whileTrue(new InstantCommand(() -> {
       indexer.setVoltage(-3);

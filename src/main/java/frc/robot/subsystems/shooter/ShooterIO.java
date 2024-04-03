@@ -21,5 +21,6 @@ public interface ShooterIO {
     public default void setBottomRollerVoltage(double volts) {}
     public default void setDesiredTopRollerSpeed(double speed) {}
     public default void setDesiredBottomRollerSpeed(double speed) {}
-    public default void coastMotors() {}
+    public default void setIdleCoast() {}
+    public default void setIdleBrake() {}
 }

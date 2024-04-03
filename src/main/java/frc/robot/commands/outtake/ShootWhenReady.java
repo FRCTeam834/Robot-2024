@@ -83,7 +83,9 @@ public class ShootWhenReady extends Command {
     //double distance = distanceAverage.calculate(vision.getInputs()[0].distance);
     double pitch = vision.getInputs()[0].pitchToTag;
 
-    if (!vision.getInputs()[0].hasTarget) return;
+    if (!vision.getInputs()[0].hasTarget) {
+      System.out.println("Can't find tag");
+    }
     if (Math.abs(pitch) > shotAngleToleranceTable.get(shooter.getCurrentPivotAngle())) {
       System.out.println("pitch: " + Math.abs(pitch));
       return;

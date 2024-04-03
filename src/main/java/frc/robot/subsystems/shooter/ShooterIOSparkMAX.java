@@ -186,8 +186,13 @@ public class ShooterIOSparkMAX implements ShooterIO {
     }
 
     @Override
-    public void coastMotors() {
+    public void setIdleCoast() {
         pivotMotor.setIdleMode(IdleMode.kCoast);
+    }
+
+    @Override
+    public void setIdleBrake() {
+        pivotMotor.setIdleMode(IdleMode.kBrake);
     }
 
     @Override

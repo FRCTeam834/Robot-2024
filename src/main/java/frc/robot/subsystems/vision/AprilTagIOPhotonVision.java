@@ -105,7 +105,7 @@ public class AprilTagIOPhotonVision implements AprilTagIO {
         //if (distance > 16) return;
 
         inputs.yawToSpeaker = yaw;
-        inputs.pitchToTag = pitchAverage.calculate(pitch);
+        inputs.pitchToTag = pitch; //pitchAverage.calculate(pitch);
         //inputs.distance = distance;
         inputs.hasTarget = true;
 

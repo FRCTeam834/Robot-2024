@@ -135,6 +135,7 @@ public class Shooter extends SubsystemBase {
   @Override
   public void periodic() {
     io.updateInputs(inputs);
+    //io.setIdleBrake();
 
     if (pivotkP.hasChanged(hashCode()) || pivotkD.hasChanged(hashCode())) {
       pivotPID.setPID(pivotkP.get(), pivotkI.get(), pivotkD.get());
@@ -154,7 +155,7 @@ public class Shooter extends SubsystemBase {
     
     if (DriverStation.isDisabled()) {
       stop();
-      io.coastMotors();
+      io.setIdleCoast();
       return;
     }
 
