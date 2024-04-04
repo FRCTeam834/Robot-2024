@@ -31,7 +31,10 @@ public class AmpShot extends Command {
     // shooter.setDesiredPivotAngle(0.96); // 0.71
     // shooter.setDesiredTopRollerSpeed(1200); // 4000
     // shooter.setDesiredBottomRollerSpeed(3800); // 4000
-    // shooter.setDesiredRollerSpeeds(2450);
+    // shooter.setDesiredRollerSpeeds(2450); //very old
+    shooter.setDesiredPivotAngle(0.71);
+    shooter.setDesiredTopRollerSpeed(4000);
+    shooter.setDesiredBottomRollerSpeed(4000);
     indexer.setSetpoint(Indexer.Setpoint.STOP);
   }
 

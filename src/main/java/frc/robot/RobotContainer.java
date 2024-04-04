@@ -282,10 +282,10 @@ public class RobotContainer {
     ));
     // leftJoystick1.onFalse(new DeflectorToNeutralPosition(deflector));
 
-    /*
+    
     new JoystickButton(OI.leftJoystick, 7).onTrue(new DeflectorToNeutralPosition(deflector));
     new JoystickButton(OI.leftJoystick, 6).onTrue(new DeflectorToScoringPosition(deflector));
-    */
+    
 
     leftJoystick3.onTrue(new IntakeSequence(intake, indexer, shooter, leds, leftJoystick3));
     
