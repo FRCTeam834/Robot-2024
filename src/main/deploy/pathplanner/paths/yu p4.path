@@ -3,55 +3,79 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.37737665985415,
-        "y": 2.385857203505629
+        "x": 8.5209220800121,
+        "y": 2.2037678680955333
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.259351367541287,
-        "y": 1.247749133473294
+        "x": 7.633148294284457,
+        "y": 2.913986896678553
       },
       "isLocked": false,
       "linkedName": "yuS3"
     },
     {
       "anchor": {
-        "x": 3.1961024450537754,
-        "y": 2.882207316850637
+        "x": 4.458051460632184,
+        "y": 4.8044228403978435
       },
       "prevControl": {
-        "x": 3.954152383944735,
-        "y": 1.0724484537325794
+        "x": 5.711379158127273,
+        "y": 4.32398055635806
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "yuS2"
+      "linkedName": "yuS4"
     }
   ],
   "rotationTargets": [
     {
       "waypointRelativePos": 0.8,
-      "rotationDegrees": -36.329999999999984,
+      "rotationDegrees": -6.910000000000025,
       "rotateFast": false
     }
   ],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Intake and aim",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "AutonIntake"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "AlignShooterToTag"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
+    "maxVelocity": 5.0,
+    "maxAcceleration": 5.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -43.0,
+    "rotation": -6.910000000000025,
     "rotateFast": false
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": 20.0,
+    "rotation": -19.16675887914983,
     "velocity": 0
   },
   "useDefaultConstraints": false
