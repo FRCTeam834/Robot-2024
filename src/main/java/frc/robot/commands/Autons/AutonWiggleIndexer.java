@@ -16,7 +16,7 @@ public class AutonWiggleIndexer extends Command {
   private Timer wiggleTimer = new Timer();
 
   //
-  private final double wiggleTime = 0.5;
+  private final double wiggleTime = 1;
 
 
   /** Creates a new WiggleIndexer. */

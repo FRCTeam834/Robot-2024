@@ -8,8 +8,13 @@
       },
       "prevControl": null,
       "nextControl": {
+<<<<<<< HEAD
         "x": 7.633148294284457,
         "y": 2.913986896678553
+=======
+        "x": 7.066362281643032,
+        "y": 1.4013152027967952
+>>>>>>> e836694 (path fixes and wiggle)
       },
       "isLocked": false,
       "linkedName": "yuS3"
@@ -20,8 +25,13 @@
         "y": 4.8044228403978435
       },
       "prevControl": {
+<<<<<<< HEAD
         "x": 5.711379158127273,
         "y": 4.32398055635806
+=======
+        "x": 4.556608514215364,
+        "y": 1.8201143889808582
+>>>>>>> e836694 (path fixes and wiggle)
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,23 +40,36 @@
   ],
   "rotationTargets": [
     {
+<<<<<<< HEAD
       "waypointRelativePos": 0.8,
       "rotationDegrees": -6.910000000000025,
+=======
+      "waypointRelativePos": 0.4,
+      "rotationDegrees": -35.39999999999998,
+>>>>>>> e836694 (path fixes and wiggle)
       "rotateFast": false
     }
   ],
   "constraintZones": [],
   "eventMarkers": [
     {
+<<<<<<< HEAD
       "name": "Intake and aim",
       "waypointRelativePos": 0,
       "command": {
         "type": "sequential",
+=======
+      "name": "Wiggle",
+      "waypointRelativePos": 0.05,
+      "command": {
+        "type": "parallel",
+>>>>>>> e836694 (path fixes and wiggle)
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
+<<<<<<< HEAD
                 "name": "AutonIntake"
               }
             },
@@ -54,6 +77,9 @@
               "type": "named",
               "data": {
                 "name": "AlignShooterToTag"
+=======
+                "name": "AutonWiggleIndexer"
+>>>>>>> e836694 (path fixes and wiggle)
               }
             }
           ]
@@ -69,7 +95,11 @@
   },
   "goalEndState": {
     "velocity": 0,
+<<<<<<< HEAD
     "rotation": -6.910000000000025,
+=======
+    "rotation": -35.39999999999998,
+>>>>>>> e836694 (path fixes and wiggle)
     "rotateFast": false
   },
   "reversed": false,

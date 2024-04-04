@@ -8,8 +8,13 @@
       },
       "prevControl": null,
       "nextControl": {
+<<<<<<< HEAD
         "x": 6.0351554799801725,
         "y": 0.8355517983300609
+=======
+        "x": 5.8765542739072165,
+        "y": 1.3893632321374465
+>>>>>>> e836694 (path fixes and wiggle)
       },
       "isLocked": false,
       "linkedName": "yuS1"
@@ -20,8 +25,8 @@
         "y": 2.882207316850637
       },
       "prevControl": {
-        "x": 5.80328426186471,
-        "y": 0.8186896363445424
+        "x": 5.891067381136425,
+        "y": 1.3864285964844814
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,15 +37,23 @@
   "constraintZones": [],
   "eventMarkers": [
     {
+<<<<<<< HEAD
       "name": "Intake and aim",
       "waypointRelativePos": 0,
       "command": {
         "type": "sequential",
+=======
+      "name": "Wiggle",
+      "waypointRelativePos": 0.05,
+      "command": {
+        "type": "parallel",
+>>>>>>> e836694 (path fixes and wiggle)
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
+<<<<<<< HEAD
                 "name": "AutonIntake"
               }
             },
@@ -48,6 +61,9 @@
               "type": "named",
               "data": {
                 "name": "AlignShooterToTag"
+=======
+                "name": "AutonWiggleIndexer"
+>>>>>>> e836694 (path fixes and wiggle)
               }
             }
           ]
@@ -62,15 +78,15 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 0.0,
     "rotation": -35.39999999999998,
     "rotateFast": false
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": -19.16675887914983,
-    "velocity": 0
+    "rotation": 0.0,
+    "velocity": 0.0
   },
   "useDefaultConstraints": false
 }

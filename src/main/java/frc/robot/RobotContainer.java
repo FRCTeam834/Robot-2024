@@ -34,6 +34,7 @@ import frc.robot.commands.DriveWithSpeeds;
 import frc.robot.commands.Autons.AutonIntakeAndWiggle;
 import frc.robot.commands.Autons.AutonIntakeVisionShot;
 import frc.robot.commands.Autons.AutonVisionShot;
+import frc.robot.commands.Autons.AutonWiggleIndexer;
 import frc.robot.commands.climber.ClimbWithJoysticks;
 import frc.robot.commands.deflector.DeflectorToNeutralPosition;
 import frc.robot.commands.deflector.DeflectorToScoringPosition;
@@ -160,6 +161,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("AutonThievery", new AutonThievery(shooter, indexer, intake));
     NamedCommands.registerCommand("AutonVisionShot", new AutonVisionShot(shooter, indexer, vision, leds));
     NamedCommands.registerCommand("AlignShooterToTag", new alignShooterToTag(shooter, indexer, vision));
+    NamedCommands.registerCommand("AutonWiggleIndexer", new AutonWiggleIndexer(intake, indexer));
 
     swerve.configureAutoBuilder(poseEstimator);
     autoChooser = new SendableChooser<>();
