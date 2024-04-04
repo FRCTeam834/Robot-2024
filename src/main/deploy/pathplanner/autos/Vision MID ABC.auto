@@ -52,6 +52,18 @@
           "data": {
             "name": "AutonIntakeVisionShot"
           }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Vision MID ABC P4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutonVisionShot"
+          }
         }
       ]
     }
