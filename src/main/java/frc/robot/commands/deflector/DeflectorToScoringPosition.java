@@ -28,7 +28,7 @@ public class DeflectorToScoringPosition extends Command {
     hasHitSwitch = false;
     timer.reset();
     timer.stop();
-    deflector.setVoltage(10);
+    deflector.setVoltage(12);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

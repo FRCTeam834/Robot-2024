@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.583588464886855,
-        "y": 0.37599830924852673
+        "x": 8.311232212885566,
+        "y": 0.5875696639915163
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.0351554799801725,
-        "y": 0.8355517983300609
+        "x": 5.762799227978883,
+        "y": 1.0471231530730456
       },
       "isLocked": false,
       "linkedName": "yuS1"
@@ -30,31 +30,7 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "Intake and aim",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "sequential",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "AutonIntake"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "AlignShooterToTag"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.0,
     "maxAcceleration": 4.0,

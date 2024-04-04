@@ -22,9 +22,9 @@ public class GetReadyAmpShot extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    shooter.setDesiredPivotAngle(.96); // 0.71 then .96
-    shooter.setDesiredTopRollerSpeed(1200); // 4000
-    shooter.setDesiredBottomRollerSpeed(3600); // 4000 then 3800
+    shooter.setDesiredPivotAngle(0.96); // 0.71 then .96
+    shooter.setDesiredTopRollerSpeed(3000); // 4000
+    shooter.setDesiredBottomRollerSpeed(3000); // 4000 then 3800
   }
 
   // Called every time the scheduler runs while the command is scheduled.

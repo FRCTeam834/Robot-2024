@@ -63,7 +63,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 // revs -> radians
                 configureSpark("", () -> { return steerEncoder.setPositionConversionFactor(2 * Math.PI / steerEncoderGearing); });
                 Timer.delay(0.2);
-                configureSpark("", () -> { return steerEncoder.setZeroOffset(1.1953152 - Units.degreesToRadians(0)); });
+                configureSpark("", () -> { return steerEncoder.setZeroOffset(1.1771 - Units.degreesToRadians(0)); });
                 break;
             }
             /** Back Left */
@@ -129,6 +129,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
 
         configureSpark("", () -> { return steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 500); });
         configureSpark("", () -> { return steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 500); });
+        configureSpark("", () -> { return steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 20); });
 
         if (Constants.robotMode == RobotMode.COMPETITION) {
             Timer.delay(0.25);
@@ -162,6 +163,7 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
         REVLibError err = REVLibError.kOk;
         for (int i = 0; i < 5; i++) {
             err = config.get();
+            Timer.delay(0.02);
             if (err == REVLibError.kOk) {
                 return true;
             }

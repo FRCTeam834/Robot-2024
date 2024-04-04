@@ -172,6 +172,7 @@ public class RobotContainer {
     autoChooser.addOption("Vision MID ABC", new PathPlannerAuto("Vision MID ABC"));
     autoChooser.addOption("Vision houdini3piece", new PathPlannerAuto("vision houdini3piece"));
     autoChooser.addOption("Copperfield", new PathPlannerAuto("copperfield C54"));
+    autoChooser.addOption("AmpDelayed", new PathPlannerAuto("AmpDelayed"));
     autoChooser.addOption("Yu", new PathPlannerAuto("Yu"));
     autoChooser.addOption("Teller", new PathPlannerAuto("teller B34"));
 
@@ -249,20 +250,25 @@ public class RobotContainer {
 
     xboxA.whileTrue(new LongDistanceSubwooferShot(shooter, indexer));
     xboxB.whileTrue(new EjectStuckNote(intake, indexer, shooter));
-    xboxY.whileTrue(new InstantCommand(() -> {
-      indexer.setVoltage(-3);
-    }));
-    xboxY.onFalse(new InstantCommand(() -> {
-      indexer.stop();
-    }));
+    //xboxY.whileTrue(new InstantCommand(() -> {
+    //  indexer.setVoltage(-3);
+    //}));
+    //xboxY.onFalse(new InstantCommand(() -> {
+    //  indexer.stop();
+    //}));
     //xboxB.whileTrue(new ManualFarPost(shooter, indexer));
-    //xboxY.whileTrue(new ParallelCommandGroup(
-    //  new InstantCommand(() -> {
-    //    shooter.setDesiredPivotAngle(1.1);
-    //  }),
-    //  new DeflectorToScoringPosition(deflector)
-    //));
-    xboxRB.whileTrue(new GetReadyAmpShot(shooter));
+    xboxY.whileTrue(new ParallelCommandGroup(
+      //new InstantCommand(() -> {
+      //  shooter.setDesiredPivotAngle(1.1);
+      //}),
+      new DeflectorToScoringPosition(deflector)
+    ));
+    // xboxRB.whileTrue(new ParallelCommandGroup(
+    //   new GetReadyAmpShot(shooter),
+    //   new DeflectorToScoringPosition(deflector)
+    // ));
+    xboxRB.whileTrue(new DeflectorToScoringPosition(deflector));
+    xboxRB.onFalse(new DeflectorToNeutralPosition(deflector));
     //xboxLB.whileTrue(new DeflectorToNeutralPosition(deflector));
 
     xboxLB.onTrue(new FeedShot(shooter, indexer));
@@ -283,8 +289,8 @@ public class RobotContainer {
     // leftJoystick1.onFalse(new DeflectorToNeutralPosition(deflector));
 
     
-    new JoystickButton(OI.leftJoystick, 7).onTrue(new DeflectorToNeutralPosition(deflector));
-    new JoystickButton(OI.leftJoystick, 6).onTrue(new DeflectorToScoringPosition(deflector));
+    //new JoystickButton(OI.leftJoystick, 7).onTrue(new DeflectorToNeutralPosition(deflector));
+    //new JoystickButton(OI.leftJoystick, 6).onTrue(new DeflectorToScoringPosition(deflector));
     
 
     leftJoystick3.onTrue(new IntakeSequence(intake, indexer, shooter, leds, leftJoystick3));

@@ -21,21 +21,21 @@ public class AmpShot extends Command {
   public AmpShot(Shooter shooter, Indexer indexer) {
     this.shooter = shooter;
     this.indexer = indexer;
-    addRequirements(indexer);
+    addRequirements(indexer, shooter);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // shooter.setDesiredPivotAngle(0.96); // 0.71
-    // shooter.setDesiredTopRollerSpeed(1200); // 4000
-    // shooter.setDesiredBottomRollerSpeed(3800); // 4000
-    // shooter.setDesiredRollerSpeeds(2450); //very old
-    shooter.setDesiredPivotAngle(0.71);
-    shooter.setDesiredTopRollerSpeed(4000);
-    shooter.setDesiredBottomRollerSpeed(4000);
-    indexer.setSetpoint(Indexer.Setpoint.STOP);
+    shooter.setDesiredPivotAngle(0.96); // 0.71
+    shooter.setDesiredTopRollerSpeed(2500); // 4000
+    shooter.setDesiredBottomRollerSpeed(2500); // 4000
+    //shooter.setDesiredRollerSpeeds(2450); //very old
+    // shooter.setDesiredPivotAngle(0.96);
+    // shooter.setDesiredTopRollerSpeed(2500);
+    // shooter.setDesiredBottomRollerSpeed(2500);
+    // indexer.setSetpoint(Indexer.Setpoint.STOP);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

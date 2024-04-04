@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.1342587863031515,
-        "y": 1.0197787398232867
+        "x": 5.825970181003233,
+        "y": 0.5258624040379766
       },
       "isLocked": false,
       "linkedName": "yuS2"
     },
     {
       "anchor": {
-        "x": 8.5209220800121,
-        "y": 2.2037678680955333
+        "x": 8.37737665985415,
+        "y": 2.385857203505629
       },
       "prevControl": {
-        "x": 5.998744696563468,
-        "y": 2.3397444943038033
+        "x": 5.835708373670603,
+        "y": 1.9963294968108325
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,8 +30,8 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 0.85,
-      "rotationDegrees": 0,
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 20.0,
       "rotateFast": false
     }
   ],
@@ -49,12 +49,6 @@
               "data": {
                 "name": "AutonIntake"
               }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "AlignShooterToTag"
-              }
             }
           ]
         }
@@ -69,7 +63,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 20.0,
     "rotateFast": false
   },
   "reversed": false,

@@ -27,7 +27,7 @@ public class alignShooterToTag extends Command {
     this.indexer = indexer;
     this.vision = vision;
 
-    alignController = new PIDController(4.5, 0, 0);
+    alignController = new PIDController(10, 0, 0);
 
     addRequirements(shooter);
   }
@@ -61,7 +61,7 @@ public class alignShooterToTag extends Command {
 
 
       double voltage = -alignController.calculate(error);
-      voltage += (Math.signum(voltage) * 0.01);
+      voltage += (Math.signum(voltage) * 0.02);
       shooter.setPivotVoltage(voltage);
     } else if (!indexer.hasNote()) {
       shooter.setDesiredPivotAngle(0.92);
