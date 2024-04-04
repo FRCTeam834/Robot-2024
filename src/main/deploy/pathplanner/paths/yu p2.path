@@ -3,18 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.583588464886855,
-        "y": 0.37599830924852673
+        "x": 8.311232212885566,
+        "y": 0.5875696639915163
       },
       "prevControl": null,
       "nextControl": {
-<<<<<<< HEAD
-        "x": 6.0351554799801725,
-        "y": 0.8355517983300609
-=======
-        "x": 5.8765542739072165,
-        "y": 1.3893632321374465
->>>>>>> e836694 (path fixes and wiggle)
+        "x": 6.004916204400862,
+        "y": 1.6278786724240109
       },
       "isLocked": false,
       "linkedName": "yuS1"
@@ -25,8 +20,8 @@
         "y": 2.882207316850637
       },
       "prevControl": {
-        "x": 5.891067381136425,
-        "y": 1.3864285964844814
+        "x": 5.991229894636101,
+        "y": 1.621333290108462
       },
       "nextControl": null,
       "isLocked": false,
@@ -37,33 +32,16 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-<<<<<<< HEAD
-      "name": "Intake and aim",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "sequential",
-=======
       "name": "Wiggle",
       "waypointRelativePos": 0.05,
       "command": {
         "type": "parallel",
->>>>>>> e836694 (path fixes and wiggle)
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-<<<<<<< HEAD
-                "name": "AutonIntake"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "AlignShooterToTag"
-=======
                 "name": "AutonWiggleIndexer"
->>>>>>> e836694 (path fixes and wiggle)
               }
             }
           ]
@@ -78,15 +56,15 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0.0,
+    "velocity": 0,
     "rotation": -35.39999999999998,
     "rotateFast": false
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": 0.0,
-    "velocity": 0.0
+    "rotation": -19.16675887914983,
+    "velocity": 0
   },
   "useDefaultConstraints": false
 }

@@ -3,83 +3,51 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.5209220800121,
-        "y": 2.2037678680955333
+        "x": 8.37737665985415,
+        "y": 2.385857203505629
       },
       "prevControl": null,
       "nextControl": {
-<<<<<<< HEAD
-        "x": 7.633148294284457,
-        "y": 2.913986896678553
-=======
-        "x": 7.066362281643032,
-        "y": 1.4013152027967952
->>>>>>> e836694 (path fixes and wiggle)
+        "x": 6.479790612110987,
+        "y": 1.6637899077509468
       },
       "isLocked": false,
       "linkedName": "yuS3"
     },
     {
       "anchor": {
-        "x": 4.458051460632184,
-        "y": 4.8044228403978435
+        "x": 3.1961024450537754,
+        "y": 2.882207316850637
       },
       "prevControl": {
-<<<<<<< HEAD
-        "x": 5.711379158127273,
-        "y": 4.32398055635806
-=======
-        "x": 4.556608514215364,
-        "y": 1.8201143889808582
->>>>>>> e836694 (path fixes and wiggle)
+        "x": 5.351110581313425,
+        "y": 1.5241351037017545
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "yuS4"
+      "linkedName": "yuS2"
     }
   ],
   "rotationTargets": [
     {
-<<<<<<< HEAD
-      "waypointRelativePos": 0.8,
-      "rotationDegrees": -6.910000000000025,
-=======
-      "waypointRelativePos": 0.4,
+      "waypointRelativePos": 0.75,
       "rotationDegrees": -35.39999999999998,
->>>>>>> e836694 (path fixes and wiggle)
       "rotateFast": false
     }
   ],
   "constraintZones": [],
   "eventMarkers": [
     {
-<<<<<<< HEAD
-      "name": "Intake and aim",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "sequential",
-=======
       "name": "Wiggle",
       "waypointRelativePos": 0.05,
       "command": {
         "type": "parallel",
->>>>>>> e836694 (path fixes and wiggle)
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-<<<<<<< HEAD
-                "name": "AutonIntake"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "AlignShooterToTag"
-=======
                 "name": "AutonWiggleIndexer"
->>>>>>> e836694 (path fixes and wiggle)
               }
             }
           ]
@@ -95,17 +63,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-<<<<<<< HEAD
-    "rotation": -6.910000000000025,
-=======
     "rotation": -35.39999999999998,
->>>>>>> e836694 (path fixes and wiggle)
     "rotateFast": false
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": -19.16675887914983,
+    "rotation": 20.0,
     "velocity": 0
   },
   "useDefaultConstraints": false
