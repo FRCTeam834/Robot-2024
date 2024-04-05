@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.311232212885566,
-        "y": 0.5875696639915163
+        "x": 8.426067623191,
+        "y": 0.5648151747074556
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.004916204400862,
-        "y": 1.6278786724240109
+        "x": 6.001257649015891,
+        "y": 1.4217761294360087
       },
       "isLocked": false,
       "linkedName": "yuS1"
@@ -20,28 +20,34 @@
         "y": 2.882207316850637
       },
       "prevControl": {
-        "x": 5.991229894636101,
-        "y": 1.621333290108462
+        "x": 5.309845969632628,
+        "y": 1.5094198634423373
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": "yuS2"
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.85,
+      "rotationDegrees": -35.39999999999998,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
       "name": "Wiggle",
       "waypointRelativePos": 0.05,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-                "name": "AutonWiggleIndexer"
+                "name": "AutonIntake"
               }
             }
           ]
@@ -63,7 +69,7 @@
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": -19.16675887914983,
+    "rotation": 0.0,
     "velocity": 0
   },
   "useDefaultConstraints": false

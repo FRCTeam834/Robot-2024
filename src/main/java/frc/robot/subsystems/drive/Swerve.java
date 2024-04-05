@@ -20,6 +20,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -87,8 +88,11 @@ public class Swerve extends SubsystemBase {
     GyroIO gyro
   ) {
     modules[0] = new SwerveModule(flSwerveModuleIO, 0);
+    Timer.delay(0.2);
     modules[1] = new SwerveModule(frSwerveModuleIO, 1);
+    Timer.delay(0.2);
     modules[2] = new SwerveModule(blSwerveModuleIO, 2);
+    Timer.delay(0.2);
     modules[3] = new SwerveModule(brSwerveModuleIO, 3);
     this.gyro = gyro;
     SmartDashboard.putData(this);

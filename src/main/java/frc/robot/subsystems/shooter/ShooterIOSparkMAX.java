@@ -90,6 +90,8 @@ public class ShooterIOSparkMAX implements ShooterIO {
         //TODO: what do?
         pivotMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20);
 
+        configureSpark("", () -> { return topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20); });
+        configureSpark("", () -> { return bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 20); });
         configureSpark("", () -> { return topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 500); });
         configureSpark("", () -> { return bottomRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 500); });
         configureSpark("", () -> { return topRollerMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 500); });
