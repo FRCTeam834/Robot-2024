@@ -40,7 +40,11 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 steerSparkMax = new CANSparkMax(2, MotorType.kBrushless);
                 configureSpark("", () -> { return driveSparkMax.restoreFactoryDefaults(); });
                 configureSpark("", () -> { return steerSparkMax.restoreFactoryDefaults(); });
-                Timer.delay(0.2);
+                
+                driveSparkMax.setCANTimeout(250);
+                steerSparkMax.setCANTimeout(250);
+
+                Timer.delay(0.2);   
                 configureSpark("", () -> { return steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10); });
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
                 configureSpark("", () -> { return steerEncoder.setInverted(true); }); // MAXSwerve has steer gearing reversed
@@ -56,6 +60,10 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 steerSparkMax = new CANSparkMax(4, MotorType.kBrushless);
                 configureSpark("", () -> { return driveSparkMax.restoreFactoryDefaults(); });
                 configureSpark("", () -> { return steerSparkMax.restoreFactoryDefaults(); });
+
+                driveSparkMax.setCANTimeout(250);
+                steerSparkMax.setCANTimeout(250);
+
                 Timer.delay(0.2);
                 configureSpark("", () -> { return steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10); });
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
@@ -72,6 +80,10 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 steerSparkMax = new CANSparkMax(6, MotorType.kBrushless);
                 configureSpark("", () -> { return driveSparkMax.restoreFactoryDefaults(); });
                 configureSpark("", () -> { return steerSparkMax.restoreFactoryDefaults(); });
+
+                driveSparkMax.setCANTimeout(250);
+                steerSparkMax.setCANTimeout(250);
+
                 Timer.delay(0.2);
                 configureSpark("", () -> { return steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10); });
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
@@ -88,6 +100,10 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
                 steerSparkMax = new CANSparkMax(8, MotorType.kBrushless);
                 configureSpark("", () -> { return driveSparkMax.restoreFactoryDefaults(); });
                 configureSpark("", () -> { return steerSparkMax.restoreFactoryDefaults(); });
+
+                driveSparkMax.setCANTimeout(250);
+                steerSparkMax.setCANTimeout(250);
+
                 Timer.delay(0.2);
                 configureSpark("", () -> { return steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 10); });
                 steerEncoder = steerSparkMax.getAbsoluteEncoder(Type.kDutyCycle);
@@ -130,6 +146,10 @@ public class SwerveModuleIOMAXSwerve implements SwerveModuleIO {
         configureSpark("", () -> { return steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 500); });
         configureSpark("", () -> { return steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 500); });
         configureSpark("", () -> { return steerSparkMax.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 20); });
+
+        // CANTimeout: define how long to wait for response before timing out
+        driveSparkMax.setCANTimeout(0);
+        steerSparkMax.setCANTimeout(0);
 
         if (Constants.robotMode == RobotMode.COMPETITION) {
             Timer.delay(0.25);

@@ -66,7 +66,6 @@ public class ShootWhenReadyNoYaw extends Command {
     //double distance = distanceAverage.calculate(vision.getInputs()[0].distance);
     double pitch = vision.getInputs()[0].pitchToTag;
 
-    if (!vision.getInputs()[0].hasTarget) return;
     if (Math.abs(pitch) > Units.degreesToRadians(1.25)) {
       return;
     }

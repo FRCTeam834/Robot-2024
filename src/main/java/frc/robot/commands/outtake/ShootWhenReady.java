@@ -87,7 +87,7 @@ public class ShootWhenReady extends Command {
       System.out.println("Can't find tag");
     }
     if (Math.abs(pitch) > shotAngleToleranceTable.get(shooter.getCurrentPivotAngle())) {
-      System.out.println("pitch: " + Math.abs(pitch));
+      System.out.println("pitch: " + pitch);
       return;
     }
     if (!shooter.atDesiredRollerSetpoint(50)) {
@@ -111,10 +111,10 @@ public class ShootWhenReady extends Command {
   @Override
   public void end(boolean interrupted) {
     indexer.setSetpoint(Indexer.Setpoint.STOP);
-    vision.resetMovingAverage();
+    //vision.resetMovingAverage();
     if (!indexer.noteDetectedIntakeSide()) {
       shooter.setDesiredRollerSpeeds(0);
-      shooter.setDesiredRollerSpeeds(shooter.getIdleShooterSpeed());
+      // shooter.setDesiredRollerSpeeds(shooter.getIdleShooterSpeed());
     }
   }
 
