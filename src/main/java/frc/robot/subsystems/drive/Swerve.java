@@ -122,7 +122,7 @@ public class Swerve extends SubsystemBase {
     commandedForward = forward;
     commandedStrafe = strafe;
     commandedOmega = omega;
-    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(forward, -strafe, -omega, RobotContainer.poseEstimator.getEstimatedPose().getRotation());
+    ChassisSpeeds speeds = ChassisSpeeds.fromFieldRelativeSpeeds(forward, -strafe, -omega, RobotContainer.poseEstimator.getEstimatedPose().getRotation()); //RobotContainer.poseEstimator.getEstimatedPose().getRotation()
     setDesiredSpeeds(speeds);
   }
 

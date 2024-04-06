@@ -37,7 +37,7 @@ public class SwerveModule extends SubsystemBase {
         drivekS.initDefault(0.28);
         drivekV.initDefault(1.4);
         drivekP.initDefault(1.3);
-        steerkP.initDefault(3);
+        steerkP.initDefault(3.2);
     }
 
     public SwerveModule (SwerveModuleIO io, int index) {
@@ -124,7 +124,7 @@ public class SwerveModule extends SubsystemBase {
 
     @Override
   public void initSendable (SendableBuilder builder) {
-    if (Constants.robotMode != RobotMode.DEVELOPMENT) return;
+    //if (Constants.robotMode != RobotMode.DEVELOPMENT) return;
 
     builder.setSmartDashboardType("SwerveModule" + index);
 

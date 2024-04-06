@@ -10,7 +10,7 @@ public class OI {
     public static final Joystick rightJoystick = new Joystick(1);
     public static final XboxController xbox = new XboxController(2);
 
-    public static final double flightJoystickDeadzone = 0.15;
+    public static final double flightJoystickDeadzone = 0.05;
     public static final double xboxJoystickDeadzone = 0.1;
 
     /**
