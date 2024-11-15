@@ -62,7 +62,7 @@ public class Swerve extends SubsystemBase {
   private boolean stopped = true;
   private ChassisSpeeds setpoint = new ChassisSpeeds();
   private ChassisSpeeds lastChassisSpeeds = new ChassisSpeeds();
-  private ChassisSpeedsRateLimiter rateLimiter = new ChassisSpeedsRateLimiter(5, Math.PI * 12);
+  private ChassisSpeedsRateLimiter rateLimiter = new ChassisSpeedsRateLimiter(5, Math.PI * 4); // 30, 12PI
   //private SlewRateLimiter omegaLimiter = new SlewRateLimiter(Math.PI * 12);
 
   private double commandedForward;
