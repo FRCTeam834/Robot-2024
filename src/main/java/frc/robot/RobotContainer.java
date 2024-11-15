@@ -177,6 +177,7 @@ public class RobotContainer {
     autoChooser.addOption("AmpDelayed", new PathPlannerAuto("AmpDelayed"));
     autoChooser.addOption("Yu", new PathPlannerAuto("Yu"));
     autoChooser.addOption("Teller", new PathPlannerAuto("teller B34"));
+    autoChooser.addOption("StillShot", new PathPlannerAuto("StillShot"));
 
 
 
@@ -212,6 +213,7 @@ public class RobotContainer {
   JoystickButton xboxY = new JoystickButton(OI.xbox, 4);
   JoystickButton xboxRB = new JoystickButton(OI.xbox, 6);
   JoystickButton xboxLB = new JoystickButton(OI.xbox, 5);
+  JoystickButton xboxEquals = new JoystickButton(OI.xbox, 8);
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -259,21 +261,22 @@ public class RobotContainer {
     //  indexer.stop();
     //}));
     //xboxB.whileTrue(new ManualFarPost(shooter, indexer));
-    xboxY.whileTrue(new ParallelCommandGroup(
-      //new InstantCommand(() -> {
-      //  shooter.setDesiredPivotAngle(1.1);
-      //}),
+    xboxY.onTrue(new ParallelCommandGroup(
+      new InstantCommand(() -> {
+       shooter.setDesiredPivotAngle(1.1);
+      }),
       new DeflectorToScoringPosition(deflector)
     ));
-    // xboxRB.whileTrue(new ParallelCommandGroup(
-    //   new GetReadyAmpShot(shooter),
-    //   new DeflectorToScoringPosition(deflector)
-    // ));
+
     xboxRB.whileTrue(new DeflectorToScoringPosition(deflector));
     xboxRB.onFalse(new DeflectorToNeutralPosition(deflector));
-    //xboxLB.whileTrue(new DeflectorToNeutralPosition(deflector));
 
-    xboxLB.onTrue(new FeedShot(shooter, indexer));
+    xboxLB.whileTrue(new SequentialCommandGroup(
+      new AmpShot(shooter, indexer)
+    ));
+
+
+    xboxEquals.whileTrue(new FeedShot(shooter, indexer));
     xboxX.onTrue(new IntakeSequence(intake, indexer, shooter, leds, xboxX));
     //xboxY.whileTrue(new DeflectorToNeutralPosition(deflector));
 

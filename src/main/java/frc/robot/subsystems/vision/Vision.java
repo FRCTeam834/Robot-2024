@@ -6,10 +6,13 @@ package frc.robot.subsystems.vision;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.util.sendable.SendableBuilder;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.LimelightHelpers;
 import frc.robot.Constants.RobotMode;
 import frc.robot.subsystems.vision.AprilTagIO.AprilTagIOInputs;
 import frc.robot.subsystems.vision.NoteDetectionIO.NoteDetectionIOInputs;
@@ -21,6 +24,7 @@ public class Vision extends SubsystemBase {
   
   private final AprilTagIOInputs[] aprilInputs;
   private final NoteDetectionIOInputs noteInputs = new NoteDetectionIOInputs();
+  private final String limelightCameraName = "";
 
   public Vision(AprilTagIO[] cameras, NoteDetectionIO polychromeCamera) {
     //this.polychromeCamera = polychromeCamera;
@@ -57,6 +61,13 @@ public class Vision extends SubsystemBase {
     if (rotation == null) return 0.0;
     return rotation.doubleValue();
   }*/
+
+  public LimelightHelpers.PoseEstimate getPose() {
+    if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == Alliance.Red && DriverStation.isTeleop()) {
+      return LimelightHelpers.getBotPoseEstimate_wpiRed(limelightCameraName);
+    }
+    return LimelightHelpers.getBotPoseEstimate_wpiBlue(limelightCameraName);
+  }
 
   @Override
   public void periodic() {

@@ -66,7 +66,7 @@ public class ShootWhenReadyNoYaw extends Command {
     //double distance = distanceAverage.calculate(vision.getInputs()[0].distance);
     double pitch = vision.getInputs()[0].pitchToTag;
 
-    if (Math.abs(pitch) > Units.degreesToRadians(1.25)) {
+    if (Math.abs(pitch) > Units.degreesToRadians(1)) {
       return;
     }
     if (!shooter.atDesiredRollerSetpoint(50)) return;

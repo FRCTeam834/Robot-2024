@@ -30,13 +30,14 @@ public class FeedShot extends Command {
   @Override
   public void initialize() {
     shooter.setDesiredPivotAngle(0.78); // .78
-    shooter.setDesiredRollerSpeeds(4500); // 5500
+    shooter.setDesiredRollerSpeeds(3000); // 5500
     indexer.setSetpoint(Indexer.Setpoint.STOP);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    System.out.println(shooter.getCurrentPivotAngle());
     if (!shooter.atDesiredSetpoint(Units.degreesToRadians(5), 150)) return;
     indexer.setSetpoint(Indexer.Setpoint.FEED);
   }
